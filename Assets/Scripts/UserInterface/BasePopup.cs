@@ -25,5 +25,12 @@ namespace UserInterface
                 potentialOptions[i].SetTextHolder(actions[i]);   
             }
         }
+
+        public void PlayerChoiceOfAction(int index)
+        {
+
+        }
+
+
     }
 }

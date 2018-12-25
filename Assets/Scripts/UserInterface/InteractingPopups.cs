@@ -21,7 +21,7 @@ namespace UserInterface
 
         public BasePopup interactWithPopup;
 
-        public InteractingComponent interactor;
+        public List<InteractingComponent> interactors = new List<InteractingComponent>();
         public InteractingComponent interactee;
 
         public void Awake()
@@ -32,6 +32,8 @@ namespace UserInterface
         {
             interactWithPopup.transform.position = Input.mousePosition;
             interactWithPopup.gameObject.SetActive(true);
+            interactors.Add(unit);
+            interactee = interactingWith;
         }
     }
 }
