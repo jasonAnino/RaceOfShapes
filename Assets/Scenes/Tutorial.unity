@@ -687,6 +687,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Environ_Tree
       objectReference: {fileID: 0}
+    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
+        type: 3}
+      propertyPath: potentialActionTypes.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1660815981386154188, guid: 2322013308973c442923908c1ac1a6bf,
         type: 3}
       propertyPath: m_LocalPosition.x

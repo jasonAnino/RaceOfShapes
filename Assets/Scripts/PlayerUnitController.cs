@@ -19,6 +19,7 @@ namespace PlayerScripts.UnitCommands
         WAIT_FOR_COMMAND = 0,
         MOVE_TOWARDS = 1,
         INTERACT = 2,
+        GATHER_RESOURCES = 3,
     }
 
     public class PlayerUnitController : MonoBehaviour

@@ -15,13 +15,25 @@ namespace UnitsScripts.Behaviour
     public class UnitOrder
     {
         public Commands commandName;
+        public ActionType actionType;
         public Parameters p = new Parameters();
         public bool doingOrder = false;
 
-        public static UnitOrder CreateInteractOrder(InteractingComponent interactWith)
+        public static UnitOrder CreateGatherResourceOrder(InteractingComponent interactWith, ActionType action)
+        {
+            UnitOrder tmp = new UnitOrder();
+            tmp.commandName = Commands.GATHER_RESOURCES;
+            tmp.actionType = ActionType.Gather;
+            tmp.p.AddParameter<ActionType>("Action", action);
+            tmp.p.AddParameter<InteractingComponent>("InteractWith", interactWith);
+
+            return tmp;
+        }
+        public static UnitOrder CreateInteractOrder(InteractingComponent interactWith, ActionType action)
         {
             UnitOrder tmp = new UnitOrder();
             tmp.commandName = Commands.INTERACT;
+            tmp.p.AddParameter<ActionType>("Action", action);
             tmp.p.AddParameter<InteractingComponent>("InteractWith", interactWith);
 
             return tmp;
