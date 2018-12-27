@@ -18,8 +18,9 @@ namespace InteractableScripts.Behavior
     }
     public enum ActionType
     {
-        Converse = 0,
-        Cut = 1,
+        Wait = 0,
+        Converse = 1,
+        Gather = 2,
     }
     public class InteractingComponent : MonoBehaviour
     {
@@ -43,7 +44,7 @@ namespace InteractableScripts.Behavior
 
         }
 
-        // RECEIVE DAMAGE
+        // RECEIVE DAMAGE - Create a DamageClass that holds : DamageType / Amount / Add'l Buff
         public virtual void ReceiveDamage()
         {
 
@@ -75,11 +76,24 @@ namespace InteractableScripts.Behavior
                     else
                     {
                         List<UnitOrder> tmp = new List<UnitOrder>();
+                        Debug.Log("Action Choice : " + actionChoice);
                         tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
-                        tmp.Add(UnitOrder.CreateInteractOrder(this));
+                        switch (actionChoice)
+                        {
+                            case ActionType.Converse:
+                                tmp.Add(UnitOrder.CreateInteractOrder(this, actionChoice));
+                                break;
+
+                            case ActionType.Gather:
+                                tmp.Add(UnitOrder.CreateGatherResourceOrder(this, actionChoice));
+                                break;
+                            case ActionType.Wait:
+                                tmp.Add(UnitOrder.CreateInteractOrder(this, actionChoice));
+                                break;
+                        }
+
                         PlayerUnitController.GetInstance.OrderManualSelected(tmp[0]);
                         PlayerUnitController.GetInstance.OrderManualSelected(tmp[1], false);
-
                     }
                 }
             }

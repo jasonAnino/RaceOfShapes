@@ -12,6 +12,7 @@ namespace WorldObjectScripts.Behavior
     {
 
 
+        
         public override void StartInteraction(InteractingComponent unit, ActionType actionIndex)
         {
             base.StartInteraction(unit, actionIndex);
@@ -20,6 +21,14 @@ namespace WorldObjectScripts.Behavior
             {
                 interactingUnit = unit.GetComponent<UnitBaseBehaviourComponent>();
             }
+
+            ReceiveDamage();
+        }
+
+        public override void ReceiveDamage()
+        {
+            base.ReceiveDamage();
+            mAnimation.Play();
         }
     }
 }

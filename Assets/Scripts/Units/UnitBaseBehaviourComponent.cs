@@ -91,21 +91,21 @@ namespace UnitsScripts.Behaviour
             }
 
             currentOrder.doingOrder = true;
-            switch(currentOrder.commandName)
+            InteractingComponent interactWith;
+            ActionType nextOrder = ActionType.Wait;
+            switch (currentOrder.commandName)
             {
                 case Commands.INTERACT:
                     // TODO
-                    InteractingComponent interactWith = currentOrder.p.GetWithKeyParameterValue<InteractingComponent>("InteractWith", null);
+                    interactWith = newOrder.p.GetWithKeyParameterValue<InteractingComponent>("InteractWith", null);
                     if(interactWith == null)
                     {
                         return;
                     }
+                    MakeUnitLookAt(interactWith);
 
-                    Vector3 newLookAt = interactWith.transform.position;
-                    transform.LookAt(newLookAt);
-                    newLookAt = new Vector3(newLookAt.x, transform.position.y, newLookAt.z);
-                    currentCommand = Commands.INTERACT;
-                    currentOrder = null;
+                    nextOrder = newOrder.p.GetWithKeyParameterValue<ActionType>("Action", ActionType.Wait);
+                    // Implement Converse / Pull Lever / Open door shit like that.
                     break;
 
                 case Commands.MOVE_TOWARDS:
@@ -117,10 +117,40 @@ namespace UnitsScripts.Behaviour
                 case Commands.WAIT_FOR_COMMAND:
 
                     break;
+
+                case Commands.GATHER_RESOURCES:
+                     interactWith = newOrder.p.GetWithKeyParameterValue<InteractingComponent>("InteractWith", null);
+                    if (interactWith == null)
+                    {
+                        return;
+                    }
+                    MakeUnitLookAt(interactWith);
+
+                     nextOrder = newOrder.p.GetWithKeyParameterValue<ActionType>("Action", ActionType.Wait);
+                    // Start Sending Damage to the tree.
+
+                    interactWith.StartInteraction(this, currentOrder.actionType);
+                    break;
             }
 
         }
 
+        public void GatherResources()
+        {
+
+        }
+        public void MakeUnitLookAt(Vector3 position)
+        {
+            Vector3 newLookAt = position;
+            newLookAt = new Vector3(newLookAt.x, transform.position.y, newLookAt.z);
+            transform.LookAt(newLookAt);
+        }
+        public void MakeUnitLookAt(InteractingComponent unit)
+        {
+            Vector3 newLookAt = unit.transform.position;
+            newLookAt = new Vector3(newLookAt.x, transform.position.y, newLookAt.z);
+            transform.LookAt(newLookAt);
+        }
         public void AddNewOrder(UnitOrder orderSet)
         {
             unitOrders.Enqueue(orderSet);
