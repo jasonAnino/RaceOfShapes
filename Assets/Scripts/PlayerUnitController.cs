@@ -81,10 +81,10 @@ namespace PlayerScripts.UnitCommands
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                InteractingComponent interactWith;
-                if (hit.transform.GetComponent<InteractingComponent>())
+                UnitBaseBehaviourComponent interactWith;
+                if (hit.transform.GetComponent<UnitBaseBehaviourComponent>())
                 {
-                    interactWith = hit.transform.GetComponent<InteractingComponent>();
+                    interactWith = hit.transform.GetComponent<UnitBaseBehaviourComponent>();
                     if (interactWith.objectType == ObjectType.Unit)
                     {
                         // Check Relationship with the person clicked
@@ -117,13 +117,16 @@ namespace PlayerScripts.UnitCommands
                 
                 for (int i = 0; i < unitSelected.Count; i++)
                 {
-                    Parameters p = new Parameters();
-                    p.AddParameter<Vector3>("NextPos", possiblePositions[i]);
-                    unitSelected[i].ReceiveOrder(Commands.MOVE_TOWARDS, p);
+                    unitSelected[i].ReceiveOrder(UnitOrder.CreateMoveOrder(possiblePositions[i]));
                 }
             }
          }
         
+        public void OrderManualSelected(UnitOrder newOrder, bool force = true)
+        {
+            Debug.Log("Ordering Manual Selected : " + newOrder.commandName);
+            manualControlledUnit.ReceiveOrder(newOrder, force); 
+        }
         public void ClickObject()
         {
             if(CursorManager.GetInstance.IsUserInterfaceClicked())

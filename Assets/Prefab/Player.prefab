@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4711376678366700842}
   - component: {fileID: 4711376678366700843}
   - component: {fileID: 4711376678366700852}
-  - component: {fileID: 4711376678366700853}
   - component: {fileID: 4711376678366700854}
   m_Layer: 0
   m_Name: Player
@@ -71,7 +70,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedTeamAffiliation: 1
   unitSelected: []
+  manualControlledUnit: {fileID: 0}
   debugPositionSpawner: {fileID: 0}
+  canMove: 0
 --- !u!114 &4711376678366700852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,20 +90,6 @@ MonoBehaviour:
   endPos: {x: 0, y: 0, z: 0}
   mouseStartPos: {x: 0, y: 0, z: 0}
   mouseEndPos: {x: 0, y: 0, z: 0}
---- !u!114 &4711376678366700853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4711376678366700840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12850614a003f894092cc20357e2e68d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controlledUnits: []
-  gameObjectSeen: []
 --- !u!23 &4711376678366700854
 MeshRenderer:
   m_ObjectHideFlags: 0

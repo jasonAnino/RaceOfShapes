@@ -6,6 +6,7 @@ using UnityEngine;
 using UnitsScripts.Behaviour;
 using PlayerScripts.UnitCommands;
 using Utilities.MousePointer;
+using Utilities;
 
 namespace InteractableScripts.Behavior
 {
@@ -31,9 +32,10 @@ namespace InteractableScripts.Behavior
 
         }
 
-        public virtual void StartInteraction(InteractingComponent unit)
+        public virtual void StartInteraction(InteractingComponent unit, ActionType actionIndex)
         {
             // TODO : 1st thing to do.
+            
         }
 
         public virtual void EndInteraction()
@@ -51,7 +53,43 @@ namespace InteractableScripts.Behavior
         {
 
         }
+        // Check Interaction Requirements
+        public virtual void CheckInteractionRequirements(ActionType actionChoice, List<UnitBaseBehaviourComponent> interactors)
+        {
+            // First check if action choice is inside the potnetialActionTypes
+            if(!potentialActionTypes.Contains(actionChoice))
+            {
+                Debug.LogError("Action Type not within the possible actions, did you pass the wrong type?");
+                return;
+            }
+            // Second Check the distance for every interactors
+            if (interactors.Count > 0)
+            {
+                foreach (UnitBaseBehaviourComponent item in interactors)
+                {
+                    float dist = Vector3.Distance(item.transform.position, this.transform.position);
+                    if (dist < 0.5f)
+                    {
+                        Debug.Log("Start Cutting!");
+                    }
+                    else
+                    {
+                        List<UnitOrder> tmp = new List<UnitOrder>();
+                        tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
+                        tmp.Add(UnitOrder.CreateInteractOrder(this));
+                        PlayerUnitController.GetInstance.OrderManualSelected(tmp[0]);
+                        PlayerUnitController.GetInstance.OrderManualSelected(tmp[1], false);
 
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("Sent Wrong list of Interactors! Check it Again!");
+            }
+
+        }
+        #region Callbacks
         public void OnMouseEnter()
         {
             if (PlayerUnitController.GetInstance.unitSelected.Count > 0 && PlayerUnitController.GetInstance.selectedTeamAffiliation == UnitAffiliation.Controlled)
@@ -78,5 +116,6 @@ namespace InteractableScripts.Behavior
         {
             CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
         }
+        #endregion
     }
 }

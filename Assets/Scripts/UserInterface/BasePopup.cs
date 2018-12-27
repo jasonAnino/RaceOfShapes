@@ -20,15 +20,27 @@ namespace UserInterface
         public void SetPotentialOptions(List<ActionType> actions)
         {
             int actionCount = actions.Count;
-            for (int i = 0; i < actionCount; i++)
+            // Activate Potential Option depending on amount of actions
+            for (int i = 0; i < potentialOptions.Count; i++)
             {
-                potentialOptions[i].SetTextHolder(actions[i]);   
+
+                if(i < actionCount)
+                {
+                    potentialOptions[i].gameObject.SetActive(true);
+                    potentialOptions[i].SetTextHolder(actions[i]);
+                }
+                else
+                {
+                    potentialOptions[i].gameObject.SetActive(false);
+                }
             }
         }
 
-        public void PlayerChoiceOfAction(int index)
+        // Placed in the buttonpanel
+        public void PlayerChoiceOfAction(ActionType index)
         {
-
+            this.gameObject.SetActive(false);
+            InteractingPopups.GetInstance.StartInteractions(index);
         }
 
 

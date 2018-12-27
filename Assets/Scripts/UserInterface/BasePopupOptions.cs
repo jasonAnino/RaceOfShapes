@@ -19,5 +19,10 @@ namespace UserInterface
             textHolder.text = newOption.ToString();
             currentAction = newOption;
         }
+
+        public void OnClick()
+        {
+            InteractingPopups.GetInstance.StartInteractions(currentAction);
+        }
     }
 }

@@ -31,4 +31,19 @@ public class DebugFormationSpawner : MonoBehaviour
             currentBalls.Add(tmp);
         }
     }
+
+    public void PlaceVectorBall(Vector3 vectorPosition)
+    {
+        if (currentBalls.Count > 0)
+        {
+            for (int i = 0; i < currentBalls.Count; i++)
+            {
+                Destroy(currentBalls[i]);
+            }
+        }
+
+        currentBalls.Clear();
+        GameObject tmp = Instantiate(vectorBall, vectorPosition, Quaternion.identity, null);
+        currentBalls.Add(tmp);
+    }
 }

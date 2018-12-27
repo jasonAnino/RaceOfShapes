@@ -21,19 +21,28 @@ namespace UserInterface
 
         public BasePopup interactWithPopup;
 
-        public List<InteractingComponent> interactors = new List<InteractingComponent>();
-        public InteractingComponent interactee;
+        public List<UnitBaseBehaviourComponent> interactors = new List<UnitBaseBehaviourComponent>();
+        public UnitBaseBehaviourComponent interactee;
 
         public void Awake()
         {
             instance = this;
         }
-        public void ShowInteractWithPopup(InteractingComponent unit, InteractingComponent interactingWith)
+        public void ShowInteractWithPopup(UnitBaseBehaviourComponent unit, UnitBaseBehaviourComponent interactingWith)
         {
+            interactors.Clear();
+
             interactWithPopup.transform.position = Input.mousePosition;
             interactWithPopup.gameObject.SetActive(true);
             interactors.Add(unit);
+            interactWithPopup.SetPotentialOptions(interactingWith.potentialActionTypes);
             interactee = interactingWith;
+        }
+        public void StartInteractions(ActionType action)
+        {
+            // Check if the said Action needs you to be near.
+            interactee.CheckInteractionRequirements(action, interactors);
+            interactWithPopup.gameObject.SetActive(false);
         }
     }
 }

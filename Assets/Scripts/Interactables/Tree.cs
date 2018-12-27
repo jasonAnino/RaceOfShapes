@@ -12,10 +12,11 @@ namespace WorldObjectScripts.Behavior
     {
 
 
-        public override void StartInteraction(InteractingComponent unit)
+        public override void StartInteraction(InteractingComponent unit, ActionType actionIndex)
         {
+            base.StartInteraction(unit, actionIndex);
             // Obtain Interacting Unit
-            if(unit.objectType == ObjectType.PlayerControlled || unit.objectType == ObjectType.Unit)
+            if (unit.objectType == ObjectType.PlayerControlled || unit.objectType == ObjectType.Unit)
             {
                 interactingUnit = unit.GetComponent<UnitBaseBehaviourComponent>();
             }

@@ -22,6 +22,14 @@ public class NavMeshPositionGenerator : MonoBehaviour
         instance = this;
     }
 
+    public Vector3 ObtainPosition(Vector3 clickPosition, UnitBaseBehaviourComponent unit, float positionSpacing  = 0.5f)
+    {
+        Vector3 newPosition = unit.transform.position;
+
+        newPosition = GenerateCandidatePosition(clickPosition, 2, unit);
+
+        return newPosition;
+    }
     public List<Vector3> ObtainPositions(int count, Vector3 clickPosition, List<UnitBaseBehaviourComponent> units, float positionSpacing = 2.0f)
     {
         List<Vector3> newPositions = new List<Vector3>();
