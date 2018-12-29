@@ -21,12 +21,27 @@ namespace InteractableScripts.Behavior
         Wait = 0,
         Converse = 1,
         Gather = 2,
+        Inspect = 3,
+        Observe = 4,
     }
+    public enum InteractionType
+    {
+        Nearby = 0,
+        OnSight = 1,
+        SamePath = 2
+    }
+
     public class InteractingComponent : MonoBehaviour
     {
         public ObjectType objectType;
         public List<ActionType> potentialActionTypes = new List<ActionType>();
-        public UnitBaseBehaviourComponent interactingUnit;
+        public List<UnitBaseBehaviourComponent> interactingUnit;
+        public InteractingComponent interactWith;
+
+        public virtual void Awake()
+        {
+
+        }
         // TODO : Create Interaction System
         public virtual void StartConversation()
         {
@@ -35,17 +50,22 @@ namespace InteractableScripts.Behavior
 
         public virtual void StartInteraction(InteractingComponent unit, ActionType actionIndex)
         {
-            // TODO : 1st thing to do.
+            // Unique
             
         }
 
-        public virtual void EndInteraction()
+        // Adjusted to Require a UnitBaseBehaviourComponent as it now reacts to multiple interactors
+        public virtual void EndIndividualInteraction(UnitBaseBehaviourComponent unit)
+        {
+
+        }
+        public virtual void EndAllInteraction()
         {
 
         }
 
         // RECEIVE DAMAGE - Create a DamageClass that holds : DamageType / Amount / Add'l Buff
-        public virtual void ReceiveDamage()
+        public virtual void ReceiveDamage(float netDamage)
         {
 
         }
@@ -76,18 +96,21 @@ namespace InteractableScripts.Behavior
                     else
                     {
                         List<UnitOrder> tmp = new List<UnitOrder>();
-                        Debug.Log("Action Choice : " + actionChoice);
-                        tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
+                       
+                        // Made it like this since there are other ActionTypes that does not need to be near.
                         switch (actionChoice)
                         {
                             case ActionType.Converse:
+                                tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
                                 tmp.Add(UnitOrder.CreateInteractOrder(this, actionChoice));
                                 break;
 
                             case ActionType.Gather:
+                                tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
                                 tmp.Add(UnitOrder.CreateGatherResourceOrder(this, actionChoice));
                                 break;
                             case ActionType.Wait:
+                                tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
                                 tmp.Add(UnitOrder.CreateInteractOrder(this, actionChoice));
                                 break;
                         }

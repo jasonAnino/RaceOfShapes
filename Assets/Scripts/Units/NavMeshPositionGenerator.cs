@@ -142,6 +142,13 @@ public class NavMeshPositionGenerator : MonoBehaviour
       
     }
 
+    // Check if Position already has navMeshAgent
+    public bool CheckIfPointHasNavMeshAgent(Vector3 point)
+    {
+        bool tmp = false;
+
+        return tmp;
+    }
     private Vector3 ObtainPathLastPoint(NavMeshPath nav, Vector3 basePosition)
     {
         if(nav.corners.Length <= 0)

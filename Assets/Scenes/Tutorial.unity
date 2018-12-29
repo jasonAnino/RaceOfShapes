@@ -172,7 +172,8 @@ PrefabInstance:
       propertyPath: colorCodes.Array.data[3]
       value: 
       objectReference: {fileID: 2100000, guid: 462e9943b4316964da3ca7ab68d3f7b1, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 268910227747457307, guid: db77622590c61f04e88a0e9d6e756d26, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: db77622590c61f04e88a0e9d6e756d26, type: 3}
 --- !u!1001 &374722268
 PrefabInstance:
@@ -685,12 +686,7 @@ PrefabInstance:
     - target: {fileID: 5074358403472211450, guid: 2322013308973c442923908c1ac1a6bf,
         type: 3}
       propertyPath: m_Name
-      value: Environ_Tree
-      objectReference: {fileID: 0}
-    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
-        type: 3}
-      propertyPath: potentialActionTypes.Array.data[0]
-      value: 2
+      value: Oak_Tree
       objectReference: {fileID: 0}
     - target: {fileID: 1660815981386154188, guid: 2322013308973c442923908c1ac1a6bf,
         type: 3}

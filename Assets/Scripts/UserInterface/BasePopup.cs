@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 using TMPro;
@@ -12,7 +13,7 @@ using PlayerScripts.UnitCommands;
 namespace UserInterface
 {
 
-    public class BasePopup : MonoBehaviour
+    public class BasePopup : MonoBehaviour, IPointerExitHandler
     {
         public TextMeshProUGUI header;
         public List<BasePopupOptions> potentialOptions;
@@ -43,6 +44,9 @@ namespace UserInterface
             InteractingPopups.GetInstance.StartInteractions(index);
         }
 
-
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 }
