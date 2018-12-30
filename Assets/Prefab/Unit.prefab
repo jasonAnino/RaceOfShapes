@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 195501602784005768}
   - component: {fileID: 1308258198}
   - component: {fileID: 4149892763551346518}
+  - component: {fileID: 8780696706043263679}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -176,8 +177,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 0
   potentialActionTypes: 010000000400000003000000
-  interactingUnit: {fileID: 0}
+  interactingUnit: []
   interactWith: {fileID: 0}
+  factionName: Player
   unitAffiliation: 1
   currentCommand: 0
   currentState: 1
@@ -201,6 +203,22 @@ MonoBehaviour:
     health_M: 100
     stamina_C: 100
     stamina_M: 100
+--- !u!208 &8780696706043263679
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004628571581746}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1624539481495466
 GameObject:
   m_ObjectHideFlags: 0

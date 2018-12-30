@@ -28,7 +28,6 @@ namespace WorldObjectScripts.Behavior
 
             ReceiveDamage(tmp.unitDamage_C);
             
-            // FIGURE OUT HOW TO CHECK EVERY INTERACTORS!
         }
         public override void EndIndividualInteraction(UnitBaseBehaviourComponent unit)
         {
@@ -36,17 +35,23 @@ namespace WorldObjectScripts.Behavior
             {
                 gathererStats.Remove(gathererStats.Find(x => x.unitSaved == unit));
             }
-            foreach (UnitBaseBehaviourComponent item in interactingUnit)
+            if(interactingUnit.Count > 0)
             {
-                if(item.currentCommand != Commands.GATHER_RESOURCES)
+                foreach (UnitBaseBehaviourComponent item in interactingUnit)
                 {
-                    interactingUnit.Remove(item);
-                }
-                else if(myStats.health_C <= 0)
-                {
-                    SpawnReward();
-                    item.ReceiveOrder(UnitOrder.GenerateIdleOrder());
-                    interactingUnit.Clear();
+                    if(item != null)
+                    {
+                        if(item.currentCommand != Commands.GATHER_RESOURCES)
+                        {
+                            interactingUnit.Remove(item);
+                        }
+                        else if(myStats.health_C <= 0)
+                        {
+                            SpawnReward();
+                            item.ReceiveOrder(UnitOrder.GenerateIdleOrder());
+                            interactingUnit.Clear();
+                        }
+                    }
                 }
             }
         }
@@ -54,7 +59,7 @@ namespace WorldObjectScripts.Behavior
         public override void ReceiveDamage(float netDamage)
         {
             myStats.health_C -= netDamage;
-            Debug.Log("Receiving Damage : " + netDamage);
+            //Debug.Log("Receiving Damage : " + netDamage);
             mAnimation.Play();
             mParticleSystem.Play();
 
@@ -65,6 +70,14 @@ namespace WorldObjectScripts.Behavior
             }
         }
 
+        public override void EndAllInteraction()
+        {
+            UnitOrder idle = UnitOrder.GenerateIdleOrder();
+            foreach(UnitBaseBehaviourComponent unit in interactingUnit)
+            {
+                unit.ReceiveOrder(idle, true);
+            }
+        }
         // 2
         public bool IsUnitGathering(UnitBaseBehaviourComponent unit)
         {

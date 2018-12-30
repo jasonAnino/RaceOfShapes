@@ -37,7 +37,7 @@ namespace InteractableScripts.Behavior
         public List<ActionType> potentialActionTypes = new List<ActionType>();
         public List<UnitBaseBehaviourComponent> interactingUnit;
         public InteractingComponent interactWith;
-
+        public float allowableInteractDistance = 1.5f;
         public virtual void Awake()
         {
 
@@ -61,7 +61,8 @@ namespace InteractableScripts.Behavior
         }
         public virtual void EndAllInteraction()
         {
-
+            interactingUnit.Clear();
+            
         }
 
         // RECEIVE DAMAGE - Create a DamageClass that holds : DamageType / Amount / Add'l Buff
@@ -75,7 +76,7 @@ namespace InteractableScripts.Behavior
 
         }
         // Check Interaction Requirements
-        public virtual void CheckInteractionRequirements(ActionType actionChoice, List<UnitBaseBehaviourComponent> interactors)
+        public virtual void InitializeInteraction(ActionType actionChoice, List<UnitBaseBehaviourComponent> interactors)
         {
             // First check if action choice is inside the potnetialActionTypes
             if(!potentialActionTypes.Contains(actionChoice))
@@ -126,6 +127,40 @@ namespace InteractableScripts.Behavior
             }
 
         }
+
+        // Use this before you continue with the interaction order
+        public bool IsInteractionAllowed(ActionType withThisAction, InteractingComponent interactWith)
+        {
+            bool checkInteraction = true;
+
+            switch(withThisAction)
+            {
+                case ActionType.Inspect:
+                case ActionType.Gather:
+                case ActionType.Converse:
+                    // Check if Near
+                    float dist = Vector3.Distance(this.transform.position, interactWith.transform.position);
+                    Debug.Log("Distance : " + dist);
+                    if(dist > allowableInteractDistance)
+                    {
+                        checkInteraction = false;
+                    }
+                    else
+                    {
+                        checkInteraction = true;
+                    }
+                    break;
+                case ActionType.Wait:
+
+                    break;
+
+                case ActionType.Observe:
+
+                    break;
+            }
+
+            return checkInteraction;
+        }
         #region Callbacks
         public void OnMouseEnter()
         {
@@ -154,5 +189,6 @@ namespace InteractableScripts.Behavior
             CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
         }
         #endregion
+
     }
 }

@@ -125,7 +125,7 @@ namespace PlayerScripts.UnitCommands
         
         public void OrderManualSelected(UnitOrder newOrder, bool force = true)
         {
-            Debug.Log("Ordering Manual Selected : " + newOrder.commandName);
+            //Debug.Log("Ordering Manual Selected : " + newOrder.commandName);
             manualControlledUnit.ReceiveOrder(newOrder, force); 
         }
         public void ClickObject()

@@ -4843,8 +4843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 2
   potentialActionTypes: 02000000
-  interactingUnit:
-  - {fileID: 0}
+  interactingUnit: []
   interactWith: {fileID: 0}
   factionName: Player
   unitAffiliation: 0

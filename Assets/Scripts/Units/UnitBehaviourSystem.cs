@@ -29,30 +29,41 @@ public class UnitBehaviourSystem : ComponentSystem
         {
             // MOVEMENT
             Vector3 nextPosition = entity.unitBehaviour.nextPos;
-            if(nextPosition != null)
+            if(entity.unitBehaviour.startMoving)
             {
-                if(entity.unitBehaviour.startMoving)
+                if(NavMeshPositionGenerator.GetInstance.CheckIfPointHasNavMeshAgent(nextPosition, entity.unitBehaviour))
                 {
-                    entity.mNavMeshAgent.SetDestination(nextPosition);
+                    Debug.Log("Adjusted the odds of : " + entity.unitBehaviour.transform.name);
+                    entity.unitBehaviour.nextPos = NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(nextPosition, 1f, entity.unitBehaviour, false, true);
+                    nextPosition = entity.unitBehaviour.nextPos;
                 }
+
+                entity.mNavMeshAgent.SetDestination(nextPosition);
+
                 if (entity.mNavMeshAgent.destination != null && entity.unitBehaviour.startMoving)
                 {
+                    entity.mNavMeshAgent.isStopped = false;
                     float dist = Vector3.Distance(entity.unitBehaviour.nextPos, entity.unitBehaviour.transform.position);
                     if(dist < 0.75f)
                     {
                         entity.unitBehaviour.startMoving = false;
                         entity.mNavMeshAgent.destination = entity.unitBehaviour.transform.position;
-
+                        entity.unitBehaviour.nextPos = Vector3.zero;
                     }
                 }
-            }
-
-            // CHECK ORDER
+        }
+            
+            // This part is to reset the currentOrder of the unit AFTER finishing the command.
             if(entity.unitBehaviour.currentCommand != Commands.WAIT_FOR_COMMAND)
             {
                 UnitOrder unitOrder = entity.unitBehaviour.currentOrder;
                 if (CheckIsOrderFinish(unitOrder.commandName, entity))
                 {
+                    if(entity.unitBehaviour.currentCommand == Commands.MOVE_TOWARDS)
+                    {
+                       // Debug.Log(entity.unitBehaviour.transform.name + " Command is Done!");
+                        AdjustNearbyNavMeshDestination(entity.unitBehaviour);
+                    }
                     entity.unitBehaviour.currentOrder = null;
                     if(entity.unitBehaviour.unitOrders.Count > 0)
                     {
@@ -85,6 +96,41 @@ public class UnitBehaviourSystem : ComponentSystem
 
     }
 
+  
+    // Used To Other Units Right After Arriving at one point.
+    public void AdjustNearbyNavMeshDestination(UnitBaseBehaviourComponent dontCheck)
+    {
+        foreach (Character item in GetEntities<Character>())
+        {
+            // check if they're moving already
+            if(item.unitBehaviour != dontCheck)
+            {
+                if(item.unitBehaviour.startMoving)
+                {
+                    // Check if Destination is near point received from player who just reached his.
+                    if(item.unitBehaviour.nextPos == null)
+                    {
+                        break;
+                    }
+                    float dist = Vector3.Distance(dontCheck.nextPos, item.unitBehaviour.nextPos);
+                    Debug.Log("Distance Between : " + item.unitBehaviour.transform.name + " And : " + dontCheck.transform.name + " is : " + dist);
+                    if(dist < 1.15f)
+                    {
+                        Debug.Log("Adjusting Pos : " + item.unitBehaviour.transform.name + " Old Pos : " + item.unitBehaviour.nextPos);
+                        if(item.unitBehaviour.interactWith != null)
+                        {
+                            item.unitBehaviour.nextPos = NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(item.unitBehaviour.interactWith.transform.position, 2, item.unitBehaviour, false);
+                        }
+                        else
+                        {
+                            item.unitBehaviour.nextPos = NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(item.unitBehaviour.nextPos, 2, item.unitBehaviour, false);
+                        }
+                        Debug.Log("New Pos : " + item.unitBehaviour.nextPos);
+                    }
+                }
+            }
+        }
+    }
     // Check if Order is Finish
     private bool CheckIsOrderFinish(Commands command, Character unit)
     {
@@ -97,6 +143,7 @@ public class UnitBehaviourSystem : ComponentSystem
                 if(dist < 0.75f)
                 {
                     tmp = true;
+                    unit.mNavMeshAgent.isStopped = true;
                 }
                 break;
             case Commands.INTERACT:

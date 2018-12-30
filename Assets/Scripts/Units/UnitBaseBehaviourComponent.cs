@@ -119,6 +119,7 @@ namespace UnitsScripts.Behaviour
                 case Commands.MOVE_TOWARDS:
                     RemoveCurrentInteraction();
                     if (!canMove) return;
+                    
                     currentCommand = Commands.MOVE_TOWARDS;
                     Vector3 nextPos = currentOrder.p.GetWithKeyParameterValue<Vector3>("NextPos", transform.position);
                     MoveTowards(nextPos);
@@ -138,16 +139,23 @@ namespace UnitsScripts.Behaviour
                     MakeUnitLookAt(interactWith);
 
                     // Start Sending Damage to the tree
-                    interactWith.StartInteraction(this, currentOrder.actionType);
+                    if(IsInteractionAllowed(ActionType.Gather, interactWith))
+                    {
+                        Debug.Log("it is allowed!");
+                        interactWith.StartInteraction(this, currentOrder.actionType);
+                    }
+                    else
+                    {
+                        Debug.Log("it is not allowed!");
+                    }
                     break;
             }
-
         }
         public float GetUnitBaseDamage()
         {
             // TODO : Check Unit is Equipped with something
             // then add strength to it, for now just return strength.
-            Debug.Log(" Base Damge : " + myStats.GetSpecificStats[Stats.Strength].GetLevel);
+            //Debug.Log(" Base Damge : " + myStats.GetSpecificStats[Stats.Strength].GetLevel);
             return myStats.GetSpecificStats[Stats.Strength].GetLevel;
         }
         public void RemoveCurrentInteraction()
