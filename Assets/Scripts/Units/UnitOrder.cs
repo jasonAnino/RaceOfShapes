@@ -52,7 +52,7 @@ namespace UnitsScripts.Behaviour
         {
             UnitOrder tmp = new UnitOrder();
             tmp.commandName = Commands.MOVE_TOWARDS;
-            tmp.p.AddParameter<Vector3>("NextPos", NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(basePosition, 1, unit, false));
+            tmp.p.AddParameter<Vector3>("NextPos", NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(basePosition, 0.75f, unit, false));
 
             return tmp;
         }

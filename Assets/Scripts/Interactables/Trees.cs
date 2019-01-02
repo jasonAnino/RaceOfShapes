@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using InteractableScripts.Behavior;
 using UnityEngine;
@@ -13,20 +14,23 @@ namespace WorldObjectScripts.Behavior
     public class Trees : WorldObjectBaseBehaviour
     {
         public float dmgInterval_B = 5.0f;
-        public List<UnitGatheringResourceStats> gathererStats = new List<UnitGatheringResourceStats>();
         // 1
         public override void StartInteraction(InteractingComponent newUnit, ActionType actionIndex)
         {
+            if (!canInteract)
+            {
+                    return;
+            }
             UnitBaseBehaviourComponent unit = newUnit.GetComponent<UnitBaseBehaviourComponent>();
             // Obtain Interacting Unit
             if (unit.objectType == ObjectType.PlayerControlled || unit.objectType == ObjectType.Unit)
             {
+                Debug.Log("Adding : " + newUnit.transform.name);
                 interactingUnit.Add(unit);
             }
             UnitGatheringResourceStats tmp = new UnitGatheringResourceStats();
             InitializeGathererStats(unit, tmp);
-
-            ReceiveDamage(tmp.unitDamage_C);
+            ReceiveDamage(tmp.unitDamage_C, unit);
             
         }
         public override void EndIndividualInteraction(UnitBaseBehaviourComponent unit)
@@ -34,49 +38,53 @@ namespace WorldObjectScripts.Behavior
             if (gathererStats.Contains(gathererStats.Find(x => x.unitSaved == unit)))
             {
                 gathererStats.Remove(gathererStats.Find(x => x.unitSaved == unit));
+                interactingUnit.Remove(unit);
+                unit.ReceiveOrder(UnitOrder.GenerateIdleOrder());
             }
-            if(interactingUnit.Count > 0)
+        }
+
+        public override void ReceiveDamage(float netDamage, UnitBaseBehaviourComponent unitSender)
+        {
+            if(currentState != LivingState.Dead)
             {
-                foreach (UnitBaseBehaviourComponent item in interactingUnit)
+                myStats.health_C -= netDamage;
+                mAnimation.Play();
+                mParticleSystem.Play();
+
+                if(myStats.health_C <= 0)
                 {
-                    if(item != null)
+                    myStats.health_C = 0;
+                    if(canInteract)
                     {
-                        if(item.currentCommand != Commands.GATHER_RESOURCES)
-                        {
-                            interactingUnit.Remove(item);
-                        }
-                        else if(myStats.health_C <= 0)
-                        {
-                            SpawnReward();
-                            item.ReceiveOrder(UnitOrder.GenerateIdleOrder());
-                            interactingUnit.Clear();
-                        }
+                        EndAllInteraction();
+                        currentState = LivingState.Dead;
+                        canInteract = false;
+                        StartCoroutine(StartDeathCounter(5));
                     }
                 }
             }
-        }
-
-        public override void ReceiveDamage(float netDamage)
-        {
-            myStats.health_C -= netDamage;
-            //Debug.Log("Receiving Damage : " + netDamage);
-            mAnimation.Play();
-            mParticleSystem.Play();
-
-            if(myStats.health_C <= 0)
+            if(unitSender != null)
             {
-                myStats.health_C = 0;
-                EndAllInteraction();
+                IncrementInteractingUnitsStats(unitSender, netDamage);
             }
-        }
 
+        }
         public override void EndAllInteraction()
         {
-            UnitOrder idle = UnitOrder.GenerateIdleOrder();
-            foreach(UnitBaseBehaviourComponent unit in interactingUnit)
+            List<UnitBaseBehaviourComponent> tmp = interactingUnit;
+
+            foreach (UnitBaseBehaviourComponent item in tmp)
             {
-                unit.ReceiveOrder(idle, true);
+                if(item.currentCommand == Commands.GATHER_RESOURCES)
+                {
+                    item.ReceiveOrder(UnitOrder.GenerateIdleOrder());
+                }
             }
+
+            interactingUnit.Clear();
+            gathererStats.Clear();
+
+            
         }
         // 2
         public bool IsUnitGathering(UnitBaseBehaviourComponent unit)
@@ -93,7 +101,7 @@ namespace WorldObjectScripts.Behavior
             {
                 tmp.SetInterval(unit, dmgInterval_B);
                 tmp.GetAtkType = new Attack();
-                tmp.GetAtkType.CreateData(AttackType.Normal,Stats.Strength, unit.myStats.GetSpecificStats[Stats.Strength].GetLevel, unit.GetUnitBaseDamage());
+                tmp.GetAtkType.CreateData(AttackType.Normal,Stats.Strength, unit.myStats.GetStats(Stats.Strength).GetLevel, unit.GetUnitBaseDamage());
                 tmp.unitDamage_C = myStats.NetDamage(tmp.GetAtkType);
                 tmp.dataInitialized = true;
             }

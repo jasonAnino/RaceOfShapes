@@ -4845,6 +4845,8 @@ MonoBehaviour:
   potentialActionTypes: 02000000
   interactingUnit: []
   interactWith: {fileID: 0}
+  canInteract: 1
+  allowableInteractDistance: 1.5
   factionName: Player
   unitAffiliation: 0
   currentCommand: 0
@@ -4871,8 +4873,7 @@ MonoBehaviour:
     stamina_M: 0
   mAnimation: {fileID: 5074358403472211451}
   mParticleSystem: {fileID: 360218805}
-  canInteract: 0
-  dmgInterval_B: 10
+  dmgInterval_B: 5
 --- !u!65 &5074358403472211454
 BoxCollider:
   m_ObjectHideFlags: 0

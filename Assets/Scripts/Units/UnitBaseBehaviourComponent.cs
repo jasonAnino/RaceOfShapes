@@ -74,23 +74,32 @@ namespace UnitsScripts.Behaviour
         public override void StartInteraction(InteractingComponent unit,ActionType actionIndex)
         {
             base.StartInteraction(unit, actionIndex);
-
         }
         #region Callbacks
+        public void QueueOrder(UnitOrder thisOrder)
+        {
+            if(unitOrders.Count > 0)
+            {
+                if(unitOrders.Peek() != thisOrder)
+                {
+                    unitOrders.Enqueue(thisOrder);
+                }
+            }
+            else
+            {
+                unitOrders.Enqueue(thisOrder);
+            }
+            if(currentOrder == null)
+            {
+                currentOrder = unitOrders.Dequeue();
+            }
+        }
         public void ReceiveOrder(UnitOrder newOrder, bool forceOrder = true)
         {
             if(!forceOrder)
             {
-                //Debug.Log(this.gameObject.name + " Queueing Order : " + newOrder.commandName);
-                unitOrders.Enqueue(newOrder);
-                if(currentOrder == null)
-                {
-                    currentOrder = unitOrders.Dequeue();
-                }
-                else
-                {
-                    return;
-                }
+                Debug.Log(this.gameObject.name + " Queueing Order : " + newOrder.commandName);
+                QueueOrder(newOrder);
             }
             else
             {
@@ -113,7 +122,7 @@ namespace UnitsScripts.Behaviour
                     MakeUnitLookAt(interactWith);
 
                     nextOrder = newOrder.p.GetWithKeyParameterValue<ActionType>("Action", ActionType.Wait);
-                    // Implement Converse / Pull Lever / Open door shit like that.
+                    // Implement Converse / Pull Lever / Open door shit like that ( for NPCs, since player will use POPUPs).
                     break;
 
                 case Commands.MOVE_TOWARDS:
@@ -141,12 +150,7 @@ namespace UnitsScripts.Behaviour
                     // Start Sending Damage to the tree
                     if(IsInteractionAllowed(ActionType.Gather, interactWith))
                     {
-                        Debug.Log("it is allowed!");
                         interactWith.StartInteraction(this, currentOrder.actionType);
-                    }
-                    else
-                    {
-                        Debug.Log("it is not allowed!");
                     }
                     break;
             }
@@ -156,12 +160,13 @@ namespace UnitsScripts.Behaviour
             // TODO : Check Unit is Equipped with something
             // then add strength to it, for now just return strength.
             //Debug.Log(" Base Damge : " + myStats.GetSpecificStats[Stats.Strength].GetLevel);
-            return myStats.GetSpecificStats[Stats.Strength].GetLevel;
+            return myStats.GetStats(Stats.Strength).GetLevel;
         }
         public void RemoveCurrentInteraction()
         {
             if(interactWith != null)
             {
+                Debug.Log(this.transform.name + " ends Interaction with : " + interactWith.transform.name);
                 interactWith.EndIndividualInteraction(this);
                 interactWith = null;
             }

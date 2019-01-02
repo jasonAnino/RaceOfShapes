@@ -673,6 +673,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Oak_Tree
       objectReference: {fileID: 0}
+    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
+        type: 3}
+      propertyPath: statsToCompute.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
+        type: 3}
+      propertyPath: myStats.health_C
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
+        type: 3}
+      propertyPath: myStats.health_M
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
+        type: 3}
+      propertyPath: canInteract
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
+        type: 3}
+      propertyPath: allowableInteractDistance
+      value: 1.75
+      objectReference: {fileID: 0}
     - target: {fileID: 1660815981386154188, guid: 2322013308973c442923908c1ac1a6bf,
         type: 3}
       propertyPath: m_LocalPosition.x

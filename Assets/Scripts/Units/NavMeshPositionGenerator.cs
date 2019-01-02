@@ -60,7 +60,7 @@ public class NavMeshPositionGenerator : MonoBehaviour
                     }
                     else
                     {
-                        newPositions.Add(GenerateCandidatePosition(tmp, positionSpacing + 0.5f, units[i]));
+                        newPositions.Add(GenerateCandidatePosition(tmp, positionSpacing, units[i]));
                     }
                 }
             }
@@ -85,6 +85,7 @@ public class NavMeshPositionGenerator : MonoBehaviour
     public Vector3 GenerateCandidatePosition(Vector3 basePosition, float spacing, UnitBaseBehaviourComponent unit, bool pathable = true, bool denybasePos = false)
     {
         Vector3 finalPosition;
+        
         if(pathable)
         {
             Vector3 randomDirection = Random.insideUnitSphere * spacing;

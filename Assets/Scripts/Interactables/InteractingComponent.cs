@@ -37,6 +37,7 @@ namespace InteractableScripts.Behavior
         public List<ActionType> potentialActionTypes = new List<ActionType>();
         public List<UnitBaseBehaviourComponent> interactingUnit;
         public InteractingComponent interactWith;
+        public bool canInteract = true;
         public float allowableInteractDistance = 1.5f;
         public virtual void Awake()
         {
@@ -66,7 +67,7 @@ namespace InteractableScripts.Behavior
         }
 
         // RECEIVE DAMAGE - Create a DamageClass that holds : DamageType / Amount / Add'l Buff
-        public virtual void ReceiveDamage(float netDamage)
+        public virtual void ReceiveDamage(float netDamage, UnitBaseBehaviourComponent unitSender)
         {
 
         }

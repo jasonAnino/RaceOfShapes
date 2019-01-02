@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnitsScripts.Behaviour;
@@ -67,7 +68,8 @@ public class UnitBehaviourSystem : ComponentSystem
                     entity.unitBehaviour.currentOrder = null;
                     if(entity.unitBehaviour.unitOrders.Count > 0)
                     {
-                        entity.unitBehaviour.ReceiveOrder(entity.unitBehaviour.unitOrders.Dequeue());
+                        UnitOrder newNextOrder = entity.unitBehaviour.unitOrders.Peek();
+                        entity.unitBehaviour.ReceiveOrder(newNextOrder);
                     }
                     else
                     {
@@ -82,12 +84,13 @@ public class UnitBehaviourSystem : ComponentSystem
         {
             if(item.tree.gathererStats.Count > 0)
             {
-               foreach(UnitGatheringResourceStats unit in item.tree.gathererStats)
+               foreach(UnitGatheringResourceStats unit in item.tree.gathererStats.ToList())
                 {
                     unit.curTime += Time.deltaTime;
                     if(unit.curTime > unit.dmgInterval_C)
                     {
-                        item.tree.ReceiveDamage(unit.unitDamage_C);
+                        item.tree.ReceiveDamage(unit.unitDamage_C, unit.unitSaved);
+                        Debug.Log("Increasing Stats of Unit : " + unit.unitSaved.transform.name);
                         unit.curTime = 0;
                     }
                 }

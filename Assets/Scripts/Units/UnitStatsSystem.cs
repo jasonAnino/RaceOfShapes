@@ -82,7 +82,7 @@ namespace UnitStats
         public float health_C = 100;
         public float health_M = 100;
         [SerializeField]private Dictionary<Stats, BaseUnitStats> stats = new Dictionary<Stats, BaseUnitStats>();
-        public Dictionary<Stats, BaseUnitStats> GetSpecificStats
+        public Dictionary<Stats, BaseUnitStats> GetCurrentStats
         {
             get { return this.stats; }
         }

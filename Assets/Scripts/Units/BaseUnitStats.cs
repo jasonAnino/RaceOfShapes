@@ -25,8 +25,15 @@ namespace UnitStats
         public int GetLevel
         {  get { return this.statLevel; } }
         float experience_C = 0;
+        public float GetCurrentExperience
+        {
+            get { return this.experience_C; }
+        }
         float experience_M = 100;
-
+        public float GetNextLevelExperience
+        {
+            get { return this.experience_M; }
+        }
         float growthIncrement = 0;
         public void InitializeStats(string newName, int newLevel = 1, float newExpProgress = 0)
         {
@@ -58,11 +65,24 @@ namespace UnitStats
         {
             statLevel = newLevel;
         }
+        /// <summary>
+        /// CurrentExperience = newExperience
+        /// </summary>
+        /// <param name="newExperience">newExperience will be the overall count of currentExperience</param>
         public void AdjustExperience(float newExperience)
         {
             experience_C = newExperience;
-
             if(CheckLevelUpReady())     LevelUp();
+        }
+        /// <summary>
+        /// Increases Experience (current Exp + addExperience).
+        /// </summary>
+        /// <param name="addExperience">Experience to be added.</param>
+        public void IncreaseExperience(float addExperience)
+        {
+            experience_C += addExperience;
+            Debug.Log("Adding Experience Amount : " + addExperience + " To Stats : " + statName);
+            if (CheckLevelUpReady()) LevelUp();
         }
         public bool CheckLevelUpReady()
         {
