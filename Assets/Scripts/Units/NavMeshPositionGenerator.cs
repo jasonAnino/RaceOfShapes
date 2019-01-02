@@ -21,7 +21,7 @@ public class NavMeshPositionGenerator : MonoBehaviour
     {
         instance = this;
     }
-
+    public GameObject gizmo;
     public Vector3 ObtainPosition(Vector3 clickPosition, UnitBaseBehaviourComponent unit, float positionSpacing  = 0.5f)
     {
         Vector3 newPosition = unit.transform.position;
@@ -60,7 +60,7 @@ public class NavMeshPositionGenerator : MonoBehaviour
                     }
                     else
                     {
-                        newPositions.Add(GenerateCandidatePosition(tmp, positionSpacing + 0.5f, units[i]));
+                        newPositions.Add(GenerateCandidatePosition(tmp, positionSpacing, units[i]));
                     }
                 }
             }
@@ -82,9 +82,10 @@ public class NavMeshPositionGenerator : MonoBehaviour
             return newPositions;
         }
     }
-    public Vector3 GenerateCandidatePosition(Vector3 basePosition, float spacing, UnitBaseBehaviourComponent unit, bool pathable = true)
+    public Vector3 GenerateCandidatePosition(Vector3 basePosition, float spacing, UnitBaseBehaviourComponent unit, bool pathable = true, bool denybasePos = false)
     {
         Vector3 finalPosition;
+        
         if(pathable)
         {
             Vector3 randomDirection = Random.insideUnitSphere * spacing;
@@ -93,11 +94,16 @@ public class NavMeshPositionGenerator : MonoBehaviour
             NavMesh.SamplePosition(randomDirection, out hit, spacing, 1);
             finalPosition = hit.position;
 
+            // if Final Position has a navMeshAgent
+            if(CheckIfPointHasNavMeshAgent(finalPosition, unit))
+            {
+                finalPosition = GenerateCandidatePosition(basePosition, spacing, unit);
+            }
             // Check Final Position is Pathable
             if (!CheckVectorIfPathable(unit, finalPosition))
             {
                 // if not, find the nearest position that is pathable.
-                finalPosition = GenerateCandidatePosition(finalPosition, spacing+0.75f, unit);
+                finalPosition = GenerateCandidatePosition(basePosition, spacing+0.75f, unit);
             }
         }
         else
@@ -106,6 +112,7 @@ public class NavMeshPositionGenerator : MonoBehaviour
             Vector3 storePotentialClosestPosition = new Vector3();
             if(!NavMesh.SamplePosition(basePosition, out hit, 3.25f, NavMesh.AllAreas))
             {
+                Debug.Log("store this sht");
                 storePotentialClosestPosition = hit.position;
             }
             else
@@ -135,6 +142,14 @@ public class NavMeshPositionGenerator : MonoBehaviour
                 }
             }
                 finalPosition = storePotentialClosestPosition;
+            // if Final Position has a navMeshAgent OR if its too Near 
+            if (CheckIfPointHasNavMeshAgent(finalPosition, unit) || denybasePos)
+            {
+                Vector3 randomDirection = Random.insideUnitSphere * 0.5f;
+                randomDirection += basePosition;
+                finalPosition = GenerateCandidatePosition(randomDirection, spacing, unit);
+            }
+            
 
         }
 
@@ -142,6 +157,31 @@ public class NavMeshPositionGenerator : MonoBehaviour
       
     }
 
+    void PlaceGizmo(Vector3 point)
+    {
+        gizmo.transform.position = point;
+    }
+    // Check if Position already has navMeshAgent
+    public bool CheckIfPointHasNavMeshAgent(Vector3 point, UnitBaseBehaviourComponent agent)
+    {
+        bool tmp = false;
+        float sRad = 1.15f;
+        RaycastHit[] hit = Physics.SphereCastAll(point, sRad, Vector3.forward, 0);
+        PlaceGizmo(point);
+        
+        if (hit.Length > 0)
+        {
+            for (int i = 0; i < hit.Length; i++)
+            {
+                if (hit[i].transform.GetComponent<NavMeshAgent>() != null && hit[i].transform.GetComponent<UnitBaseBehaviourComponent>() != agent)
+                {
+                    Debug.Log("We Detected : " + hit[i].transform.name);
+                    tmp = true;
+                }
+            }
+        }
+        return tmp;
+    }
     private Vector3 ObtainPathLastPoint(NavMeshPath nav, Vector3 basePosition)
     {
         if(nav.corners.Length <= 0)

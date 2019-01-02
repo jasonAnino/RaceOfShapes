@@ -7,6 +7,9 @@ using Utilities.MousePointer;
 using InteractableScripts.Behavior;
 using PlayerScripts.UnitCommands;
 using UserInterface;
+
+using UnitStats;
+
 /// <summary>
 ///  Shows basic non-living interactable objects from Trees to Chests
 /// </summary>
@@ -21,7 +24,10 @@ namespace WorldObjectScripts.Behavior
 
         public Animation mAnimation;
         public ParticleSystem mParticleSystem;
-        public bool canInteract;
+
+        public List<Stats> statsToCompute = new List<Stats>();
+        public List<UnitGatheringResourceStats> gathererStats = new List<UnitGatheringResourceStats>();
+
         public override void Awake()
         {
             base.Awake();
@@ -35,6 +41,21 @@ namespace WorldObjectScripts.Behavior
         public virtual void SpawnReward()
         {
 
+        }
+        public virtual void IncrementInteractingUnitsStats(UnitBaseBehaviourComponent unit, float valueToAdd = 5.0f)
+        {
+            foreach (Stats item in statsToCompute)
+            {
+                unit.myStats.GetStats(item).IncreaseExperience(valueToAdd);
+                Debug.Log("Current Unit Stats is : " + item + " Exp : " + unit.myStats.GetStats(item).GetCurrentExperience + "/" + unit.myStats.GetStats(item).GetNextLevelExperience);
+            }
+        }
+        public IEnumerator StartDeathCounter(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            currentState = LivingState.Alive;
+            canInteract = true;
+            myStats.health_C = myStats.health_M;
         }
     }
 }
