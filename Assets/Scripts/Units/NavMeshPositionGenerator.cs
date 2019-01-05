@@ -82,6 +82,28 @@ public class NavMeshPositionGenerator : MonoBehaviour
             return newPositions;
         }
     }
+
+    public Vector3 GeneratePositionAround(Vector3 basePosition, float spacing)
+    {
+        Vector3 finalPosition = basePosition;
+        Vector3 randomDirection = Random.insideUnitSphere * spacing;
+        randomDirection += basePosition;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(randomDirection, out hit, spacing, 1);
+        finalPosition = hit.position;
+        gizmo.transform.position = finalPosition;
+        Debug.Log("Hit Position : " + hit.position);
+        return finalPosition;
+    }
+    /// <summary>
+    /// Generates a position with the help of NavMeshAgent.
+    /// </summary>
+    /// <param name="basePosition"> Position clicked or Position of item/unit being pursued</param>
+    /// <param name="spacing">if position is unreachable, generates anothe position with a spacing</param>
+    /// <param name="unit">unit moving towards the position, used to check if the path is reachable.</param>
+    /// <param name="pathable">shortens the generating of position if upfront, the position is already non-pathable</param>
+    /// <param name="denybasePos">Use base position only as basis, generating a position not equal to basePosition </param>
+    /// <returns></returns>
     public Vector3 GenerateCandidatePosition(Vector3 basePosition, float spacing, UnitBaseBehaviourComponent unit, bool pathable = true, bool denybasePos = false)
     {
         Vector3 finalPosition;
@@ -112,32 +134,34 @@ public class NavMeshPositionGenerator : MonoBehaviour
             Vector3 storePotentialClosestPosition = new Vector3();
             if(!NavMesh.SamplePosition(basePosition, out hit, 3.25f, NavMesh.AllAreas))
             {
-                Debug.Log("store this sht");
                 storePotentialClosestPosition = hit.position;
             }
             else
             {
                 NavMeshPath nav = new NavMeshPath();
-                unit.gameObject.GetComponent<NavMeshAgent>().CalculatePath(basePosition, nav);
+                if (unit.gameObject.GetComponent<NavMeshAgent>() != null)
+                {
+                    unit.gameObject.GetComponent<NavMeshAgent>().CalculatePath(basePosition, nav);
                 
-                if(nav.corners.Length  > 0)
-                {
-                    storePotentialClosestPosition = ObtainPathLastPoint(nav, basePosition);
-                }
-                else
-                {
-                    Vector3 tmp = hit.position;
-                    if (CheckVectorIfPathable(unit, tmp))
+                    if(nav.corners.Length  > 0)
                     {
-                        storePotentialClosestPosition = tmp;
+                        storePotentialClosestPosition = ObtainPathLastPoint(nav, basePosition);
                     }
                     else
                     {
-                        // This is the New Clicked Position
-                        NavMesh.FindClosestEdge(tmp, out hit, NavMesh.AllAreas);
-                        // Implement here the RNG system of clicked nowhere else.
-                        unit.gameObject.GetComponent<NavMeshAgent>().CalculatePath(hit.position, nav);
-                        storePotentialClosestPosition = ObtainPathLastPoint(nav, hit.position);
+                        Vector3 tmp = hit.position;
+                        if (CheckVectorIfPathable(unit, tmp))
+                        {
+                            storePotentialClosestPosition = tmp;
+                        }
+                        else
+                        {
+                            // This is the New Clicked Position
+                            NavMesh.FindClosestEdge(tmp, out hit, NavMesh.AllAreas);
+                            // Implement here the RNG system of clicked nowhere else.
+                            unit.gameObject.GetComponent<NavMeshAgent>().CalculatePath(hit.position, nav);
+                            storePotentialClosestPosition = ObtainPathLastPoint(nav, hit.position);
+                        }
                     }
                 }
             }
@@ -164,6 +188,11 @@ public class NavMeshPositionGenerator : MonoBehaviour
     // Check if Position already has navMeshAgent
     public bool CheckIfPointHasNavMeshAgent(Vector3 point, UnitBaseBehaviourComponent agent)
     {
+        if(agent.GetComponent<NavMeshAgent>() == null)
+        {
+            return false;
+        }
+
         bool tmp = false;
         float sRad = 1.15f;
         RaycastHit[] hit = Physics.SphereCastAll(point, sRad, Vector3.forward, 0);
