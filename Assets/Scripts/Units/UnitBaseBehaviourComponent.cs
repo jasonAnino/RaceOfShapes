@@ -96,9 +96,10 @@ namespace UnitsScripts.Behaviour
         }
         public void ReceiveOrder(UnitOrder newOrder, bool forceOrder = true)
         {
+            Debug.Log("receiving order :" + newOrder.commandName.ToString());
             if(!forceOrder)
             {
-                Debug.Log(this.gameObject.name + " Queueing Order : " + newOrder.commandName);
+                //Debug.Log(this.gameObject.name + " Queueing Order : " + newOrder.commandName);
                 QueueOrder(newOrder);
             }
             else
@@ -110,6 +111,7 @@ namespace UnitsScripts.Behaviour
 
             currentOrder.doingOrder = true;
             ActionType nextOrder = ActionType.Wait;
+            Vector3 nextPos = transform.position;
             switch (currentOrder.commandName)
             {
                 case Commands.INTERACT:
@@ -130,7 +132,7 @@ namespace UnitsScripts.Behaviour
                     if (!canMove) return;
                     
                     currentCommand = Commands.MOVE_TOWARDS;
-                    Vector3 nextPos = currentOrder.p.GetWithKeyParameterValue<Vector3>("NextPos", transform.position);
+                    nextPos = currentOrder.p.GetWithKeyParameterValue<Vector3>("NextPos", transform.position);
                     MoveTowards(nextPos);
                     break;
                 case Commands.WAIT_FOR_COMMAND:
@@ -139,7 +141,7 @@ namespace UnitsScripts.Behaviour
                     break;
 
                 case Commands.GATHER_RESOURCES:
-                     interactWith = newOrder.p.GetWithKeyParameterValue<InteractingComponent>("InteractWith", null);
+                    interactWith = newOrder.p.GetWithKeyParameterValue<InteractingComponent>("InteractWith", null);
                     currentCommand = Commands.GATHER_RESOURCES;
                     if (interactWith == null)
                     {
@@ -152,6 +154,13 @@ namespace UnitsScripts.Behaviour
                     {
                         interactWith.StartInteraction(this, currentOrder.actionType);
                     }
+                    break;
+                case Commands.GATHER_ITEMS:
+                    nextPos = currentOrder.p.GetWithKeyParameterValue<Vector3>("NextPos", transform.position);
+                    interactWith = newOrder.p.GetWithKeyParameterValue<InteractingComponent>("InteractWith", null);
+                    currentCommand = Commands.GATHER_ITEMS;
+                    MoveTowards(nextPos);
+                    MakeUnitLookAt(interactWith);
                     break;
             }
         }
@@ -167,8 +176,9 @@ namespace UnitsScripts.Behaviour
             if(interactWith != null)
             {
                 Debug.Log(this.transform.name + " ends Interaction with : " + interactWith.transform.name);
-                interactWith.EndIndividualInteraction(this);
+                InteractingComponent tmp = interactWith;
                 interactWith = null;
+                tmp.EndIndividualInteraction(this);
             }
         }
         public void GatherResources()

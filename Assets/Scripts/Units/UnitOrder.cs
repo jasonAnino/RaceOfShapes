@@ -64,5 +64,14 @@ namespace UnitsScripts.Behaviour
             tmp.doingOrder = true;
             return tmp;
         }
+
+        public static UnitOrder GenerateGetItemOrder(Vector3 basePosition, UnitBaseBehaviourComponent unit, InteractingComponent interactWith)
+        {
+            UnitOrder tmp = new UnitOrder();
+            tmp.commandName = Commands.GATHER_ITEMS;
+            tmp.p.AddParameter<Vector3>("NextPos", NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(basePosition, 0.75f, unit, false));
+            tmp.p.AddParameter<InteractingComponent>("InteractWith", interactWith);
+            return tmp;
+        }
     }
 }

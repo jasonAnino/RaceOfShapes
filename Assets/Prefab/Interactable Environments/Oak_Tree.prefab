@@ -4846,7 +4846,7 @@ MonoBehaviour:
   interactingUnit: []
   interactWith: {fileID: 0}
   canInteract: 1
-  allowableInteractDistance: 1.5
+  allowableInteractDistance: 1.75
   factionName: Player
   unitAffiliation: 0
   currentCommand: 0
@@ -4867,12 +4867,25 @@ MonoBehaviour:
   visualRange: 25
   moveSpeed: 10
   myStats:
-    health_C: 10
-    health_M: 10
+    name: 
+    id: 
+    health_C: 2
+    health_M: 2
     stamina_C: 0
     stamina_M: 0
   mAnimation: {fileID: 5074358403472211451}
   mParticleSystem: {fileID: 360218805}
+  itemDrop: {fileID: 6402697678051704629, guid: 6b3acb69c487c884b9621321582ad7c3,
+    type: 3}
+  rewardInformation:
+  - itemName: Wood Log
+    id: 
+    isStackable: 1
+    isEquipped: 0
+    weight: 10
+    itemType: 1
+    count: 1
+  statsToCompute: 00000000
   dmgInterval_B: 5
 --- !u!65 &5074358403472211454
 BoxCollider:

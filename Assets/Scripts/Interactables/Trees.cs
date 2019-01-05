@@ -8,6 +8,7 @@ using UnityEngine;
 using UnitsScripts.Behaviour;
 using PlayerScripts.UnitCommands;
 using UnitStats;
+using ItemScript;
 
 namespace WorldObjectScripts.Behavior
 {
@@ -39,7 +40,10 @@ namespace WorldObjectScripts.Behavior
             {
                 gathererStats.Remove(gathererStats.Find(x => x.unitSaved == unit));
                 interactingUnit.Remove(unit);
-                unit.ReceiveOrder(UnitOrder.GenerateIdleOrder());
+                if(unit.interactWith == this)
+                {
+                    unit.ReceiveOrder(UnitOrder.GenerateIdleOrder());
+                }
             }
         }
 
@@ -81,10 +85,9 @@ namespace WorldObjectScripts.Behavior
                 }
             }
 
+            SpawnReward();
             interactingUnit.Clear();
             gathererStats.Clear();
-
-            
         }
         // 2
         public bool IsUnitGathering(UnitBaseBehaviourComponent unit)
@@ -106,6 +109,17 @@ namespace WorldObjectScripts.Behavior
                 tmp.dataInitialized = true;
             }
             gathererStats.Add(tmp);
+        }
+        public override void SpawnReward()
+        {
+            base.SpawnReward();
+            // Spawn Reward here
+            foreach (ItemInformation item in rewardInformation)
+            {
+                Vector3 spawnPos = NavMeshPositionGenerator.GetInstance.GeneratePositionAround(this.transform.position, 1.45f);
+                GameObject tmp = GameObject.Instantiate(itemDrop, spawnPos, Quaternion.identity, null);
+                tmp.GetComponent<ItemDrop>().SetRewardInformation(item);
+            }
         }
     }
 }

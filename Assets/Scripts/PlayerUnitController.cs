@@ -11,6 +11,7 @@ using Utilities;
 using Utilities.MousePointer;
 using UserInterface;
 using PlayerScripts.CameraController;
+using ItemScript;
 
 namespace PlayerScripts.UnitCommands
 {
@@ -20,6 +21,7 @@ namespace PlayerScripts.UnitCommands
         MOVE_TOWARDS = 1,
         INTERACT = 2,
         GATHER_RESOURCES = 3,
+        GATHER_ITEMS = 4,
     }
 
     public class PlayerUnitController : MonoBehaviour
@@ -82,9 +84,10 @@ namespace PlayerScripts.UnitCommands
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                UnitBaseBehaviourComponent interactWith;
+                // Interactable Items / Units
                 if (hit.transform.GetComponent<UnitBaseBehaviourComponent>())
                 {
+                   UnitBaseBehaviourComponent interactWith;
                     interactWith = hit.transform.GetComponent<UnitBaseBehaviourComponent>();
                     if (interactWith.objectType == ObjectType.Unit)
                     {
@@ -104,7 +107,17 @@ namespace PlayerScripts.UnitCommands
                 }
                 else
                 {
-                    MoveUnitsTowards(hit);
+                    // Non-Unit Clicks (items)
+                    if (hit.transform.GetComponent<ItemDrop>())
+                    {
+                        ItemDrop tmp = hit.transform.GetComponent<ItemDrop>();
+                        MoveUnitsTowards(hit);
+                        manualControlledUnit.ReceiveOrder(UnitOrder.GenerateGetItemOrder(hit.transform.position, manualControlledUnit, tmp));
+                    }
+                    else
+                    {
+                        MoveUnitsTowards(hit);
+                    }
                 }
             }
         }

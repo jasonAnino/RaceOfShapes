@@ -5,6 +5,7 @@ using UnityEngine;
 using UserInterface;
 
 using UnitsScripts.Behaviour;
+using ItemScript;
 
 namespace UnitStats
 {
@@ -79,6 +80,8 @@ namespace UnitStats
     [Serializable]
     public class UnitStatsSystem
     {
+        public string name;
+        public string id;
         public float health_C = 100;
         public float health_M = 100;
         [SerializeField]private Dictionary<Stats, BaseUnitStats> stats = new Dictionary<Stats, BaseUnitStats>();
@@ -88,6 +91,8 @@ namespace UnitStats
         }
         public void InitializeSystem()
         {
+            // Upon using Save System, try to use Initialize System as a way to Load Data from the save file.
+            id = ItemsUtility.GenerateItemID(name);
             foreach(Stats item in Enum.GetValues(typeof(Stats)))
             {
                 BaseUnitStats tmp = new BaseUnitStats();
@@ -95,6 +100,7 @@ namespace UnitStats
                 stats.Add(item, tmp);
             }
         }
+
         /// <summary>
         /// [RECEIVED]Net damage is the total damage with computation from the units' stats.
         /// </summary>

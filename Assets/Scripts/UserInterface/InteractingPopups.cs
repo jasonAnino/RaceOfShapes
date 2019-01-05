@@ -41,7 +41,10 @@ namespace UserInterface
         public void StartInteractions(ActionType action)
         {
             // Check if the said Action needs you to be near.
-            interactee.InitializeInteraction(action, interactors);
+            if(interactee.canInteract)
+            {
+                interactee.InitializeInteraction(action, interactors);
+            }
             interactWithPopup.gameObject.SetActive(false);
         }
     }
