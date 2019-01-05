@@ -9,7 +9,7 @@ using PlayerScripts.UnitCommands;
 using UserInterface;
 
 using UnitStats;
-
+using ItemScript;
 /// <summary>
 ///  Shows basic non-living interactable objects from Trees to Chests
 /// </summary>
@@ -24,7 +24,8 @@ namespace WorldObjectScripts.Behavior
 
         public Animation mAnimation;
         public ParticleSystem mParticleSystem;
-
+        public GameObject itemDrop;
+        public List<ItemInformation> rewardInformation;
         public List<Stats> statsToCompute = new List<Stats>();
         public List<UnitGatheringResourceStats> gathererStats = new List<UnitGatheringResourceStats>();
 
@@ -40,7 +41,15 @@ namespace WorldObjectScripts.Behavior
         
         public virtual void SpawnReward()
         {
-
+            // TODO : Create an Item Script -> Create Inventory Script that holds an Array of Item Scripts.
+            if(rewardInformation.Count <= 0)
+            {
+                return;
+            }
+            if(itemDrop == null)
+            {
+                return;
+            }
         }
         public virtual void IncrementInteractingUnitsStats(UnitBaseBehaviourComponent unit, float valueToAdd = 5.0f)
         {

@@ -73,7 +73,7 @@ namespace Utilities
             //Debug.Log(key + this.GetType().ToString());
             if(this.entries == null)
             {
-                Debug.Log("returning default Value!alc");
+                Debug.Log("returning default Value!");
                 return defaultvalue;
             }
 

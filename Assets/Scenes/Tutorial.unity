@@ -346,6 +346,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db77622590c61f04e88a0e9d6e756d26, type: 3}
+--- !u!1 &775931733 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4711376678366700840, guid: 4fea7f9123afb6e4ebaf3b78867e922b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1022131602}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &775931739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775931733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d9166d237ca4a45ad75fb7a7eced5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitInventory: []
 --- !u!1 &1014784910
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,31 +691,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Oak_Tree
-      objectReference: {fileID: 0}
-    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
-        type: 3}
-      propertyPath: statsToCompute.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
-        type: 3}
-      propertyPath: myStats.health_C
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
-        type: 3}
-      propertyPath: myStats.health_M
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
-        type: 3}
-      propertyPath: canInteract
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5074358403472211452, guid: 2322013308973c442923908c1ac1a6bf,
-        type: 3}
-      propertyPath: allowableInteractDistance
-      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 1660815981386154188, guid: 2322013308973c442923908c1ac1a6bf,
         type: 3}
