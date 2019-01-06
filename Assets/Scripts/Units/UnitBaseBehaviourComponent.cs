@@ -96,7 +96,7 @@ namespace UnitsScripts.Behaviour
         }
         public void ReceiveOrder(UnitOrder newOrder, bool forceOrder = true)
         {
-            Debug.Log("receiving order :" + newOrder.commandName.ToString());
+            //Debug.Log("receiving order :" + newOrder.commandName.ToString());
             if(!forceOrder)
             {
                 //Debug.Log(this.gameObject.name + " Queueing Order : " + newOrder.commandName);
