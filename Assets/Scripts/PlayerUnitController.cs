@@ -12,6 +12,7 @@ using Utilities.MousePointer;
 using UserInterface;
 using PlayerScripts.CameraController;
 using ItemScript;
+using ComboSystem;
 
 namespace PlayerScripts.UnitCommands
 {
@@ -22,6 +23,7 @@ namespace PlayerScripts.UnitCommands
         INTERACT = 2,
         GATHER_RESOURCES = 3,
         GATHER_ITEMS = 4,
+        TARGET = 5,
     }
 
     public class PlayerUnitController : MonoBehaviour
@@ -36,6 +38,7 @@ namespace PlayerScripts.UnitCommands
         public List<UnitBaseBehaviourComponent> unitSelected = new List<UnitBaseBehaviourComponent>();
         public UnitBaseBehaviourComponent manualControlledUnit;
         public DebugFormationSpawner debugPositionSpawner;
+        public PlayerComboComponent comboComponent;
         public bool canMove = false;
 
         private void Awake()
@@ -91,6 +94,10 @@ namespace PlayerScripts.UnitCommands
                     interactWith = hit.transform.GetComponent<UnitBaseBehaviourComponent>();
                     if (interactWith.objectType == ObjectType.Unit)
                     {
+                        if(interactWith.unitAffiliation == UnitAffiliation.Enemy)
+                        {
+                            InteractingPopups.GetInstance.ShowInteractWithPopup(manualControlledUnit, interactWith);
+                        }
                         // Check Relationship with the person clicked
                         // if Enemy you Attack
                         // if neutral, try to spawn Popup to possibly start conversation
@@ -178,6 +185,7 @@ namespace PlayerScripts.UnitCommands
             }
             unitSelected.Clear();
             manualControlledUnit = null;
+            comboComponent.ClearComboList();
         }
         public void InitializeSelectedUnits()
         {
@@ -185,8 +193,12 @@ namespace PlayerScripts.UnitCommands
             {
                 item.InitializeSelected();
             }
-            manualControlledUnit = unitSelected[0];
-            manualControlledUnit.InitializeManualSelected();
+            if(unitSelected[0].unitAffiliation == UnitAffiliation.Controlled)
+            {
+                manualControlledUnit = unitSelected[0];
+                comboComponent.SetUnitDoingCombo(manualControlledUnit);
+                manualControlledUnit.InitializeManualSelected();
+            }
         }
         public void SwapMainUnit()
         {
@@ -237,7 +249,11 @@ namespace PlayerScripts.UnitCommands
             selectedTeamAffiliation = newAffiliation;
             unitSelected.Add(clickedUnit);
             InitializeSelectedUnits();
+            if (clickedUnit.unitAffiliation == UnitAffiliation.Controlled)
+            {
             manualControlledUnit = clickedUnit;
+            comboComponent.SetUnitDoingCombo(manualControlledUnit);
+            }
         }
         public void SelectObjects(List<UnitBaseBehaviourComponent> groupOfUnits, UnitAffiliation newAffiliation)
         {

@@ -10,6 +10,9 @@ using PlayerScripts.UnitCommands;
 
 namespace ComboSystem
 {
+    /// <summary>
+    /// This is where all the combo inputs the player is being send
+    /// </summary>
     public class PlayerComboComponent : MonoBehaviour
     {
         public UnitBaseBehaviourComponent unitDoingCombo;
@@ -21,50 +24,66 @@ namespace ComboSystem
         public float maxTimer = 0.75f;
         public void Update()
         {
-            // Check the W,A,S,D if its clicked
-            if(Input.GetKeyDown(KeyCode.W))
+            if(unitDoingCombo != null)
             {
-                FilterCombo(0);
-            }
-            else if(Input.GetKeyDown(KeyCode.S))
-            {
-                FilterCombo(1);
-            }
-            else if(Input.GetKeyDown(KeyCode.A))
-            {
-                FilterCombo(2);
-            }
-            else if(Input.GetKeyDown(KeyCode.D))
-            {
-                FilterCombo(3);
-            }
+                // Check the W,A,S,D if its clicked
+                if(Input.GetKeyDown(KeyCode.W))
+                {
+                    FilterCombo(0);
+                }
+                else if(Input.GetKeyDown(KeyCode.S))
+                {
+                    FilterCombo(1);
+                }
+                else if(Input.GetKeyDown(KeyCode.A))
+                {
+                    FilterCombo(2);
+                }
+                else if(Input.GetKeyDown(KeyCode.D))
+                {
+                    FilterCombo(3);
+                }
 
-            if(doingCombo.Count > 0)
-            {
-                curTimer += Time.deltaTime;
-                if(Input.GetKeyDown(KeyCode.Space))
+                if(doingCombo.Count > 0)
                 {
-                    if(doingCombo[0].comboIdx == doingCombo[0].combo.Length)
+                    curTimer += Time.deltaTime;
+                    if(Input.GetKeyDown(KeyCode.Space))
                     {
-                        Debug.Log("Doing Skill : " + doingCombo[0].ComboName);
-                        doingCombo[0].comboIdx = 0;
+                        if(doingCombo[0].comboIdx == doingCombo[0].combo.Length)
+                        {
+                            Debug.Log("Doing Skill : " + doingCombo[0].SkillName);
+                            doingCombo[0].comboIdx = 0;
+                        }
+                        else
+                        {
+                            Debug.Log("Combo Not Yet Done!");
+                        }
+                        ClearDoingCombo();
+                        curTimer = 0;
                     }
-                    else
+                    if(curTimer > maxTimer)
                     {
-                        Debug.Log("Combo Not Yet Done!");
+                        ClearDoingCombo();
+                        curTimer = 0;
                     }
-                    ClearDoingCombo();
-                    curTimer = 0;
                 }
-                if(curTimer > maxTimer)
-                {
-                    ClearDoingCombo();
-                    curTimer = 0;
-                }
-            }
             
+            }
         }
-
+        public void ClearComboList()
+        {
+            unitDoingCombo = null;
+            comboList.ForEach(x => x.comboIdx = 0);
+            comboList.Clear();
+            curTimer = 0;
+        }
+        public void SetUnitDoingCombo(UnitBaseBehaviourComponent unit)
+        {
+            unitDoingCombo = unit;
+            comboList.Clear();
+            // Adds Buff
+            comboList.AddRange(unit.mySkills.buff);
+        }
         public void FilterCombo(int input)
         {
             // Check if its the Initial Filter
@@ -104,10 +123,6 @@ namespace ComboSystem
         public void SetComboList(List<BaseCombo> newList)
         {
             comboList = newList;
-        }
-        public void ClearComboList()
-        {
-            comboList.Clear();
         }
 
     }

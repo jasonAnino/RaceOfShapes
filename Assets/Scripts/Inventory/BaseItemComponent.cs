@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using InteractableScripts.Behavior;
+using ComboSystem;
 
 namespace ItemScript
 {
@@ -10,11 +11,13 @@ namespace ItemScript
     {
         Weapon = 0,
         Ingredient = 1,
-
+        Armor = 2,
+        Helmet = 3,
+        Boots = 4,
     }
 
     /// <summary>
-    /// This is where all the functionality is found, from obtaining damage, buff, debuff.
+    /// This is the basic 'loot' system, this is where you get information about the loot.
     /// </summary>
     public class BaseItemComponent : InteractingComponent
     {
@@ -51,7 +54,10 @@ namespace ItemScript
         public bool isEquipped;
         public float weight;
         public ItemType itemType;
+        public EquippedItem equippedItem;
         public int count;
+        public float damage_Min, damage_Max;
+        public float armor_Min, armor_Max;
     }
     public static class ItemsUtility
     {

@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &735365562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 735365563}
+  - component: {fileID: 735365564}
+  m_Layer: 0
+  m_Name: SkillManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &735365563
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735365562}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4711376678366700841}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &735365564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735365562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c211ade3318d80641afd00d9bffdd990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffCombos:
+  - SkillName: Dash
+    skillType: 2
+    TargetType: 0
+    combatMode: 0
+    equipRequirement: 0
+    combo: 0000000000000000
+    comboIdx: 0
+    requirements: []
 --- !u!1 &4711376678366700840
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,6 +65,7 @@ GameObject:
   - component: {fileID: 4711376678366700843}
   - component: {fileID: 4711376678366700852}
   - component: {fileID: 775931739}
+  - component: {fileID: 775931734}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -32,6 +85,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4716013279320180321}
+  - {fileID: 735365563}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72,6 +126,7 @@ MonoBehaviour:
   unitSelected: []
   manualControlledUnit: {fileID: 0}
   debugPositionSpawner: {fileID: 0}
+  comboComponent: {fileID: 775931734}
   canMove: 0
 --- !u!114 &4711376678366700852
 MonoBehaviour:
@@ -103,6 +158,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitInventory: []
+--- !u!114 &775931734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711376678366700840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7852ab0e2b89914f8a40435ed8c9a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitDoingCombo: {fileID: 0}
+  comboList: []
+  doingCombo: []
+  curTimer: 0
+  maxTimer: 0.75
 --- !u!1001 &4711376678453707435
 PrefabInstance:
   m_ObjectHideFlags: 0

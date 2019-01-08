@@ -37,6 +37,7 @@ namespace ComboSystem
         Melee = 2,
         Range = 3,
         Book = 4,
+        DefensiveGear = 5,
     }
 
     public enum Combination
@@ -49,13 +50,14 @@ namespace ComboSystem
     [Serializable]
     public class BaseCombo
     {
-        public string ComboName;
+        public string SkillName;
         public SkillType skillType;
         public TargetType TargetType;
         public CombatMode combatMode;
         public EquippedItem equipRequirement;
         public Combination[] combo;
         public int comboIdx = 0;
+        public List<ComboRequirement> requirements;
 
         public bool CheckCombo(int input)
         {

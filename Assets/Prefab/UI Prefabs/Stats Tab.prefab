@@ -276,17 +276,17 @@ MonoBehaviour:
   m_HandleRect: {fileID: 970124749}
   m_Direction: 3
   m_Value: 0
-  m_Size: 0.2
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 570257883}
+        m_MethodName: ChangeStatsPanelPosition
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1448,7 +1448,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
 --- !u!222 &1660203654
@@ -2343,6 +2343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6330616347059573757}
   - component: {fileID: 570257883}
+  - component: {fileID: 1555216850306224141}
   m_Layer: 5
   m_Name: Stats Tab
   m_TagString: Untagged
@@ -2388,11 +2389,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentUnit: {fileID: 0}
+  mAnim: {fileID: 1555216850306224141}
+  isShown: 0
   statPanel: {fileID: 2251970671638034719}
   panel: {fileID: 1660203650}
   scroll: {fileID: 410867277}
   scrollSpeed: 5.5
-  identityPanel: {fileID: 0}
+  identityPanel: {fileID: 754624483}
+--- !u!111 &1555216850306224141
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6330616347059573758}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: e3a0e282d7c568a45873df8c9aec8ff9, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: e3a0e282d7c568a45873df8c9aec8ff9, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &6330616347099908477
 GameObject:
   m_ObjectHideFlags: 0
@@ -2662,10 +2681,10 @@ RectTransform:
   m_Father: {fileID: 6330616347865287898}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 111.917145, y: 6.3047485}
+  m_SizeDelta: {x: 223.83429, y: 31.390503}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6330616347154866447
 MonoBehaviour:
@@ -2947,7 +2966,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6330616347865287898}
-  - component: {fileID: 6330616347865287897}
+  - component: {fileID: 754624483}
   m_Layer: 5
   m_Name: Unit Information
   m_TagString: Untagged
@@ -2972,10 +2991,10 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.24319912, y: 0.83300006}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.9900055, y: -3.7799988}
+  m_AnchoredPosition: {x: -3.7257004, y: -4.024994}
   m_SizeDelta: {x: -2.630005, y: -2.2599945}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6330616347865287897
+--- !u!114 &754624483
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2984,17 +3003,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6330616347865287899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -405508275, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a8be5d8e476ee84fa66093f44319b09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  unitName: {fileID: 6330616345776447638}
+  unitTitle: {fileID: 6330616347099908451}
+  unitRace: {fileID: 6330616347000006245}

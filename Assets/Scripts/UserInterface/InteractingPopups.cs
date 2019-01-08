@@ -32,6 +32,8 @@ namespace UserInterface
         {
             interactors.Clear();
 
+            // TODO : IMPLEMENT UNKNOWN IDENTIFICATION UPON FIRST INTERACTION.
+            interactWithPopup.header.text = interactingWith.myStats.name;
             interactWithPopup.transform.position = Input.mousePosition;
             interactWithPopup.gameObject.SetActive(true);
             interactors.Add(unit);
