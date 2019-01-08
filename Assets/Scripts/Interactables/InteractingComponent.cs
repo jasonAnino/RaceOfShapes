@@ -23,6 +23,7 @@ namespace InteractableScripts.Behavior
         Gather = 2,
         Inspect = 3,
         Observe = 4,
+        Target = 5,
     }
     public enum InteractionType
     {

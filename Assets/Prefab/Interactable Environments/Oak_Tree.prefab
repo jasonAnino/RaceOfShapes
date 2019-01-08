@@ -4867,7 +4867,7 @@ MonoBehaviour:
   visualRange: 25
   moveSpeed: 10
   myStats:
-    name: 
+    name: Oak Tree
     id: 
     health_C: 2
     health_M: 2
@@ -4898,8 +4898,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 3.6875381, z: 1}
-  m_Center: {x: 0, y: 1.8047295, z: 0}
+  m_Size: {x: 0.751564, y: 3.6875381, z: 0.6883278}
+  m_Center: {x: -0.04530716, y: 1.8047295, z: -0.078427315}
 --- !u!114 &1114112747
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ using TMPro;
 public class UnitInformationUI : MonoBehaviour
 {
     public UnitBaseBehaviourComponent currentUnit;
+    public Animation mAnim;
+    public bool isShown = false;
     #region Unit Stats
     [Header("Unit Stats")]
     public StatsPanel statPanel;
@@ -44,6 +46,19 @@ public class UnitInformationUI : MonoBehaviour
             statPanel.disableAllStats();
             identityPanel.ClearUnitIdentity();
             currentUnit = null;
+        }
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            if(isShown)
+            {
+                mAnim.Play("Stats_Close");
+                isShown = false;
+            }
+            else
+            {
+                mAnim.Play("Stats_Open");
+                isShown = true;
+            }
         }
     }
 }

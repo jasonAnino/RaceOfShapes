@@ -46,7 +46,8 @@ namespace UnitsScripts.Behaviour
        
         [SerializeField] public float moveSpeed = 10.0f;
         public CharacterStatsSystem myStats = new CharacterStatsSystem();
-        
+        public UnitInventoryComponent myInventory;
+        public UnitSkillComponent mySkills;
         public override void Awake()
         {
 #if UNITY_EDITOR
@@ -57,6 +58,8 @@ namespace UnitsScripts.Behaviour
 #endif
             // Inject a system here later with regards to loading and saving.
             myStats.InitializeSystem();
+            if(mySkills != null)
+            mySkills.owner = this;
         }
 
         public void Start()
@@ -64,6 +67,10 @@ namespace UnitsScripts.Behaviour
             if(unitAffiliation == UnitAffiliation.Controlled)
             {
                 AddToControlledList();
+            }
+            if(myInventory != null)
+            {
+                myInventory.unitInventory.unitOwner = this;
             }
         }
         private void MoveTowards(Vector3 newPos)
@@ -163,6 +170,10 @@ namespace UnitsScripts.Behaviour
                     MoveTowards(nextPos);
                     MakeUnitLookAt(interactWith);
                     break;
+                case Commands.TARGET:
+                    interactWith = newOrder.p.GetWithKeyParameterValue<InteractingComponent>("Target", null);
+                    MakeUnitLookAt(interactWith);
+                    break;
             }
         }
         public float GetUnitBaseDamage()
@@ -194,7 +205,11 @@ namespace UnitsScripts.Behaviour
         }
         public void MakeUnitLookAt(InteractingComponent unit)
         {
-            Vector3 newLookAt = unit.transform.position;
+            if (unit == null)
+            {
+                return;
+            }
+                Vector3 newLookAt = unit.transform.position;
             newLookAt = new Vector3(newLookAt.x, transform.position.y, newLookAt.z);
             transform.LookAt(newLookAt);
         }
