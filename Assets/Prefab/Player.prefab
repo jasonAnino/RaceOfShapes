@@ -52,6 +52,7 @@ MonoBehaviour:
     combo: 0000000000000000
     comboIdx: 0
     requirements: []
+    prefab: {fileID: 121842, guid: af82839cea9b35c42a7ad215c8a1c783, type: 3}
 --- !u!1 &4711376678366700840
 GameObject:
   m_ObjectHideFlags: 0

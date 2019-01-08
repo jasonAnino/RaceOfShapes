@@ -58,7 +58,7 @@ namespace ComboSystem
         public Combination[] combo;
         public int comboIdx = 0;
         public List<ComboRequirement> requirements;
-
+        public GameObject prefab;
         public bool CheckCombo(int input)
         {
             if(input != (int)combo[comboIdx])
