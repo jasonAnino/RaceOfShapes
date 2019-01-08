@@ -52,7 +52,9 @@ MonoBehaviour:
     combo: 0000000000000000
     comboIdx: 0
     requirements: []
-    prefab: {fileID: 121842, guid: af82839cea9b35c42a7ad215c8a1c783, type: 3}
+    prefab: {fileID: 121842, guid: e11e6caa387b6fd4b9853b979b284eb7, type: 3}
+    positionAdjustment: {x: 0, y: -0.65, z: 0}
+    rotationAdjustment: {x: -90, y: 0, z: 0}
 --- !u!1 &4711376678366700840
 GameObject:
   m_ObjectHideFlags: 0

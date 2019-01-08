@@ -51,7 +51,7 @@ namespace ComboSystem
                     {
                         if(doingCombo[0].comboIdx == doingCombo[0].combo.Length)
                         {
-
+                            doingCombo[0].ActivateSkill(unitDoingCombo.transform);
                             doingCombo[0].comboIdx = 0;
                         }
                         else

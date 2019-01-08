@@ -59,6 +59,8 @@ namespace ComboSystem
         public int comboIdx = 0;
         public List<ComboRequirement> requirements;
         public GameObject prefab;
+        public Vector3 positionAdjustment = Vector3.zero;
+        public Vector3 rotationAdjustment = Vector3.zero;
         public bool CheckCombo(int input)
         {
             if(input != (int)combo[comboIdx])
@@ -70,6 +72,15 @@ namespace ComboSystem
                 comboIdx += 1;
             }
             return true;
+        }
+
+        public void ActivateSkill(Transform owner)
+        {
+            if(skillType == SkillType.Buff)
+            {
+                Vector3 postAdjustment = positionAdjustment + owner.position;
+                GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), owner);
+            }
         }
     }
 }
