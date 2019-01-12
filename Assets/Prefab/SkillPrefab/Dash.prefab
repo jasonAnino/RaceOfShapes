@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 403400}
   - component: {fileID: 221986105591386648}
+  - component: {fileID: 2866560603937399826}
   - component: {fileID: 6471785441325914111}
   m_Layer: 0
   m_Name: Dash
@@ -4510,6 +4511,22 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &2866560603937399826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23c8b62bff9c8d4bb692e95d1530d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  skillType: 2
+  behaviourType: 0
+  activate: 0
 --- !u!199 &6471785441325914111
 ParticleSystemRenderer:
   serializedVersion: 6

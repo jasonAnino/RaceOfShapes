@@ -13,14 +13,7 @@ namespace DamageSystem
         defensive = 3,
     }
 
-    public enum BuffTarget
-    {
-        self = 0,
-        team = 1,
-        aroound = 2,
-    }
-
-    public class BaseBuffComponent
+    public class BaseBuffComponent : SkillEffectComponent
     {
 
     }
