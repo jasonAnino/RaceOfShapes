@@ -8,6 +8,7 @@ using UnitsScripts.Behaviour;
 public class UnitSkillComponent : MonoBehaviour
 {
     public UnitBaseBehaviourComponent owner;
+    [Header("POTENTIAL SKILLS")]
     public List<BaseCombo> buff = new List<BaseCombo>();
 
     public void Start()

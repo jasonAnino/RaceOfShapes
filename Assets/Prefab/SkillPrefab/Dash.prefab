@@ -4524,9 +4524,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  skillStats:
+    effectName: Speed Buff
+    id: 
+    effectType: 2
+    amount: 50
   skillType: 2
   behaviourType: 0
   activate: 0
+  duration: 5
 --- !u!199 &6471785441325914111
 ParticleSystemRenderer:
   serializedVersion: 6

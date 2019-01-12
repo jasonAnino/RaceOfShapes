@@ -19,6 +19,7 @@ namespace SkillBehaviour
     public class BaseSkillBehaviour : MonoBehaviour
     {
         public UnitBaseBehaviourComponent owner;
+        public SkillEffectComponent skillStats;
         public SkillType skillType;
         public SkillBehaviourType behaviourType;
         public bool activate = false;
@@ -48,9 +49,11 @@ namespace SkillBehaviour
             }
         }
 
-        public void ActivateSkill()
+        public void ActivateSkill(UnitBaseBehaviourComponent activateTo)
         {
-
+            Debug.Log("Skill Activated!");
+            activate = true;
+            skillStats.ImplementSkill(activateTo);
         }
         public void AdjustBehaviourOnCurrentSkillType()
         {
@@ -58,8 +61,7 @@ namespace SkillBehaviour
             {
                 case SkillType.Buff:
                     behaviourType = SkillBehaviourType.Stick;
-                    activate = true;
-                    ActivateSkill();
+                    ActivateSkill(owner);
                     break;
 
                 case SkillType.MeleeAttack:
@@ -72,7 +74,7 @@ namespace SkillBehaviour
         #region callbacks
         public virtual void RemoveSkillFromWorld()
         {
-
+            activate = false;
         }
 
         public virtual void OnTriggerEnter(Collider other)
@@ -81,7 +83,11 @@ namespace SkillBehaviour
             {
                 return;
             }
-            ActivateSkill();
+            if(other.GetComponent<UnitBaseBehaviourComponent>())
+            {
+                UnitBaseBehaviourComponent tmp = other.GetComponent<UnitBaseBehaviourComponent>();
+                ActivateSkill(tmp);
+            }
         }
         #endregion
     }
