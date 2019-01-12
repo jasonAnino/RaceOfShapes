@@ -4788,6 +4788,7 @@ GameObject:
   - component: {fileID: 5074358403472211452}
   - component: {fileID: 5074358403472211454}
   - component: {fileID: 1114112747}
+  - component: {fileID: 8350591236855808841}
   m_Layer: 10
   m_Name: Oak_Tree
   m_TagString: Untagged
@@ -4844,6 +4845,7 @@ MonoBehaviour:
   objectType: 2
   potentialActionTypes: 02000000
   interactingUnit: []
+  currentBuffs: []
   interactWith: {fileID: 0}
   canInteract: 1
   allowableInteractDistance: 1.75
@@ -4865,7 +4867,6 @@ MonoBehaviour:
   nextPos: {x: 0, y: 0, z: 0}
   startMoving: 0
   visualRange: 25
-  moveSpeed: 10
   myStats:
     name: Oak Tree
     id: 
@@ -4873,6 +4874,9 @@ MonoBehaviour:
     health_M: 2
     stamina_C: 0
     stamina_M: 0
+    speed: 0
+  myInventory: {fileID: 0}
+  mySkills: {fileID: 0}
   mAnimation: {fileID: 5074358403472211451}
   mParticleSystem: {fileID: 360218805}
   itemDrop: {fileID: 6402697678051704629, guid: 6b3acb69c487c884b9621321582ad7c3,
@@ -4884,7 +4888,12 @@ MonoBehaviour:
     isEquipped: 0
     weight: 10
     itemType: 1
+    equippedItem: 0
     count: 1
+    damage_Min: 0
+    damage_Max: 0
+    armor_Min: 0
+    armor_Max: 0
   statsToCompute: 00000000
   dmgInterval_B: 5
 --- !u!65 &5074358403472211454
@@ -4912,6 +4921,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &8350591236855808841
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074358403472211450}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &8173059088333208477
 GameObject:
   m_ObjectHideFlags: 0
@@ -5099,7 +5124,7 @@ Transform:
   - {fileID: 1088648213684634670}
   m_Father: {fileID: 1660815981386154188}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 1, z: 0}
 --- !u!1 &9041498142308102238
 GameObject:
   m_ObjectHideFlags: 0

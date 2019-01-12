@@ -57,6 +57,7 @@ namespace UnitsScripts.Behaviour
 #endif
             // Inject a system here later with regards to loading and saving.
             myStats.InitializeSystem();
+
             if(mySkills != null)
             mySkills.owner = this;
         }
@@ -72,12 +73,37 @@ namespace UnitsScripts.Behaviour
                 myInventory.unitInventory.unitOwner = this;
             }
         }
+        public void Update()
+        {
+            if(currentBuffs.Count > 0)
+            {
+                foreach (PowerEffectComponent item in currentBuffs)
+                {
+                    item.duration -= Time.deltaTime;
+                    if(item.duration <= 0)
+                    {
+                        item.RemovePower();
+                    }
+                }
+                currentBuffs.RemoveAll(x => x.duration <= 0);
+            }
+        }
         private void MoveTowards(Vector3 newPos)
         {
             this.nextPos = newPos;
             startMoving = true;
         }
-
+        public override void ReceiveBuff(PowerEffectComponent effect)
+        {
+            PowerEffectComponent newPower = effect;
+            newPower.SetPowerOwner(this);
+            base.ReceiveBuff(newPower);
+        }
+        public override void ReceiveDamage(float netDamage, StatsEffected statsDamaged)
+        {
+            // Here we compute the resistance of the certain elements
+            myStats.health_C -= netDamage;
+        }
         public override void StartInteraction(InteractingComponent unit,ActionType actionIndex)
         {
             base.StartInteraction(unit, actionIndex);
@@ -196,6 +222,7 @@ namespace UnitsScripts.Behaviour
         {
 
         }
+
         public void MakeUnitLookAt(Vector3 position)
         {
             Vector3 newLookAt = position;
@@ -226,6 +253,7 @@ namespace UnitsScripts.Behaviour
                 }
             }
         }
+        #region Head Box COLORS
         public void InitializeSelected()
         {
             notifRenderer.material = colorCodes[0];
@@ -239,6 +267,14 @@ namespace UnitsScripts.Behaviour
         public void InitializeManualSelected()
         {
             notifRenderer.material = colorCodes[2];
+        }
+        #endregion
+        public void SetSpeed()
+        {
+            if(this.GetComponent<NavMeshAgent>())
+            {
+                this.GetComponent<NavMeshAgent>().speed = myStats.speed;
+            }
         }
         private void OnDestroy()
         {

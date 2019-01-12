@@ -19,17 +19,30 @@ namespace SkillBehaviour
     public class BaseSkillBehaviour : MonoBehaviour
     {
         public UnitBaseBehaviourComponent owner;
-        public SkillEffectComponent skillStats;
+        public PowerEffectComponent skillEffect;
         public SkillType skillType;
         public SkillBehaviourType behaviourType;
+        public TargetType targetType;
+        public bool powerStatBased = false;
         public bool activate = false;
         public float duration = 5.0f;
 
-        public void InitializeSkill(UnitBaseBehaviourComponent newOnwer, SkillType type)
+        public List<UnitBaseBehaviourComponent> affectedUnits = new List<UnitBaseBehaviourComponent>();
+        public void InitializeSkill(UnitBaseBehaviourComponent newOwner, SkillType type, TargetType target)
         {
-            owner = newOnwer;
+            owner = newOwner;
             skillType = type;
             AdjustBehaviourOnCurrentSkillType();
+            skillEffect.SetNetAmount(owner);
+            targetType = target;
+            if (targetType == TargetType.Self)
+            {
+                ActivateSkill(owner);
+            }
+            if(skillType == SkillType.Projectile)
+            {
+                transform.rotation = owner.transform.rotation;   
+            }
         }
 
         public void ChangeOwner(UnitBaseBehaviourComponent newOwner)
@@ -46,14 +59,21 @@ namespace SkillBehaviour
                 {
                     RemoveSkillFromWorld();
                 }
+                if(behaviourType == SkillBehaviourType.MoveOnHitActivated || behaviourType == SkillBehaviourType.MovingActivated)
+                {
+                    transform.position += transform.forward * Time.deltaTime * 10;
+                }
             }
         }
 
         public void ActivateSkill(UnitBaseBehaviourComponent activateTo)
         {
-            Debug.Log("Skill Activated!");
             activate = true;
-            skillStats.ImplementSkill(activateTo);
+            if (!affectedUnits.Contains(activateTo))
+            {
+               affectedUnits.Add(activateTo);
+            }
+            activateTo.ReceiveBuff(skillEffect);
         }
         public void AdjustBehaviourOnCurrentSkillType()
         {
@@ -61,12 +81,12 @@ namespace SkillBehaviour
             {
                 case SkillType.Buff:
                     behaviourType = SkillBehaviourType.Stick;
-                    ActivateSkill(owner);
                     break;
 
                 case SkillType.MeleeAttack:
                 case SkillType.Projectile:
                     behaviourType = SkillBehaviourType.MoveOnHitActivated;
+                    activate = true;
                     break;
             }
 
@@ -75,18 +95,42 @@ namespace SkillBehaviour
         public virtual void RemoveSkillFromWorld()
         {
             activate = false;
+            GameObject.Destroy(this.gameObject);
         }
 
         public virtual void OnTriggerEnter(Collider other)
         {
-            if(skillType != SkillType.Projectile || skillType != SkillType.MeleeAttack)
+            Debug.Log("Hit : " + other.name);
+            // Wont do stuff if object isnt projectile (Soon, AoE).
+            if(skillType != SkillType.Projectile)
             {
                 return;
             }
             if(other.GetComponent<UnitBaseBehaviourComponent>())
             {
                 UnitBaseBehaviourComponent tmp = other.GetComponent<UnitBaseBehaviourComponent>();
-                ActivateSkill(tmp);
+                if (behaviourType == SkillBehaviourType.MoveOnHitActivated)
+                {
+                    // Inflict Buff once.
+                    if (!affectedUnits.Contains(tmp))
+                    {
+                        tmp.ReceiveBuff(skillEffect);
+                        affectedUnits.Add(tmp);
+                    }
+                }
+                else
+                {
+                    // Always Inflict Buff
+                    tmp.ReceiveBuff(skillEffect);
+                    if (!affectedUnits.Contains(tmp))
+                    {
+                        affectedUnits.Add(tmp);
+                    }
+                }
+            }
+            if(targetType == TargetType.SingleTarget)
+            {
+                GameObject.Destroy(this.gameObject);
             }
         }
         #endregion

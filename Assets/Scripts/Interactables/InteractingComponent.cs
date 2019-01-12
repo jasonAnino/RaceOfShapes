@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+using ComboSystem;
 using UnitsScripts.Behaviour;
 using PlayerScripts.UnitCommands;
 using Utilities.MousePointer;
@@ -37,6 +38,8 @@ namespace InteractableScripts.Behavior
         public ObjectType objectType;
         public List<ActionType> potentialActionTypes = new List<ActionType>();
         public List<UnitBaseBehaviourComponent> interactingUnit;
+
+        public List<PowerEffectComponent> currentBuffs = new List<PowerEffectComponent>();
         public InteractingComponent interactWith;
         public bool canInteract = true;
         public float allowableInteractDistance = 1.5f;
@@ -67,15 +70,19 @@ namespace InteractableScripts.Behavior
             
         }
 
-        // RECEIVE DAMAGE - Create a DamageClass that holds : DamageType / Amount / Add'l Buff
+        // RECEIVE DAMAGE - Create a DamageClass that holds : DamageType / Amount
         public virtual void ReceiveDamage(float netDamage, UnitBaseBehaviourComponent unitSender)
         {
 
         }
-        // RECEIVE BUFF
-        public virtual void ReceiveBuff()
+        public virtual void ReceiveDamage(float netDamage, StatsEffected statsDamaged)
         {
 
+        }
+        // RECEIVE BUFF
+        public virtual void ReceiveBuff(PowerEffectComponent effect)
+        {
+            currentBuffs.Add(effect);
         }
         // Check Interaction Requirements
         public virtual void InitializeInteraction(ActionType actionChoice, List<UnitBaseBehaviourComponent> interactors)

@@ -204,7 +204,6 @@ public class NavMeshPositionGenerator : MonoBehaviour
             {
                 if (hit[i].transform.GetComponent<NavMeshAgent>() != null && hit[i].transform.GetComponent<UnitBaseBehaviourComponent>() != agent)
                 {
-                    Debug.Log("We Detected : " + hit[i].transform.name);
                     tmp = true;
                 }
             }

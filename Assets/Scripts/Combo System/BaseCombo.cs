@@ -17,6 +17,7 @@ namespace ComboSystem
         MeleeAttack = 0,
         Projectile = 1,
         Buff = 2,
+        TargetProjectile = 3,
     }
     public enum TargetType
     {
@@ -54,7 +55,7 @@ namespace ComboSystem
     {
         public string SkillName;
         public SkillType skillType;
-        public TargetType TargetType;
+        public TargetType targetType;
         public CombatMode combatMode;
         public EquippedItem equipRequirement;
         public Combination[] combo;
@@ -64,7 +65,7 @@ namespace ComboSystem
         public GameObject prefab;
         public Vector3 positionAdjustment = Vector3.zero;
         public Vector3 rotationAdjustment = Vector3.zero;
-
+        public bool StartAtFront = false;
         public bool CheckCombo(int input)
         {
             if(input != (int)combo[comboIdx])
@@ -85,12 +86,19 @@ namespace ComboSystem
                 Vector3 postAdjustment = positionAdjustment + skillOwner.transform.position;
                 GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), skillOwner.transform);
                 BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
-                skillTmp.InitializeSkill(skillOwner, SkillType.Buff);
+                skillTmp.InitializeSkill(skillOwner, SkillType.Buff, targetType);
             }
             else if(skillType == SkillType.Projectile)
             {
                 Vector3 postAdjustment = positionAdjustment + skillOwner.transform.position;
+                if(StartAtFront)
+                {
+                    postAdjustment = skillOwner.transform.forward + skillOwner.transform.position;
+                    rotationAdjustment = new Vector3(skillOwner.transform.rotation.x, skillOwner.transform.rotation.y, skillOwner.transform.rotation.z);
+                }
                 GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), null);
+                BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
+                skillTmp.InitializeSkill(skillOwner, SkillType.Projectile, targetType);
             }
         }
     }
