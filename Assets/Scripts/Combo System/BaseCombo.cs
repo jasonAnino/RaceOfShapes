@@ -85,6 +85,7 @@ namespace ComboSystem
                 Vector3 postAdjustment = positionAdjustment + skillOwner.transform.position;
                 GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), skillOwner.transform);
                 BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
+                skillTmp.InitializeSkill(skillOwner, SkillType.Buff);
             }
             else if(skillType == SkillType.Projectile)
             {

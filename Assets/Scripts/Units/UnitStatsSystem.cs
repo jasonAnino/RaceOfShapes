@@ -14,65 +14,8 @@ namespace UnitStats
         Normal,
         Arcane,
     }
-    public class UnitGatheringResourceStats
-    {
-        public float unitDamage_C = 0.0f;
-        public float dmgInterval_C = 5.0f;
-        public bool dataInitialized = false;
+   
 
-        public float curTime = 0.0f;
-        public UnitBaseBehaviourComponent unitSaved;
-        Attack atkType;
-        public Attack GetAtkType
-        {
-            get { return this.atkType; }
-            set { this.atkType = value; }
-        }
-
-        public void ClearData()
-        {
-            unitDamage_C = 0.0f;
-            dmgInterval_C = 0.0f;
-            atkType = null;
-        }
-
-        public void SetInterval(UnitBaseBehaviourComponent unit, float baseInterval = 10.0f)
-        {
-            float reduction = unit.myStats.GetStats(Stats.Strength).GetLevel / 10;
-            dmgInterval_C = baseInterval - reduction;
-            unitSaved = unit;
-        }
-    }
-
-    public class Attack
-    {
-        public AttackType attackType;
-        public Stats statsBuff;
-        public float stats;
-        public float baseDamage;
-        
-        public Attack CreateData(AttackType atkType,Stats buffType ,int statLevel, float baseDmg)
-        {
-            Attack tmp = new Attack();
-
-            tmp.attackType = atkType;
-            statsBuff = buffType;
-            stats = statLevel;
-            baseDamage = baseDmg;
-
-            return tmp;
-        }
-        /// <summary>
-        /// Obtain Raw Damage base from :
-        /// Sk. Base Damage + (Sk. Base Damage * Stats/100)
-        /// </summary>
-        /// <returns></returns>
-        public float RawDamage()
-        {
-            float tmp = baseDamage + (baseDamage * stats / 100);
-            return tmp;
-        }
-    }
     /// <summary>
     /// This is Where All  [ ADD / SUBTRACT / GET / SET / COMPUTATION ] 
     /// should happen

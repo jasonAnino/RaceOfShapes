@@ -44,8 +44,6 @@ namespace UnitsScripts.Behaviour
         public Vector3 nextPos;
         public bool startMoving = false;
         public float visualRange = 25.0f;
-       
-        [SerializeField] public float moveSpeed = 10.0f;
         public CharacterStatsSystem myStats = new CharacterStatsSystem();
         public UnitInventoryComponent myInventory;
         public UnitSkillComponent mySkills;
