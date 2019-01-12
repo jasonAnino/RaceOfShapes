@@ -7,6 +7,8 @@ using UnityEngine;
 using UnitStats;
 using UnitsScripts.Behaviour;
 using PlayerScripts.UnitCommands;
+using Utilities;
+using SkillBehaviour;
 
 namespace ComboSystem
 {
@@ -58,9 +60,11 @@ namespace ComboSystem
         public Combination[] combo;
         public int comboIdx = 0;
         public List<ComboRequirement> requirements;
+        public bool targetCast = false;
         public GameObject prefab;
         public Vector3 positionAdjustment = Vector3.zero;
         public Vector3 rotationAdjustment = Vector3.zero;
+
         public bool CheckCombo(int input)
         {
             if(input != (int)combo[comboIdx])
@@ -74,12 +78,18 @@ namespace ComboSystem
             return true;
         }
 
-        public void ActivateSkill(Transform owner)
+        public void ActivateSkill(UnitBaseBehaviourComponent skillOwner)
         {
             if(skillType == SkillType.Buff)
             {
-                Vector3 postAdjustment = positionAdjustment + owner.position;
-                GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), owner);
+                Vector3 postAdjustment = positionAdjustment + skillOwner.transform.position;
+                GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), skillOwner.transform);
+                BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
+            }
+            else if(skillType == SkillType.Projectile)
+            {
+                Vector3 postAdjustment = positionAdjustment + skillOwner.transform.position;
+                GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), null);
             }
         }
     }
