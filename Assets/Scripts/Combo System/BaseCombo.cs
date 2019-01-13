@@ -68,6 +68,10 @@ namespace ComboSystem
         public bool StartAtFront = false;
         public bool CheckCombo(int input)
         {
+            if(comboIdx >= combo.Length)
+            {
+                return false;
+            }
             if(input != (int)combo[comboIdx])
             {
                 return false;
@@ -96,9 +100,14 @@ namespace ComboSystem
                     postAdjustment = skillOwner.transform.forward + skillOwner.transform.position;
                     rotationAdjustment = new Vector3(skillOwner.transform.rotation.x, skillOwner.transform.rotation.y, skillOwner.transform.rotation.z);
                 }
+                if(skillOwner.targetUnit != null)
+                {
+                    skillOwner.MakeUnitLookAt(skillOwner.targetUnit.transform.position);
+                }
                 GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), null);
                 BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
                 skillTmp.InitializeSkill(skillOwner, SkillType.Projectile, targetType);
+                
             }
         }
     }

@@ -44,7 +44,7 @@ public class NavMeshPositionGenerator : MonoBehaviour
                 {
                     if(newPositions.Contains(clickPosition))
                     {
-                        newPositions.Add(GenerateCandidatePosition(clickPosition, positionSpacing, units[i]));
+                        newPositions.Add(GenerateCandidatePosition(clickPosition, 4, units[i]));
                     }
                     else
                     {

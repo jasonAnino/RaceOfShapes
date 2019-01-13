@@ -109,6 +109,10 @@ namespace SkillBehaviour
             if(other.GetComponent<UnitBaseBehaviourComponent>())
             {
                 UnitBaseBehaviourComponent tmp = other.GetComponent<UnitBaseBehaviourComponent>();
+                if(tmp == owner)
+                {
+                    return;
+                }
                 if (behaviourType == SkillBehaviourType.MoveOnHitActivated)
                 {
                     // Inflict Buff once.

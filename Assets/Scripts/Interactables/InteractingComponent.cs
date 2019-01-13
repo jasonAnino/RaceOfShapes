@@ -112,21 +112,33 @@ namespace InteractableScripts.Behavior
                         {
                             case ActionType.Converse:
                                 tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
-                                tmp.Add(UnitOrder.CreateInteractOrder(this, actionChoice));
+                                tmp.Add(UnitOrder.GenerateInteractOrder(this, actionChoice));
                                 break;
 
                             case ActionType.Gather:
                                 tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
-                                tmp.Add(UnitOrder.CreateGatherResourceOrder(this, actionChoice));
+                                tmp.Add(UnitOrder.GenerateGatherResourceOrder(this, actionChoice));
                                 break;
                             case ActionType.Wait:
                                 tmp.Add(UnitOrder.GenerateMoveOrder(transform.position, item));
-                                tmp.Add(UnitOrder.CreateInteractOrder(this, actionChoice));
+                                tmp.Add(UnitOrder.GenerateInteractOrder(this, actionChoice));
+                                break;
+                            case ActionType.Target:
+                                tmp.Add(UnitOrder.GenerateTargetOrder(this));
                                 break;
                         }
-
-                        PlayerUnitController.GetInstance.OrderManualSelected(tmp[0]);
-                        PlayerUnitController.GetInstance.OrderManualSelected(tmp[1], false);
+                        // Deliver the Orders to the unit involved.
+                        for (int i = 0; i < tmp.Count; i++)
+                        {
+                            if(i <= 0)
+                            {
+                                PlayerUnitController.GetInstance.OrderManualSelected(tmp[i]);
+                            }
+                            else
+                            {
+                                PlayerUnitController.GetInstance.OrderManualSelected(tmp[i], false);
+                            }  
+                        }
                     }
                 }
             }

@@ -33,7 +33,7 @@ namespace UnitsScripts.Behaviour
         public UnitAffiliation unitAffiliation = UnitAffiliation.Neutral;
         public Commands currentCommand = Commands.WAIT_FOR_COMMAND;
         public LivingState currentState = LivingState.Alive;
-
+        public InteractingComponent targetUnit;
         public Queue<UnitOrder> unitOrders = new Queue<UnitOrder>();
         public UnitOrder currentOrder;
         public Material[] colorCodes;
@@ -196,8 +196,8 @@ namespace UnitsScripts.Behaviour
                     MakeUnitLookAt(interactWith);
                     break;
                 case Commands.TARGET:
-                    interactWith = newOrder.p.GetWithKeyParameterValue<InteractingComponent>("Target", null);
-                    MakeUnitLookAt(interactWith);
+                    targetUnit = newOrder.p.GetWithKeyParameterValue<InteractingComponent>("Target", null);
+                    MakeUnitLookAt(targetUnit);
                     break;
             }
         }
