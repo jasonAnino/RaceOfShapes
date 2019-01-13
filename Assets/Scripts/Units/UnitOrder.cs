@@ -19,7 +19,7 @@ namespace UnitsScripts.Behaviour
         public Parameters p = new Parameters();
         public bool doingOrder = false;
 
-        public static UnitOrder CreateGatherResourceOrder(InteractingComponent interactWith, ActionType action)
+        public static UnitOrder GenerateGatherResourceOrder(InteractingComponent interactWith, ActionType action)
         {
             UnitOrder tmp = new UnitOrder();
             tmp.commandName = Commands.GATHER_RESOURCES;
@@ -29,7 +29,7 @@ namespace UnitsScripts.Behaviour
 
             return tmp;
         }
-        public static UnitOrder CreateInteractOrder(InteractingComponent interactWith, ActionType action)
+        public static UnitOrder GenerateInteractOrder(InteractingComponent interactWith, ActionType action)
         {
             UnitOrder tmp = new UnitOrder();
             tmp.commandName = Commands.INTERACT;
@@ -39,7 +39,7 @@ namespace UnitsScripts.Behaviour
             return tmp;
         }
 
-        public static UnitOrder CreateMoveOrder(Vector3 clickedPosition)
+        public static UnitOrder GenerateMoveOrder(Vector3 clickedPosition)
         {
             UnitOrder tmp = new UnitOrder();
             tmp.commandName = Commands.MOVE_TOWARDS;
@@ -71,6 +71,14 @@ namespace UnitsScripts.Behaviour
             tmp.commandName = Commands.GATHER_ITEMS;
             tmp.p.AddParameter<Vector3>("NextPos", NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(basePosition, 0.75f, unit, false));
             tmp.p.AddParameter<InteractingComponent>("InteractWith", interactWith);
+            return tmp;
+        }
+
+        public static UnitOrder GenerateTargetOrder(InteractingComponent newTarget)
+        {
+            UnitOrder tmp = new UnitOrder();
+            tmp.commandName = Commands.TARGET;
+            tmp.p.AddParameter<InteractingComponent>("Target", newTarget);
             return tmp;
         }
     }

@@ -21,7 +21,6 @@ public class SkillManager : MonoBehaviour
         instance = this;
     }
     public List<BaseCombo> buffCombos = new List<BaseCombo>();
-
     public List<BaseCombo> ObtainBuffCombos(UnitBaseBehaviourComponent unit)
     {
         List<BaseCombo> availableCombo = new List<BaseCombo>();
@@ -41,6 +40,27 @@ public class SkillManager : MonoBehaviour
         }
 
         return availableCombo;
+    }
+    public List<BaseCombo> fireMagicCombos = new List<BaseCombo>();
+    public List<BaseCombo> ObtainFireMagicCombos(UnitBaseBehaviourComponent unit)
+    {
+        List<BaseCombo> fireCombo = new List<BaseCombo>();
+        fireCombo = unit.mySkills.fireMagic;
+        UnitStatsSystem stat = unit.myStats;
+
+        foreach (BaseCombo item in fireMagicCombos)
+        {
+            if (!fireCombo.Contains(item))
+            {
+                // Check Requirement
+                if (AnalyzeThisSkillRequirement(item, stat))
+                {
+                    fireCombo.Add(item);
+                }
+            }
+        }
+
+        return fireCombo;
     }
     public bool AnalyzeThisSkillRequirement(BaseCombo skill, UnitStatsSystem unitStats)
     {

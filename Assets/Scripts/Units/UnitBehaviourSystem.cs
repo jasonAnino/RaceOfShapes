@@ -116,10 +116,10 @@ public class UnitBehaviourSystem : ComponentSystem
                         break;
                     }
                     float dist = Vector3.Distance(dontCheck.nextPos, item.unitBehaviour.nextPos);
-                    Debug.Log("Distance Between : " + item.unitBehaviour.transform.name + " And : " + dontCheck.transform.name + " is : " + dist);
+                    //Debug.Log("Distance Between : " + item.unitBehaviour.transform.name + " And : " + dontCheck.transform.name + " is : " + dist);
                     if(dist < 1.15f)
                     {
-                        Debug.Log("Adjusting Pos : " + item.unitBehaviour.transform.name + " Old Pos : " + item.unitBehaviour.nextPos);
+                        //Debug.Log("Adjusting Pos : " + item.unitBehaviour.transform.name + " Old Pos : " + item.unitBehaviour.nextPos);
                         if(item.unitBehaviour.interactWith != null)
                         {
                             item.unitBehaviour.nextPos = NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(item.unitBehaviour.interactWith.transform.position, 2, item.unitBehaviour, false);
@@ -128,7 +128,7 @@ public class UnitBehaviourSystem : ComponentSystem
                         {
                             item.unitBehaviour.nextPos = NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(item.unitBehaviour.nextPos, 2, item.unitBehaviour, false);
                         }
-                        Debug.Log("New Pos : " + item.unitBehaviour.nextPos);
+                       // Debug.Log("New Pos : " + item.unitBehaviour.nextPos);
                     }
                 }
             }

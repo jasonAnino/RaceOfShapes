@@ -196,6 +196,7 @@ MonoBehaviour:
   objectType: 0
   potentialActionTypes: 01000000040000000300000005000000
   interactingUnit: []
+  currentBuffs: []
   interactWith: {fileID: 0}
   canInteract: 1
   allowableInteractDistance: 1.5
@@ -217,7 +218,6 @@ MonoBehaviour:
   nextPos: {x: 0, y: 0, z: 0}
   startMoving: 0
   visualRange: 25
-  moveSpeed: 10
   myStats:
     name: White
     id: 
@@ -225,6 +225,7 @@ MonoBehaviour:
     health_M: 100
     stamina_C: 100
     stamina_M: 100
+    speed: 5
   myInventory: {fileID: 4878211799221850895}
   mySkills: {fileID: 8582435749892515182}
 --- !u!114 &4878211799221850895
@@ -319,8 +320,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 763b58258eadbf74594b906bc463c700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
+  owner: {fileID: 5581932408624179169}
   buff: []
+  fireMagic: []
 --- !u!1 &5581932410011052629
 GameObject:
   m_ObjectHideFlags: 0

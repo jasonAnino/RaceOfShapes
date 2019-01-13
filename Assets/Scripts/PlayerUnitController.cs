@@ -138,7 +138,7 @@ namespace PlayerScripts.UnitCommands
                 
                 for (int i = 0; i < unitSelected.Count; i++)
                 {
-                    unitSelected[i].ReceiveOrder(UnitOrder.CreateMoveOrder(possiblePositions[i]));
+                    unitSelected[i].ReceiveOrder(UnitOrder.GenerateMoveOrder(possiblePositions[i]));
                 }
             }
          }
@@ -279,7 +279,7 @@ namespace PlayerScripts.UnitCommands
                     manualControlledUnit = unitSelected[index];
                     // Set Color to Blue
                     manualControlledUnit.InitializeManualSelected();
-
+                    comboComponent.SetUnitDoingCombo(manualControlledUnit);
                 }
                 else
                 {

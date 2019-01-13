@@ -10,7 +10,8 @@ namespace UnitStats
     {
         Strength,
         Toughness,
-        Stamina
+        Stamina,
+        FireArcane,
     }
     [Serializable]
     public class BaseUnitStats

@@ -83,6 +83,7 @@ namespace ComboSystem
             comboList.Clear();
             // Adds Buff
             comboList.AddRange(unit.mySkills.buff);
+            comboList.AddRange(unit.mySkills.fireMagic);
         }
         public void FilterCombo(int input)
         {

@@ -1,60 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &735365562
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 735365563}
-  - component: {fileID: 735365564}
-  m_Layer: 0
-  m_Name: SkillManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &735365563
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735365562}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4711376678366700841}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &735365564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735365562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c211ade3318d80641afd00d9bffdd990, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buffCombos:
-  - SkillName: Dash
-    skillType: 2
-    TargetType: 0
-    combatMode: 0
-    equipRequirement: 0
-    combo: 0000000000000000
-    comboIdx: 0
-    requirements: []
-    prefab: {fileID: 121842, guid: e11e6caa387b6fd4b9853b979b284eb7, type: 3}
-    positionAdjustment: {x: 0, y: -0.65, z: 0}
-    rotationAdjustment: {x: -90, y: 0, z: 0}
 --- !u!1 &4711376678366700840
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,4 +221,125 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 20830266438499368, guid: 0b469665454ca3241a02870fe7cdffb9,
     type: 3}
   m_PrefabInstance: {fileID: 4711376678453707435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7803076016285306449
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4711376678366700841}
+    m_Modifications:
+    - target: {fileID: 7803076016684566507, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].combo.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].requirements.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].SkillName
+      value: Fire Ball
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].skillType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].targetType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].combo.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].requirements.Array.data[0].statRequirement
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].requirements.Array.data[0].statLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 5433833350421679340, guid: daa484c879d54044b843b5a5a0973aff,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f, type: 3}
+--- !u!4 &735365563 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7803076016684566506, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7803076016285306449}
   m_PrefabAsset: {fileID: 0}
