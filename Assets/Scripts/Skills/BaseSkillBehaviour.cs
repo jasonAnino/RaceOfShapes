@@ -50,7 +50,7 @@ namespace SkillBehaviour
             owner = newOwner;
         }
 
-        public void Update()
+        public virtual void Update()
         {
             if(activate)
             {
@@ -106,6 +106,7 @@ namespace SkillBehaviour
             {
                 return;
             }
+
             if(other.GetComponent<UnitBaseBehaviourComponent>())
             {
                 UnitBaseBehaviourComponent tmp = other.GetComponent<UnitBaseBehaviourComponent>();

@@ -109,6 +109,11 @@ namespace ComboSystem
                 skillTmp.InitializeSkill(skillOwner, SkillType.Projectile, targetType);
                 
             }
+            else if(skillType == SkillType.TargetProjectile)
+            {
+                GameObject tmp = GameObject.Instantiate(prefab, skillOwner.transform.position, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), null);
+                BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
+            }
         }
     }
 }
