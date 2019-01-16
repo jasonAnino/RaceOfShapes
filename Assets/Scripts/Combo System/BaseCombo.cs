@@ -8,6 +8,8 @@ using UnitStats;
 using UnitsScripts.Behaviour;
 using PlayerScripts.UnitCommands;
 using Utilities;
+using Utilities.MousePointer;
+
 using SkillBehaviour;
 
 namespace ComboSystem
@@ -112,7 +114,11 @@ namespace ComboSystem
             else if(skillType == SkillType.TargetProjectile)
             {
                 GameObject tmp = GameObject.Instantiate(prefab, skillOwner.transform.position, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), null);
-                BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
+                AoeSkillBehaviour skillTmp = tmp.GetComponent<AoeSkillBehaviour>();
+                skillTmp.InitializeSkill(skillOwner, SkillType.TargetProjectile, targetType);
+                skillTmp.startAiming = true;
+                PlayerUnitController.GetInstance.targetableProjectile = skillTmp;
+                CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_SKILLHOLD);
             }
         }
     }

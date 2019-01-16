@@ -185,6 +185,10 @@ namespace InteractableScripts.Behavior
         #region Callbacks
         public void OnMouseEnter()
         {
+            if(PlayerUnitController.GetInstance.targetableProjectile != null)
+            {
+                return;
+            }
             if (PlayerUnitController.GetInstance.unitSelected.Count > 0 && PlayerUnitController.GetInstance.selectedTeamAffiliation == UnitAffiliation.Controlled)
             {
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_NORMAL);

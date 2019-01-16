@@ -81,7 +81,8 @@ MonoBehaviour:
     comboIdx: 0
     requirements: []
     targetCast: 0
-    prefab: {fileID: 0}
+    prefab: {fileID: 7170279140649043522, guid: 5a429cf87406e3b45a12ba4e8efcd392,
+      type: 3}
     positionAdjustment: {x: 0, y: 0, z: 0}
     rotationAdjustment: {x: 0, y: 0, z: 0}
     StartAtFront: 1

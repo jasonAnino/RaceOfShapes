@@ -14,6 +14,7 @@ namespace Utilities.MousePointer
         NORMAL_CLICK = 1,
         CLICKABLE_NORMAL = 2,
         CLICKABLE_CLICK = 3,
+        CLICKABLE_SKILLHOLD = 4,
     }
     public class CursorManager : MonoBehaviour
     {
@@ -56,6 +57,9 @@ namespace Utilities.MousePointer
 
                 case CursorType.NORMAL_CLICK:
                     Cursor.SetCursor(cursorSprites[2], hotspot, CursorMode.Auto);
+                    break;
+                case CursorType.CLICKABLE_SKILLHOLD:
+                    Cursor.SetCursor(cursorSprites[3], hotspot, CursorMode.Auto);
                     break;
             }
         }

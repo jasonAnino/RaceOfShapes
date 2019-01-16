@@ -1539,6 +1539,16 @@ PrefabInstance:
       propertyPath: gizmo
       value: 
       objectReference: {fileID: 44442146}
+    - target: {fileID: 8324915462015565091, guid: 53534c3bb36bd7547bbd92c50dbcb437,
+        type: 3}
+      propertyPath: cursorSprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8324915462015565091, guid: 53534c3bb36bd7547bbd92c50dbcb437,
+        type: 3}
+      propertyPath: cursorSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 2800000, guid: 83da822eda6f0e046bfc464c89e52dea, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53534c3bb36bd7547bbd92c50dbcb437, type: 3}
 --- !u!1001 &8785351761771624329
