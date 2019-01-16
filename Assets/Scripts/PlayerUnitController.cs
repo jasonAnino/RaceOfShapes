@@ -13,6 +13,7 @@ using UserInterface;
 using PlayerScripts.CameraController;
 using ItemScript;
 using ComboSystem;
+using SkillBehaviour;
 
 namespace PlayerScripts.UnitCommands
 {
@@ -39,6 +40,7 @@ namespace PlayerScripts.UnitCommands
         public UnitBaseBehaviourComponent manualControlledUnit;
         public DebugFormationSpawner debugPositionSpawner;
         public PlayerComboComponent comboComponent;
+        public AoeSkillBehaviour targetableProjectile;
         public bool canMove = false;
 
         private void Awake()
@@ -51,8 +53,16 @@ namespace PlayerScripts.UnitCommands
             // Clicking Behaviour
             if(Input.GetMouseButtonDown(0))
             {
-                ClickObject();
-                CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL_CLICK);
+                if(targetableProjectile != null)
+                {
+                    targetableProjectile.StartSkillCasting();
+                    targetableProjectile = null;
+                }
+                else
+                {
+                    ClickObject();
+                    CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL_CLICK);
+                }
             }
             else if(Input.GetMouseButtonUp(0))
             {

@@ -46,7 +46,7 @@ MonoBehaviour:
   buffCombos:
   - SkillName: Dash
     skillType: 2
-    TargetType: 0
+    targetType: 0
     combatMode: 0
     equipRequirement: 0
     combo: 0000000000000000
@@ -58,16 +58,31 @@ MonoBehaviour:
     rotationAdjustment: {x: -90, y: 0, z: 0}
     StartAtFront: 0
   fireMagicCombos:
-  - SkillName: 
-    skillType: 0
-    TargetType: 0
+  - SkillName: Fireball
+    skillType: 1
+    targetType: 1
     combatMode: 0
     equipRequirement: 0
-    combo: 
+    combo: 0100000000000000
     comboIdx: 0
     requirements: []
     targetCast: 0
-    prefab: {fileID: 0}
+    prefab: {fileID: 5433833350421679340, guid: daa484c879d54044b843b5a5a0973aff,
+      type: 3}
+    positionAdjustment: {x: 0, y: 0, z: 0}
+    rotationAdjustment: {x: 0, y: 0, z: 0}
+    StartAtFront: 1
+  - SkillName: Meteor
+    skillType: 3
+    targetType: 3
+    combatMode: 0
+    equipRequirement: 0
+    combo: 00000000010000000000000000000000
+    comboIdx: 0
+    requirements: []
+    targetCast: 0
+    prefab: {fileID: 7170279140649043522, guid: 5a429cf87406e3b45a12ba4e8efcd392,
+      type: 3}
     positionAdjustment: {x: 0, y: 0, z: 0}
     rotationAdjustment: {x: 0, y: 0, z: 0}
     StartAtFront: 1
