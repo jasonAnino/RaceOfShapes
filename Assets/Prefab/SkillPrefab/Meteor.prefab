@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!135 &3888878425733765443
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855078214504090723}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7795644065338925479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,6 +26,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startObtainingUnits: 0
+  startMoving: 0
+  targetArea: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  speed: 5
+  aoeRadius: 10
+  unitsHit: []
 --- !u!1 &6089286605568000548
 GameObject:
   m_ObjectHideFlags: 0
@@ -4788,6 +4807,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 191840, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 470822, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4831,6 +4854,34 @@ PrefabInstance:
     - target: {fileID: 470822, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 199996, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 166962, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 147604, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 152888, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 141046, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 182762, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 179712, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6124dcfd1f9a5994f94c2cb2a9b5d81c, type: 3}

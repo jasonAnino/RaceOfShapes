@@ -41,6 +41,8 @@ namespace SkillBehaviour
             owner.MakeUnitLookAt(targetPosition);
             startAiming = false;
             CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
+            projectile.gameObject.SetActive(true);
+            projectile.StartMoving(targetPosition);
         }
     }
 }

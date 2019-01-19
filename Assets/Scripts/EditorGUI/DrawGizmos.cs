@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DrawGizmos : MonoBehaviour
 {
+    public float radius = 1.15f;
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        float sRad = 1.15f;
-        Gizmos.DrawSphere(transform.position, sRad);
+        Gizmos.DrawSphere(transform.position, radius);
     }
 }
