@@ -181,7 +181,7 @@ public class NavMeshPositionGenerator : MonoBehaviour
       
     }
 
-    void PlaceGizmo(Vector3 point)
+    public void PlaceGizmo(Vector3 point)
     {
         gizmo.transform.position = point;
     }
