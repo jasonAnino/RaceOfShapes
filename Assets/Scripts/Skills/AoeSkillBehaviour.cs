@@ -15,7 +15,7 @@ namespace SkillBehaviour
         public GameObject onCollisionFx;
         public Vector3 targetPosition; // On Player Left Click
         public bool startAiming = false;
-
+        public bool moveCasting = true;
         RaycastHit hit;
         public override void Update()
         {
@@ -37,12 +37,48 @@ namespace SkillBehaviour
                 targetPosition = hit.point;
             }
             transform.position = targetPosition;
+            if(!moveCasting)
+            {
+                owner.canMove = false;
+            }
             owner.ReceiveOrder(UnitOrder.GenerateIdleOrder(), true);
             owner.MakeUnitLookAt(targetPosition);
             startAiming = false;
             CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
             projectile.gameObject.SetActive(true);
             projectile.StartMoving(targetPosition);
+        }
+
+        public void SetUnitsToReceive(List<UnitBaseBehaviourComponent> units)
+        {
+            foreach(UnitBaseBehaviourComponent item in units)
+            {
+                if(!affectedUnits.Contains(item))
+                {
+                    affectedUnits.Add(item);
+                    item.ReceiveBuff(skillEffect);
+                }
+            }
+        }
+        public void ProjectileTouchDown()
+        {
+            if (!moveCasting)
+            {
+                owner.canMove = true;
+            }
+            if (projectile != null)
+            {
+                projectile.gameObject.SetActive(false);
+            }
+            if(onCollisionFx != null)
+            {
+                onCollisionFx.transform.position = projectile.transform.position;
+                onCollisionFx.gameObject.SetActive(true);
+            }
+            if(areaOfEffect != null)
+            {
+                areaOfEffect.gameObject.SetActive(false);
+            }
         }
     }
 }

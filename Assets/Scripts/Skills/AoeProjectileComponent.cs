@@ -10,6 +10,7 @@ namespace SkillBehaviour
 {
     public class AoeProjectileComponent : MonoBehaviour
     {
+        public AoeSkillBehaviour skillBaseOwner;
         public bool startObtainingUnits = false;
         public bool startMoving = false;
         public GameObject targetArea;
@@ -17,6 +18,7 @@ namespace SkillBehaviour
         public float speed = 5;
         public float aoeRadius = 20.0f;
         public List<UnitBaseBehaviourComponent> unitsHit;
+        public bool obtainUnits = false;
         public void Update()
         {
             if(startMoving)
@@ -34,16 +36,28 @@ namespace SkillBehaviour
         {
             startMoving = true;
             targetPosition = newTarget;
+            obtainUnits = true;
         }
 
         public void TouchDown()
         {
             startMoving = false;
+            obtainUnits = false;
+            if(unitsHit.Count > 0)
+            {
+                skillBaseOwner.SetUnitsToReceive(unitsHit);
+            }
+            skillBaseOwner.ProjectileTouchDown();
         }
 
 
         public void OnTriggerEnter(Collider other)
         {
+            if(!obtainUnits)
+            {
+                return;
+            }
+
             if(other.GetComponent<UnitBaseBehaviourComponent>())
             {
                 UnitBaseBehaviourComponent tmp = other.GetComponent<UnitBaseBehaviourComponent>();
@@ -53,6 +67,11 @@ namespace SkillBehaviour
         }
         public void OnTriggerExit(Collider other)
         {
+            if(!obtainUnits)
+            {
+                return;
+            }
+
             if (other.GetComponent<UnitBaseBehaviourComponent>())
             {
                 UnitBaseBehaviourComponent tmp = other.GetComponent<UnitBaseBehaviourComponent>();
