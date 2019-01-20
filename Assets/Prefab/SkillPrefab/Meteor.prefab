@@ -25,6 +25,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce202014d21c0ab408b2bb8709f478c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillBaseOwner: {fileID: 3748093911817818841}
   startObtainingUnits: 0
   startMoving: 0
   targetArea: {fileID: 0}
@@ -32,6 +33,7 @@ MonoBehaviour:
   speed: 5
   aoeRadius: 10
   unitsHit: []
+  obtainUnits: 0
 --- !u!1 &6089286605568000548
 GameObject:
   m_ObjectHideFlags: 0

@@ -103,6 +103,10 @@ namespace UnitsScripts.Behaviour
         {
             // Here we compute the resistance of the certain elements
             myStats.health_C -= netDamage;
+            if(myStats.health_C < 0)
+            {
+                myStats.health_C = 0;
+            }
         }
         public override void StartInteraction(InteractingComponent unit,ActionType actionIndex)
         {
@@ -171,6 +175,7 @@ namespace UnitsScripts.Behaviour
                 case Commands.WAIT_FOR_COMMAND:
                     interactWith = null;
                     currentCommand = Commands.WAIT_FOR_COMMAND;
+                    MoveTowards(nextPos);
                     break;
 
                 case Commands.GATHER_RESOURCES:
