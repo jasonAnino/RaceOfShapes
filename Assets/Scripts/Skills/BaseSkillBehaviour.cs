@@ -25,6 +25,7 @@ namespace SkillBehaviour
         public TargetType targetType;
         public bool powerStatBased = false;
         public bool activate = false;
+        public bool inflictOnce = true;
         public float duration = 5.0f;
 
         public List<UnitBaseBehaviourComponent> affectedUnits = new List<UnitBaseBehaviourComponent>();
@@ -100,7 +101,7 @@ namespace SkillBehaviour
 
         public virtual void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Hit : " + other.name);
+
             // Wont do stuff if object isnt projectile (Soon, AoE).
             if(skillType != SkillType.Projectile)
             {

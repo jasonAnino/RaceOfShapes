@@ -95,7 +95,18 @@ namespace UnitsScripts.Behaviour
         }
         public override void ReceiveBuff(PowerEffectComponent effect)
         {
-            PowerEffectComponent newPower = effect;
+            // Deep Copy
+            PowerEffectComponent newPower = new PowerEffectComponent();
+            newPower.baseAmount = effect.baseAmount;
+            newPower.duration = effect.duration;
+            newPower.effectName = effect.effectName;
+            newPower.effectType = effect.effectType;
+            newPower.effectedStats = effect.effectedStats;
+            newPower.id = effect.id;
+            newPower.baseAmount = effect.baseAmount;
+            newPower.netAmount = effect.netAmount;
+            newPower.statsPowerBuff = effect.statsPowerBuff;
+
             newPower.SetPowerOwner(this);
             base.ReceiveBuff(newPower);
         }
@@ -107,6 +118,7 @@ namespace UnitsScripts.Behaviour
             {
                 myStats.health_C = 0;
             }
+            EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_UNIT_HEALTH);
         }
         public override void StartInteraction(InteractingComponent unit,ActionType actionIndex)
         {
