@@ -64,9 +64,9 @@ namespace UnitsScripts.Behaviour
 
         public void Start()
         {
-            if(unitAffiliation == UnitAffiliation.Controlled)
+            if(unitAffiliation != UnitAffiliation.Neutral)
             {
-                AddToControlledList();
+                AddToWorldUnitList();
             }
             if(myInventory != null)
             {
@@ -119,6 +119,10 @@ namespace UnitsScripts.Behaviour
                 myStats.health_C = 0;
             }
             EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_UNIT_HEALTH);
+            if(visualTextHolder != null)
+            {
+                visualTextHolder.ShowDamage(netDamage);
+            }
         }
         public override void StartInteraction(InteractingComponent unit,ActionType actionIndex)
         {
@@ -260,13 +264,17 @@ namespace UnitsScripts.Behaviour
         {
             unitOrders.Enqueue(orderSet);
         }
-        public void AddToControlledList()
+        public void AddToWorldUnitList()
         {
             if (InteractablesManager.GetInstance != null)
             {
                 if (unitAffiliation == UnitAffiliation.Controlled)
                 {
                     InteractablesManager.GetInstance.AddUnitToControlled(this);
+                }
+                else
+                {
+                    InteractablesManager.GetInstance.AddNPC(this);
                 }
             }
         }

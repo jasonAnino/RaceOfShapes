@@ -47,7 +47,6 @@ public class CharacterInfoHandler : MonoBehaviour
             return 0;
         }
         float  tmp = unitStats.health_C / unitStats.health_M;
-        Debug.Log("VALUE :" + tmp);
         fill = tmp;
         
         return fill;
