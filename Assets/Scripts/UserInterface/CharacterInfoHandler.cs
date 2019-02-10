@@ -29,10 +29,7 @@ public class CharacterInfoHandler : MonoBehaviour
         title.text = stats.title;
         UpdateHealthBar();
     }
-    public void Update()
-    {
-        
-    }
+
     public void UpdateHealthBar(Parameters p = null)
     {
         hpBar.fillAmount = GetHpFill();

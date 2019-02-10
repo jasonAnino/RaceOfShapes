@@ -63,7 +63,7 @@ MonoBehaviour:
     targetType: 1
     combatMode: 0
     equipRequirement: 0
-    combo: 0100000000000000
+    combo: 0000000002000000
     comboIdx: 0
     requirements: []
     targetCast: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
     targetType: 3
     combatMode: 0
     equipRequirement: 0
-    combo: 00000000010000000000000000000000
+    combo: 00000000020000000000000000000000
     comboIdx: 0
     requirements: []
     targetCast: 0

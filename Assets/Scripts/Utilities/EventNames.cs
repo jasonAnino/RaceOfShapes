@@ -20,6 +20,9 @@ namespace Utilities
         public const string UPDATE_PLAYER_STAMINA = "UPDATE_PLAYER_STAMINA";
         public const string UPDATE_CONTROLLED_UNITS = "UPDATE_CONTROLLED_UNITS";
         public const string REMOVE_CONTROLLED_UNITS = "REMOVE_CONTROLLED_UNITS";
+        // User Interface Skills
+        public const string UPDATE_VISUAL_SKILLS = "UPDATE_VISUAL_SKILLS";
+        public const string RESET_VISUAL_SKILLS = "RESET_VISUAL_SKILLS";
         // User Interaction
         public const string PLAYER_PICKUP_ITEM = "PLAYER_PICKUP_ITEM";
     }

@@ -5,11 +5,12 @@ using UnityEngine;
 public class UnitPoolHolder : MonoBehaviour
 {
     public List<InGameVisualText> visualTexts;
-
+    public Transform parentVar;
     public List<InGameVisualText> curVisibleVisualTexts;
 
     public void Start()
     {
+        parentVar = this.transform.parent;
         foreach (InGameVisualText item in visualTexts)
         {
             item.Initialize(this);
@@ -32,5 +33,13 @@ public class UnitPoolHolder : MonoBehaviour
         tmp.Hide();
         tmp.ShowUp(damage, TextColour.RED, 0.5f);
         curVisibleVisualTexts.Add(tmp);
+    }
+
+    public void RemoveThisFromCurVisibleVisuals(InGameVisualText thisText)
+    {
+        if(curVisibleVisualTexts.Contains(thisText))
+        {
+            curVisibleVisualTexts.Remove(thisText);
+        }
     }
 }

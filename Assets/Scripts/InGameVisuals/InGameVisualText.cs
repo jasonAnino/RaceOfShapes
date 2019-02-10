@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum TextColour
 {
@@ -11,14 +12,15 @@ public enum TextColour
 };
 public class InGameVisualText : BasePoolComponent
 {
-    public TextMesh counterText;
+    public TextMeshPro counterText;
     public List<Color> colorsAvailable;
     public bool startShowing = false;
     public float showDuration = 0.5f;
     public float curDuration = 0.0f;
     public UnitPoolHolder parent;
     public bool moveUp = false;
-    public float moveSpeed = 15.25f;
+    public float moveSpeed = 10f;
+    public float defSpeed = 10f;
     public void Initialize(UnitPoolHolder newParent)
     {
         parent = newParent;
@@ -40,7 +42,8 @@ public class InGameVisualText : BasePoolComponent
             {
                 transform.localPosition = new Vector3(0, transform.localPosition.y +(moveSpeed * Time.deltaTime), transform.localPosition.z);
             }
-            transform.LookAt(Camera.main.transform);
+            float zPos= (parent.parentVar.rotation.eulerAngles.y) * -1;
+            transform.localRotation = Quaternion.Euler(-90, 180, zPos);
             counterText.gameObject.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
     }
@@ -66,7 +69,8 @@ public class InGameVisualText : BasePoolComponent
     }
     public void Hide()
     {
-        counterText.gameObject.SetActive(false);
+        parent.RemoveThisFromCurVisibleVisuals(this);
         transform.localPosition = Vector3.zero; 
+        counterText.gameObject.SetActive(false);
     }
 }
