@@ -7,6 +7,7 @@ using UnityEngine;
 using UnitStats;
 using UnitsScripts.Behaviour;
 using PlayerScripts.UnitCommands;
+using Utilities;
 
 namespace ComboSystem
 {
@@ -33,11 +34,11 @@ namespace ComboSystem
                 }
                 else if(Input.GetKeyDown(KeyCode.S))
                 {
-                    FilterCombo(1);
+                    FilterCombo(2);
                 }
                 else if(Input.GetKeyDown(KeyCode.A))
                 {
-                    FilterCombo(2);
+                    FilterCombo(1);
                 }
                 else if(Input.GetKeyDown(KeyCode.D))
                 {
@@ -65,6 +66,7 @@ namespace ComboSystem
                     {
                         ClearDoingCombo();
                         curTimer = 0;
+                        EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_VISUAL_SKILLS);
                     }
                 }
             
@@ -87,6 +89,7 @@ namespace ComboSystem
         }
         public void FilterCombo(int input)
         {
+            curTimer = 0;
             // Check if its the Initial Filter
             if(doingCombo.Count <= 0)
             {
@@ -114,6 +117,8 @@ namespace ComboSystem
                     curTimer = 0.0f;
                 }
             }
+
+            EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_VISUAL_SKILLS);
         }
         
         public void ClearDoingCombo()

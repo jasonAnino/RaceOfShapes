@@ -43,6 +43,7 @@ namespace InteractableScripts.Behavior
         public InteractingComponent interactWith;
         public bool canInteract = true;
         public float allowableInteractDistance = 1.5f;
+        public UnitPoolHolder visualTextHolder;
         public virtual void Awake()
         {
 

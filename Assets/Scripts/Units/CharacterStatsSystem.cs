@@ -12,6 +12,7 @@ namespace UnitStats
         public float stamina_C = 100;
         public float stamina_M = 100;
         public float speed = 3.0f;
+        public string title = "Commoner";
 
     }
 }

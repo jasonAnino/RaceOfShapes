@@ -5,6 +5,7 @@ using UnityEngine;
 using UnitsScripts.Behaviour;
 using InteractableScripts.Behavior;
 using WorldObjectScripts.Behavior;
+using Utilities;
 
 
 /// <summary>
@@ -40,9 +41,29 @@ public class InteractablesManager : MonoBehaviour {
 
     public void AddUnitToControlled(UnitBaseBehaviourComponent unit)
     {
+        if(controlledUnits.Contains(unit))
+        {
+            return;
+        }
+
         controlledUnits.Add(unit);
+        Parameters p = new Parameters();
+        p.AddParameter<UnitBaseBehaviourComponent>("UnitControlled", unit);
+        EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_CONTROLLED_UNITS, p);
     }
 
+    public void RemoveUnitToControlled(UnitBaseBehaviourComponent unit)
+    {
+        if(!controlledUnits.Contains(unit))
+        {
+            return;
+        }
+
+        controlledUnits.Remove(unit);
+
+        Parameters p = new Parameters();
+        p.AddParameter<UnitBaseBehaviourComponent>("UnitControlled", unit);
+    }
     public void AddObjectToSeen(WorldObjectBaseBehaviour newObject)
     {
         gameObjectSeen.Add(newObject);
