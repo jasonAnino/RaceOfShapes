@@ -27,7 +27,7 @@ namespace UserInterface.Skills
             }
 
             currentSkillCombo = newCombo;
-            currentComboCount = newCombo.combo.Length;
+            currentComboCount = newCombo.comboIdx;
             SetSkillWave();
         }
 
@@ -43,7 +43,7 @@ namespace UserInterface.Skills
         }
         public void SetSkillLetters()
         {
-            for(int i = 0; i < currentComboCount; i++)
+            for(int i = 0; i < currentSkillCombo.combo.Length; i++)
             {
                 if(i >= skillLetters.Count)
                 {
@@ -51,6 +51,21 @@ namespace UserInterface.Skills
                 }
                 skillLetters[i].gameObject.SetActive(true);
 
+                if(i < currentComboCount)
+                {
+                    skillLetters[i].SetCurrentLetter((int)currentCombination[i], true);
+                }
+                else
+                {
+                    if(currentComboCount == i)
+                    {
+                        skillLetters[i].SetCurrentLetter((int)currentCombination[i], false, true);
+                    }
+                    else
+                    {
+                        skillLetters[i].SetCurrentLetter((int)currentCombination[i], false);
+                    }
+                }
             }
         }
         public void DisableAllLetters()
@@ -62,7 +77,7 @@ namespace UserInterface.Skills
             Debug.Log("Disabling Letters!");
             foreach(SkillLetterHolder item in skillLetters)
             {
-                item.gameObject.SetActive(false);
+                item.ResetLetter();
             }
             currentSkillCombo = null;
         }
