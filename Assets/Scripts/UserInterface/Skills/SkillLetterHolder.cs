@@ -30,15 +30,40 @@ public class SkillLetterHolder : MonoBehaviour
         }
     }
 
-    public void SetCurrentLetter(int idx)
+    public void SetCurrentLetter(int idx, bool isCompleted = false, bool fillShouldMove = false)
     {
         bgImage.sprite = lettersVocals[idx];
         fillImage.sprite = lettersVocals[idx];
+        switch (idx)
+        {
+            case 0:
+                letterText.text = "W";
+                break;
+            case 1:
+                letterText.text = "A";
+                break;
+            case 2:
+                letterText.text = "S";
+                break;
+            case 3:
+                letterText.text = "D";
+                break;
+        }
+        if(isCompleted)
+        {
+            CompleteLetter();
+        }
+        else if(fillShouldMove)
+        {
+            startDuration = true;
+        }
     }
     public void CompleteLetter()
     {
         letterCalled = true;
         curDuration = maxDuration;
+        fillImage.color = new Color(0, 0.3955245f, 1, 1);
+        startDuration = false;
         UpdateFillAmount();
     }
 
@@ -50,5 +75,12 @@ public class SkillLetterHolder : MonoBehaviour
     public void UpdateFillAmount()
     {
         fillImage.fillAmount = curDuration / maxDuration;
+    }
+
+    public void ResetLetter()
+    {
+        fillImage.color = new Color(1, 1, 0, 1);
+        fillImage.fillAmount = 0;
+        this.gameObject.SetActive(false);
     }
 }

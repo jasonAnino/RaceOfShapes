@@ -54,6 +54,7 @@ namespace ComboSystem
                         {
                             doingCombo[0].ActivateSkill(unitDoingCombo);
                             doingCombo[0].comboIdx = 0;
+                            EventBroadcaster.Instance.PostEvent(EventNames.RESET_VISUAL_SKILLS);
                         }
                         else
                         {
@@ -89,10 +90,11 @@ namespace ComboSystem
         }
         public void FilterCombo(int input)
         {
-            curTimer = 0;
             // Check if its the Initial Filter
             if(doingCombo.Count <= 0)
             {
+                // Every Input Resets the Combo Timer to 0
+                curTimer = 0;
                 foreach(BaseCombo skill in comboList)
                 {
                     if (skill.CheckCombo(input))
@@ -114,7 +116,13 @@ namespace ComboSystem
                 }
                 if(doingCombo.Count <= 0)
                 {
-                    curTimer = 0.0f;
+                    // Ends the skill combo so player can get another set
+                    curTimer = maxTimer;
+                }
+                else
+                {
+                    // Every Input Resets the Combo Timer to 0, so player will be given another set of 0.75f
+                    curTimer = 0;
                 }
             }
 

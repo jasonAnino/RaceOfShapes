@@ -44,6 +44,7 @@ namespace UserInterface.Skills
             if (playerController.comboComponent.doingCombo != null && playerController.comboComponent.doingCombo.Count > 0)
             {
                 Debug.Log("Setting Visual Skills!");
+                ClearAllSkillOptions();
                 filteredComboList = playerController.comboComponent.doingCombo;
                 SetVisualSkills();
             }
@@ -70,8 +71,8 @@ namespace UserInterface.Skills
 
         public void ClearVisualSkills(Parameters p)
         {
-            filteredComboList.Clear();
             ClearAllSkillOptions();
+            filteredComboList.Clear();
         }
         private void ClearAllSkillOptions()
         {
