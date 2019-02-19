@@ -117,9 +117,19 @@ namespace ComboSystem
                 AoeSkillBehaviour skillTmp = tmp.GetComponent<AoeSkillBehaviour>();
                 skillTmp.InitializeSkill(skillOwner, SkillType.TargetProjectile, targetType);
                 skillTmp.startAiming = true;
-                PlayerUnitController.GetInstance.targetableProjectile = skillTmp;
+                // Targetable Projectile should not be here, place it to your unit
+                //PlayerUnitController.GetInstance.targetableProjectile = skillTmp;
+                if (PlayerUnitController.GetInstance.manualControlledUnit != null)
+                {
+                      PlayerUnitController.GetInstance.manualControlledUnit.mySkills.SetSkillsToHand(skillTmp);
+                }
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_SKILLHOLD);
             }
+        }
+
+        public void ResetSkill()
+        {
+            comboIdx = 0;
         }
     }
 }

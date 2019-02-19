@@ -23,10 +23,19 @@ namespace ComboSystem
 
         public float curTimer = 0;
         public float maxTimer = 0.75f;
+        
         public void Update()
         {
             if(unitDoingCombo != null)
             {
+                if(unitDoingCombo.mySkills.skillsOnHand[0] != null)
+                {
+                    if(!unitDoingCombo.mySkills.isDualCaster)
+                    {
+                        // Here player should receive an indicator that Unit cannot cast two spells at the same time.
+                        return;
+                    }
+                }
                 // Check the W,A,S,D if its clicked
                 if(Input.GetKeyDown(KeyCode.W))
                 {
@@ -52,6 +61,7 @@ namespace ComboSystem
                     {
                         if(doingCombo[0].comboIdx == doingCombo[0].combo.Length)
                         {
+                            Debug.Log("Activating Skill :" + doingCombo[0].SkillName);
                             doingCombo[0].ActivateSkill(unitDoingCombo);
                             doingCombo[0].comboIdx = 0;
                             EventBroadcaster.Instance.PostEvent(EventNames.RESET_VISUAL_SKILLS);
@@ -82,6 +92,8 @@ namespace ComboSystem
         }
         public void SetUnitDoingCombo(UnitBaseBehaviourComponent unit)
         {
+            EventBroadcaster.Instance.PostEvent(EventNames.RESET_VISUAL_SKILLS);
+            ClearComboList();
             unitDoingCombo = unit;
             comboList.Clear();
             // Adds Buff

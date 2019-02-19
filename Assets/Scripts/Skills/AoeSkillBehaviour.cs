@@ -13,10 +13,10 @@ namespace SkillBehaviour
         public AoeProjectileComponent projectile;
         public GameObject areaOfEffect;
         public GameObject onCollisionFx;
-        public Vector3 targetPosition; // On Player Left Click
         public bool startAiming = false;
         public bool moveCasting = true;
         RaycastHit hit;
+
         public override void Update()
         {
             if (startAiming)
@@ -28,27 +28,6 @@ namespace SkillBehaviour
                 }
             }
         }
-
-        public void StartSkillCasting()
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-            {
-                targetPosition = hit.point;
-            }
-            transform.position = targetPosition;
-            if(!moveCasting)
-            {
-                owner.canMove = false;
-            }
-            owner.ReceiveOrder(UnitOrder.GenerateIdleOrder(), true);
-            owner.MakeUnitLookAt(targetPosition);
-            startAiming = false;
-            CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
-            projectile.gameObject.SetActive(true);
-            projectile.StartMoving(targetPosition);
-        }
-
         public void SetUnitsToReceive(List<UnitBaseBehaviourComponent> units)
         {
             foreach(UnitBaseBehaviourComponent item in units)
@@ -60,6 +39,14 @@ namespace SkillBehaviour
                 }
             }
         }
+        public override void StartSkillCasting()
+        {
+            base.StartSkillCasting();
+            projectile.gameObject.SetActive(true);
+            projectile.StartMoving(targetPosition);
+            startAiming = false;
+        }
+
         public void ProjectileTouchDown()
         {
             if (!moveCasting)

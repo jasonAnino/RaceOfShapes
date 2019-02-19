@@ -6,6 +6,7 @@ using UnitStats;
 using UnitsScripts.Behaviour;
 using ComboSystem;
 
+using Utilities.MousePointer;
 
 namespace SkillBehaviour
 {
@@ -27,7 +28,7 @@ namespace SkillBehaviour
         public bool activate = false;
         public bool inflictOnce = true;
         public float duration = 5.0f;
-
+        public Vector3 targetPosition;
         public List<UnitBaseBehaviourComponent> affectedUnits = new List<UnitBaseBehaviourComponent>();
         public void InitializeSkill(UnitBaseBehaviourComponent newOwner, SkillType type, TargetType target)
         {
@@ -65,6 +66,22 @@ namespace SkillBehaviour
                     transform.position += transform.forward * Time.deltaTime * 10;
                 }
             }
+        }
+
+        public virtual void StartSkillCasting()
+        {
+            targetPosition = transform.position;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                targetPosition = hit.point;
+            }
+            transform.position = targetPosition;
+
+            owner.ReceiveOrder(UnitOrder.GenerateIdleOrder(), true);
+            owner.MakeUnitLookAt(targetPosition);
+            CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
         }
 
         public void ActivateSkill(UnitBaseBehaviourComponent activateTo)
