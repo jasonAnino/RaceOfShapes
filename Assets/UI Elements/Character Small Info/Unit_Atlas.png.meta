@@ -1,7 +1,10 @@
 fileFormatVersion: 2
-guid: 0fe549d6df2043648b7f6d4ee13422cc
+guid: f2c9c82f6997c094f99f6e55049e22be
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: frameBG
+    21300002: hpBar
+    21300004: manaBar
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -40,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -104,11 +107,71 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: frameBG
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 99
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 46, y: 57, z: 45, w: 44}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dfb2f63787ffb34997b0ce53f1dd6cf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hpBar
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 6
+        width: 11
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 4, y: 45, z: 4, w: 50}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d23eaed29d31ed4fa25cac2aad19bef
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manaBar
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 6
+        width: 11
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 4, y: 45, z: 4, w: 50}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 132c0033242e14a459da80bd8983b9b6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 743422acceb11054391c441aa5becba5
     vertices: []
     indices: 
     edges: []
