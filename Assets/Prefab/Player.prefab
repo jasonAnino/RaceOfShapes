@@ -75,7 +75,11 @@ MonoBehaviour:
   manualControlledUnit: {fileID: 0}
   debugPositionSpawner: {fileID: 0}
   comboComponent: {fileID: 775931734}
+  targetableProjectile: {fileID: 0}
   canMove: 0
+  hoverInteraction: 0
+  clickInteraction: 0
+  clickRightMouse: 0
 --- !u!114 &4711376678366700852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,11 +295,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
         type: 3}
-      propertyPath: fireMagicCombos.Array.data[0].combo.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
-        type: 3}
       propertyPath: fireMagicCombos.Array.data[0].requirements.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -307,17 +306,17 @@ PrefabInstance:
     - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
         type: 3}
       propertyPath: fireMagicCombos.Array.data[0].skillType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
-        type: 3}
-      propertyPath: fireMagicCombos.Array.data[0].targetType
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
         type: 3}
       propertyPath: fireMagicCombos.Array.data[0].combo.Array.data[0]
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
+        type: 3}
+      propertyPath: fireMagicCombos.Array.data[0].combo.Array.data[1]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
         type: 3}
@@ -329,12 +328,6 @@ PrefabInstance:
       propertyPath: fireMagicCombos.Array.data[0].requirements.Array.data[0].statLevel
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7803076016684566509, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f,
-        type: 3}
-      propertyPath: fireMagicCombos.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 5433833350421679340, guid: daa484c879d54044b843b5a5a0973aff,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2aa66920b4dcace4eb02ddabd4aa9a8f, type: 3}
 --- !u!4 &735365563 stripped

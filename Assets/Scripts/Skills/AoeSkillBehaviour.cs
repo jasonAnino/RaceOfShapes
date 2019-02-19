@@ -13,7 +13,6 @@ namespace SkillBehaviour
         public AoeProjectileComponent projectile;
         public GameObject areaOfEffect;
         public GameObject onCollisionFx;
-        public bool startAiming = false;
         public bool moveCasting = true;
         RaycastHit hit;
 
@@ -44,7 +43,6 @@ namespace SkillBehaviour
             base.StartSkillCasting();
             projectile.gameObject.SetActive(true);
             projectile.StartMoving(targetPosition);
-            startAiming = false;
         }
 
         public void ProjectileTouchDown()

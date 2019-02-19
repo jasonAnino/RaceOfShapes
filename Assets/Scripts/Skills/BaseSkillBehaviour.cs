@@ -13,10 +13,10 @@ namespace SkillBehaviour
     public enum SkillBehaviourType
     {
         Stick = 0,
-        MovingActivated = 1,
-        MoveOnHitActivated = 2,
+        MovingAllTimeActivated = 1,
+        MovingOneTimeActivated = 2,
+        MovingAreaOfEffectActivated = 3,
     }
-
     public class BaseSkillBehaviour : MonoBehaviour
     {
         public UnitBaseBehaviourComponent owner;
@@ -24,17 +24,25 @@ namespace SkillBehaviour
         public SkillType skillType;
         public SkillBehaviourType behaviourType;
         public TargetType targetType;
+        public SpawnSkillType spawnType;
+        [Header("Skill Enhancements")]
         public bool powerStatBased = false;
+        [Header("Aiming Activation")]
+        public bool startAiming = false;
         public bool activate = false;
-        public bool inflictOnce = true;
-        public float duration = 5.0f;
         public Vector3 targetPosition;
+        [Header("Duration or Animation")]
+        public bool durationBased;
+        public float duration = 5.0f;
+        [Header("List of Hit Units")]
         public List<UnitBaseBehaviourComponent> affectedUnits = new List<UnitBaseBehaviourComponent>();
-        public void InitializeSkill(UnitBaseBehaviourComponent newOwner, SkillType type, TargetType target)
+
+        public void InitializeSkill(UnitBaseBehaviourComponent newOwner, SkillType type, TargetType target, SpawnSkillType newSpawnType, SkillBehaviourType newBehaviorType)
         {
             owner = newOwner;
             skillType = type;
-            AdjustBehaviourOnCurrentSkillType();
+            behaviourType = newBehaviorType;
+            spawnType = newSpawnType;
             skillEffect.SetNetAmount(owner);
             targetType = target;
             if (targetType == TargetType.Self)
@@ -43,7 +51,12 @@ namespace SkillBehaviour
             }
             if(skillType == SkillType.Projectile)
             {
-                transform.rotation = owner.transform.rotation;   
+                transform.rotation = owner.transform.rotation;
+                activate = true;
+            }
+            else if(skillType == SkillType.TargetProjectile)
+            {
+                startAiming = true;
             }
         }
 
@@ -56,32 +69,59 @@ namespace SkillBehaviour
         {
             if(activate)
             {
-                duration -= Time.deltaTime;
-                if(duration <= 0)
+                if(durationBased)
                 {
-                    RemoveSkillFromWorld();
+                    duration -= Time.deltaTime;
+                    if(duration <= 0)
+                    {
+                        RemoveSkillFromWorld();
+                    }
                 }
-                if(behaviourType == SkillBehaviourType.MoveOnHitActivated || behaviourType == SkillBehaviourType.MovingActivated)
+                if(behaviourType == SkillBehaviourType.MovingOneTimeActivated || behaviourType == SkillBehaviourType.MovingAllTimeActivated)
                 {
                     transform.position += transform.forward * Time.deltaTime * 10;
+                }
+            }
+            if (startAiming)
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                {
+                    transform.position = hit.point;
                 }
             }
         }
 
         public virtual void StartSkillCasting()
         {
-            targetPosition = transform.position;
+            startAiming = false;
+            if(targetPosition == null)
+            {
+                targetPosition = transform.position;
+            }
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 targetPosition = hit.point;
+                targetPosition = new Vector3(targetPosition.x, owner.transform.position.y, targetPosition.z);
             }
             transform.position = targetPosition;
 
+            if (spawnType == SpawnSkillType.FromCaster)
+            {
+                Debug.Log("FROM CASTER!");
+                transform.position = new Vector3(owner.transform.position.x, owner.transform.position.y, owner.transform.position.z);
+                activate = true;
+            }
+            else
+            {
+                activate = true;
+            }
             owner.ReceiveOrder(UnitOrder.GenerateIdleOrder(), true);
             owner.MakeUnitLookAt(targetPosition);
-            CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
+            transform.rotation = owner.transform.rotation;
         }
 
         public void ActivateSkill(UnitBaseBehaviourComponent activateTo)
@@ -103,8 +143,6 @@ namespace SkillBehaviour
 
                 case SkillType.MeleeAttack:
                 case SkillType.Projectile:
-                    behaviourType = SkillBehaviourType.MoveOnHitActivated;
-                    activate = true;
                     break;
             }
 
@@ -119,12 +157,13 @@ namespace SkillBehaviour
         public virtual void OnTriggerEnter(Collider other)
         {
 
-            // Wont do stuff if object isnt projectile (Soon, AoE).
-            if(skillType != SkillType.Projectile)
+            // IF ITS AOE, WE HAVE ANOTHER SCRIPT FOR THAT (AoeSkillBehaviour)
+            if(targetType == TargetType.AOE)
             {
                 return;
             }
 
+            // DOES IT INFLICT DAMAGE ON UNIT ONLY ONCE?
             if(other.GetComponent<UnitBaseBehaviourComponent>())
             {
                 UnitBaseBehaviourComponent tmp = other.GetComponent<UnitBaseBehaviourComponent>();
@@ -132,7 +171,7 @@ namespace SkillBehaviour
                 {
                     return;
                 }
-                if (behaviourType == SkillBehaviourType.MoveOnHitActivated)
+                if (behaviourType == SkillBehaviourType.MovingOneTimeActivated)
                 {
                     // Inflict Buff once.
                     if (!affectedUnits.Contains(tmp))
@@ -151,6 +190,8 @@ namespace SkillBehaviour
                     }
                 }
             }
+
+            // DOES IT END WITH SINGLE TARGET
             if(targetType == TargetType.SingleTarget)
             {
                 GameObject.Destroy(this.gameObject);

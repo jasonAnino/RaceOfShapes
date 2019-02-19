@@ -104,27 +104,23 @@ namespace PlayerScripts.UnitCommands
             // this are all based on priority
             if(manualControlledUnit != null && (manualControlledUnit.mySkills.leftHandSkill || manualControlledUnit.mySkills.rightHandSkill))
             {
-                Debug.Log("Unit has Skill in hand");
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_SKILLHOLD);
             }
             else if(hoverInteraction && !clickInteraction)
             {
-                Debug.Log("Player Hovering on Interactable Object");
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_NORMAL);
             }
             else if(clickInteraction && hoverInteraction)
             {
-                Debug.Log("Player Clicked an Interactable object");
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_CLICK);
             }
             else if(clickRightMouse)
             {
-                Debug.Log("Player Pressed Right click");
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL_CLICK);
             }
             else
             {
-                Debug.Log("Normal Stuff");
+
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
             }
         }

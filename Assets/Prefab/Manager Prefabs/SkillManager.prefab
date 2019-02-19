@@ -47,6 +47,8 @@ MonoBehaviour:
   - SkillName: Dash
     skillType: 2
     targetType: 0
+    spawnType: 0
+    behaviourType: 0
     combatMode: 0
     equipRequirement: 0
     combo: 0000000000000000
@@ -61,6 +63,8 @@ MonoBehaviour:
   - SkillName: Fireball
     skillType: 1
     targetType: 1
+    spawnType: 0
+    behaviourType: 2
     combatMode: 0
     equipRequirement: 0
     combo: 0000000002000000
@@ -75,6 +79,8 @@ MonoBehaviour:
   - SkillName: Meteor
     skillType: 3
     targetType: 3
+    spawnType: 1
+    behaviourType: 0
     combatMode: 0
     equipRequirement: 0
     combo: 00000000020000000000000000000000
