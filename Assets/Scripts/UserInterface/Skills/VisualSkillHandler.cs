@@ -43,7 +43,7 @@ namespace UserInterface.Skills
             }
             if (playerController.comboComponent.doingCombo != null && playerController.comboComponent.doingCombo.Count > 0)
             {
-                Debug.Log("Setting Visual Skills!");
+                //Debug.Log("Setting Visual Skills!");
                 ClearAllSkillOptions();
                 filteredComboList = playerController.comboComponent.doingCombo;
                 SetVisualSkills();
@@ -64,7 +64,7 @@ namespace UserInterface.Skills
                 {
                     return;
                 }
-                Debug.Log("Setting Index : " + i + " with Skill : " + filteredComboList[i].SkillName);
+                //Debug.Log("Setting Index : " + i + " with Skill : " + filteredComboList[i].SkillName);
                 skillOptions[i].SetNewCombo(filteredComboList[i]);
             }
         }

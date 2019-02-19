@@ -12,11 +12,17 @@ namespace UserInterface
 {
     public class UserInterfaceManager : MonoBehaviour
     {
+        private static UserInterfaceManager instance;
+        public static UserInterfaceManager GetInstance
+        {
+            get {  return instance; }
+        }
         public UIPlayerInGameManager inGameManager;
         public List<UnitBaseBehaviourComponent> fourUnits;
 
         public void Awake()
         {
+            instance = this;
             EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitControlled);
             EventBroadcaster.Instance.AddObserver(EventNames.REMOVE_CONTROLLED_UNITS, AddToUnitControlled);
         }

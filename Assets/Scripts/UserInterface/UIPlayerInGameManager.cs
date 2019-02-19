@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnitsScripts.Behaviour;
 
+using PlayerScripts.UnitCommands;
+using Utilities;
+
 public class UIPlayerInGameManager : MonoBehaviour
 {
     public GameObject unitInfoPanel;
@@ -59,20 +62,59 @@ public class UIPlayerInGameManager : MonoBehaviour
 
     public void RefreshCharacterHandlers(List<UnitBaseBehaviourComponent> newSet)
     {
-        for(int i = 0; i < characterHandlers.Count; i++)
+        /*for (int i = 0; i < characterHandlers.Count; i++)
         {
             characterHandlers[i].ClearHandler();
-        }
-        for(int i = 0; i < newSet.Count; i++)
+        }*/
+        for (int i = 0; i < newSet.Count; i++)
         {
+            if(characterHandlers.Find(x => x.unitStats == newSet[i].myStats))
+            {
+                continue;
+            }
+
+            characterHandlers[i].gameObject.SetActive(true);
             characterHandlers[i].Initialize(newSet[i].myStats);
+            if(PlayerUnitController.GetInstance != null && PlayerUnitController.GetInstance.manualControlledUnit != null)
+            {
+                if(newSet[i] == PlayerUnitController.GetInstance.manualControlledUnit)
+                {
+                    UpdateManualAutoUnits(characterHandlers[i]);
+                }
+            }
         }
         for(int i = 0; i < characterHandlers.Count; i++)
         {
-            if(characterHandlers[i].unitStats == null)
+            if(string.IsNullOrEmpty(characterHandlers[i].unitStats.name))
             {
                 characterHandlers[i].gameObject.SetActive(false);
             }
+        }
+
+    }
+
+    public void SetNewManualUnitControlled(Parameters p)
+    {
+        UnitBaseBehaviourComponent unitToRepresent = p.GetWithKeyParameterValue<UnitBaseBehaviourComponent>("ManualUnit", null);
+        if(unitToRepresent == null)
+        {
+            return;
+        }
+
+        foreach(CharacterInfoHandler item in characterHandlers)
+        {
+            if(item.unitStats == unitToRepresent.myStats)
+            {
+                UpdateManualAutoUnits(item);
+            }
+        }
+    }
+    public void UpdateManualAutoUnits(CharacterInfoHandler thisHandler)
+    {
+        foreach(CharacterInfoHandler item in characterHandlers)
+        {
+            if (item == thisHandler) item.SetAsManualUnit();
+            else item.SetAsAutoUnit();
         }
     }
 }
