@@ -44,6 +44,10 @@ namespace PlayerScripts.UnitCommands
 	    void Update () {
 		    if(Input.GetMouseButtonDown(0))
             {
+                if (ClickStateManager.GetInstance.currentState != ClickState.Idle)
+                { return; }
+
+                 ClickStateManager.GetInstance.currentState = ClickState.DragBoxSelect;
                 tryingToOpenRectangle = true;
                 GetInitialClick();
             }
@@ -73,6 +77,7 @@ namespace PlayerScripts.UnitCommands
             }
             if(Input.GetMouseButtonUp(0))
             {
+                if (ClickStateManager.GetInstance.currentState == ClickState.DragBoxSelect) ClickStateManager.GetInstance.currentState = ClickState.Idle;
                 mouseEndPos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
                 CloseRectangle();
                 if(mouseStartPos != mouseEndPos)

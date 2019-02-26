@@ -160,20 +160,28 @@ namespace PlayerScripts.CameraController
         }
         private void EdgeScrolling()
         {
-            if (Input.mousePosition.y >= Screen.height * 0.95)
+            Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
+            if (!screenRect.Contains(Input.mousePosition))
+                return;
+
+            if(EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+            if (Input.mousePosition.y >= Screen.height * 0.99)
             {
                 transform.Translate(Vector3.forward * mouseScrollSpeed * Time.deltaTime);
             }
-            else if (Input.mousePosition.y <= Screen.height * 0.05)
+            else if (Input.mousePosition.y <= Screen.height * 0.01)
             {
                 transform.Translate(-Vector3.forward * mouseScrollSpeed * Time.deltaTime);
             }
 
-            if (Input.mousePosition.x >= Screen.width * 0.95)
+            if (Input.mousePosition.x >= Screen.width * 0.99)
             {
                 transform.Translate(Vector3.right * mouseScrollSpeed * Time.deltaTime);
             }
-            else if (Input.mousePosition.x <= Screen.width * 0.05)
+            else if (Input.mousePosition.x <= Screen.width * 0.01)
             {
                 transform.Translate(-Vector3.right * mouseScrollSpeed * Time.deltaTime);
             }

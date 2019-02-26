@@ -57,6 +57,8 @@ namespace PlayerScripts.UnitCommands
             // Clicking Behaviour
             if(Input.GetMouseButtonDown(0))
             {
+                if (ClickStateManager.GetInstance.currentState != ClickState.Idle)
+                    return;
                 if(manualControlledUnit != null)
                 {
                     if(manualControlledUnit.mySkills.leftHandSkill)
@@ -318,14 +320,17 @@ namespace PlayerScripts.UnitCommands
                 }
                 if(unitSelected[index] != null)
                 {
-                    // Set Color to Green
-                    manualControlledUnit.InitializeSelected();
+                    if(manualControlledUnit != null)
+                    {
+                        // Set Color to Green
+                        manualControlledUnit.InitializeSelected();
+                    }
 
                     manualControlledUnit = unitSelected[index];
                     // Set Color to Blue
                     Parameters p = new Parameters();
                     p.AddParameter<UnitBaseBehaviourComponent>("ManualUnit", manualControlledUnit);
-                    UserInterfaceManager.GetInstance.inGameManager.SetNewManualUnitControlled(p);
+                    UserInterfaceManager.GetInstance.inGameManager.characterHandler.SetNewManualUnitControlled(p);
                     manualControlledUnit.InitializeManualSelected();
                     comboComponent.SetUnitDoingCombo(manualControlledUnit);
                 }

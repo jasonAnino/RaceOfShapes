@@ -28,7 +28,7 @@ public class InteractablesManager : MonoBehaviour {
     public List<WorldObjectBaseBehaviour> gameObjectSeen = new List<WorldObjectBaseBehaviour>();
     [Header("NPCs")]
     public List<UnitBaseBehaviourComponent> npcs = new List<UnitBaseBehaviourComponent>();
-
+    
     public void Awake()
     {
         instance = this;

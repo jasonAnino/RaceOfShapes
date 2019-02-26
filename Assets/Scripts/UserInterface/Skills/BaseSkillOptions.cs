@@ -74,7 +74,7 @@ namespace UserInterface.Skills
             {
                 return;
             }
-            Debug.Log("Disabling Letters!");
+           // Debug.Log("Disabling Letters!");
             foreach(SkillLetterHolder item in skillLetters)
             {
                 item.ResetLetter();

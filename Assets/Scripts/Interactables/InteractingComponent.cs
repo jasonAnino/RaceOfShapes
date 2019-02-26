@@ -80,6 +80,10 @@ namespace InteractableScripts.Behavior
         {
 
         }
+        public virtual void ReceiveHeal(float netHeal, StatsEffected statsHealed)
+        {
+
+        }
         // RECEIVE BUFF
         public virtual void ReceiveBuff(PowerEffectComponent effect)
         {

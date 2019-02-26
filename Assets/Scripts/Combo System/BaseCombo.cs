@@ -14,6 +14,20 @@ using SkillBehaviour;
 
 namespace ComboSystem
 {
+    public enum InflictionType
+    {
+        Offensive = 0,
+        Defensive = 1,
+    }
+    public enum TargetStats
+    {
+        curHealth = 0,
+        maxHealth = 1,
+        curMana = 2,
+        maxMana = 3,
+        statsAgi = 4,
+        statsVit = 5,
+    }
     public enum SkillType
     {
         MeleeAttack = 0,

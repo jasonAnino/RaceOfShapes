@@ -79,7 +79,9 @@ public class SkillLetterHolder : MonoBehaviour
 
     public void ResetLetter()
     {
+        Debug.Log("Resetting Letter : " + this.gameObject.name);
         fillImage.color = new Color(1, 1, 0, 1);
+        curDuration = 0;
         fillImage.fillAmount = 0;
         this.gameObject.SetActive(false);
     }

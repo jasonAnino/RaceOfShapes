@@ -61,7 +61,7 @@ namespace ComboSystem
                     {
                         if(doingCombo[0].comboIdx == doingCombo[0].combo.Length)
                         {
-                            Debug.Log("Activating Skill :" + doingCombo[0].SkillName);
+                           // Debug.Log("Activating Skill :" + doingCombo[0].SkillName);
                             doingCombo[0].ActivateSkill(unitDoingCombo);
                             doingCombo[0].comboIdx = 0;
                             EventBroadcaster.Instance.PostEvent(EventNames.RESET_VISUAL_SKILLS);
