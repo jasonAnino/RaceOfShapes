@@ -124,6 +124,15 @@ namespace UnitsScripts.Behaviour
                 visualTextHolder.ShowDamage(netDamage);
             }
         }
+        public override void ReceiveHeal(float netHeal, StatsEffected statsHealed)
+        {
+            myStats.health_C += netHeal;
+            if(myStats.health_C > myStats.health_M)
+            {
+                myStats.health_C = myStats.health_M;
+            }
+            EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_UNIT_HEALTH);
+        }
         public override void StartInteraction(InteractingComponent unit,ActionType actionIndex)
         {
             base.StartInteraction(unit, actionIndex);

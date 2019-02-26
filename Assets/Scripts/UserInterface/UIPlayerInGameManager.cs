@@ -4,74 +4,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnitsScripts.Behaviour;
 
+using PlayerScripts.UnitCommands;
+using Utilities;
+
 public class UIPlayerInGameManager : MonoBehaviour
 {
-    public GameObject unitInfoPanel;
-    public List<CharacterInfoHandler> characterHandlers;
-    public int handledUnitCount = 0;
+    public  CharacterHandlers characterHandler;
+    public InventoryHandlers inventoryHandler;
 
-    public void AddUnitToHandler(UnitBaseBehaviourComponent unit)
+    private static UIPlayerInGameManager instance;
+    public static UIPlayerInGameManager GetInstance
     {
-        CharacterInfoHandler handler = characterHandlers.Find(x => x.unitStats == unit.myStats);
-        if (handler != null)
-        {
-            return;
-        }
-        foreach (CharacterInfoHandler item in characterHandlers)
-        {
-            if (item.unitStats != null)
-            {
-                item.Initialize(unit.myStats);
-                break;
-            }
-        }
+        get { return instance; }
     }
-
-    public void RemoveUnitToHandler(UnitBaseBehaviourComponent unit)
+    public void Awake()
     {
-        CharacterInfoHandler handler = characterHandlers.Find(x => x.unitStats == unit.myStats);
-        if (handler == null)
-        {
-            return;
-        }
-        foreach (CharacterInfoHandler item in characterHandlers)
-        {
-            if (item.unitStats == unit.myStats)
-            {
-                item.ClearHandler();
-                break;
-            }
-        }
-        CountCurrentUnits();
+        instance = this;
     }
     
-    public void CountCurrentUnits()
+    public void SetInventoryOwner(UnitBaseBehaviourComponent thisUnit)
     {
-        handledUnitCount = 0;
-        foreach (CharacterInfoHandler item in characterHandlers)
+        if(inventoryHandler == null)
         {
-            if(item.unitStats != null)
+            Debug.Log("STOP!");
+            return;
+        }
+        UnitInventoryBehavior checker = inventoryHandler.inventory.Find(x => x.owner == thisUnit);
+        if(checker != null)
+        {
+            return;
+        }
+        foreach(UnitInventoryBehavior item in inventoryHandler.inventory)
+        {
+            
+            if(item.owner == null)
             {
-                handledUnitCount += 1;
-            }
-        }
-    }
-
-    public void RefreshCharacterHandlers(List<UnitBaseBehaviourComponent> newSet)
-    {
-        for(int i = 0; i < characterHandlers.Count; i++)
-        {
-            characterHandlers[i].ClearHandler();
-        }
-        for(int i = 0; i < newSet.Count; i++)
-        {
-            characterHandlers[i].Initialize(newSet[i].myStats);
-        }
-        for(int i = 0; i < characterHandlers.Count; i++)
-        {
-            if(characterHandlers[i].unitStats == null)
-            {
-                characterHandlers[i].gameObject.SetActive(false);
+                Debug.Log("Setting this as the new owner!");
+                item.owner = thisUnit;
+                break;
             }
         }
     }

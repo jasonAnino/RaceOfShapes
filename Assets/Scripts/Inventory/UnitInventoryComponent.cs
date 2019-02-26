@@ -27,19 +27,16 @@ public class UnitInventoryComponent : MonoBehaviour
     {
         equippedArmor.isEquipped = true;
         equippedArmor.itemType = ItemType.Armor;
-        equippedArmor.equippedItem = EquippedItem.DefensiveGear;
         equippedHelmet.isEquipped = true;
         equippedHelmet.itemType = ItemType.Helmet;
-        equippedHelmet.equippedItem = EquippedItem.DefensiveGear;
         equippedBoots.isEquipped = true;
         equippedBoots.itemType = ItemType.Helmet;
-        equippedBoots.equippedItem = EquippedItem.DefensiveGear;
         equippedOffHand.isEquipped = true;
         equippedMainHand.isEquipped = true;
     }
     public void InitializeEquippedToEmpty()
     {
-        equippedMainHand.equippedItem = EquippedItem.Hand;
-        equippedOffHand.equippedItem = EquippedItem.Hand;
+        equippedMainHand.itemType = ItemType.Weapon;
+        equippedOffHand.itemType = ItemType.Weapon;
     }
 }

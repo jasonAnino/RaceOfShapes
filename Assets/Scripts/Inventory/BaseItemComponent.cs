@@ -11,9 +11,17 @@ namespace ItemScript
     {
         Weapon = 0,
         Ingredient = 1,
-        Armor = 2,
-        Helmet = 3,
-        Boots = 4,
+        Potion = 2,
+        Armor = 3,
+        Helmet = 4,
+        Boots = 5,
+        Pants = 6,
+        Cape = 7,
+        Ring = 8,
+        Belt = 9,
+        Glasses = 10,
+        Necklace = 11,
+        Gloves = 12,
     }
 
     /// <summary>
@@ -41,32 +49,5 @@ namespace ItemScript
             return this.itemInfo;
         }
 
-    }
-    /// <summary>
-    /// This is where all basic information is found, from the item's name, weight, type.
-    /// </summary>
-   [Serializable]
-    public class ItemInformation
-    {
-        public string itemName;
-        public string id;
-        public bool isStackable;
-        public bool isEquipped;
-        public float weight;
-        public ItemType itemType;
-        public EquippedItem equippedItem;
-        public int count;
-        public float damage_Min, damage_Max;
-        public float armor_Min, armor_Max;
-    }
-    public static class ItemsUtility
-    {
-        public static string GenerateItemID(string baseName)
-        {
-            int rand = UnityEngine.Random.Range(3, 99);
-            string tmp = baseName + "_00" + rand;
-            // GetTime
-            return tmp;
-        }
     }
 }

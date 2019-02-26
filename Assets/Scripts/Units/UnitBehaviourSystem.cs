@@ -34,7 +34,7 @@ public class UnitBehaviourSystem : ComponentSystem
             {
                 if(NavMeshPositionGenerator.GetInstance.CheckIfPointHasNavMeshAgent(nextPosition, entity.unitBehaviour))
                 {
-                    Debug.Log("Adjusted the odds of : " + entity.unitBehaviour.transform.name);
+                    //Debug.Log("Adjusted the odds of : " + entity.unitBehaviour.transform.name);
                     entity.unitBehaviour.nextPos = NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(nextPosition, 1f, entity.unitBehaviour, false, true);
                     nextPosition = entity.unitBehaviour.nextPos;
                 }

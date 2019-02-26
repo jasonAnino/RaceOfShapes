@@ -14,6 +14,20 @@ using SkillBehaviour;
 
 namespace ComboSystem
 {
+    public enum InflictionType
+    {
+        Offensive = 0,
+        Defensive = 1,
+    }
+    public enum TargetStats
+    {
+        curHealth = 0,
+        maxHealth = 1,
+        curMana = 2,
+        maxMana = 3,
+        statsAgi = 4,
+        statsVit = 5,
+    }
     public enum SkillType
     {
         MeleeAttack = 0,
@@ -52,12 +66,19 @@ namespace ComboSystem
         S = 2,
         D = 3,
     }
+    public enum SpawnSkillType
+    {
+        FromCaster = 0,
+        OnTargetSpot = 1,
+    }
     [Serializable]
     public class BaseCombo
     {
         public string SkillName;
         public SkillType skillType;
         public TargetType targetType;
+        public SpawnSkillType spawnType;
+        public SkillBehaviourType behaviourType;
         public CombatMode combatMode;
         public EquippedItem equipRequirement;
         public Combination[] combo;
@@ -92,7 +113,7 @@ namespace ComboSystem
                 Vector3 postAdjustment = positionAdjustment + skillOwner.transform.position;
                 GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), skillOwner.transform);
                 BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
-                skillTmp.InitializeSkill(skillOwner, SkillType.Buff, targetType);
+                skillTmp.InitializeSkill(skillOwner, SkillType.Buff, targetType, spawnType, behaviourType);
             }
             else if(skillType == SkillType.Projectile)
             {
@@ -108,18 +129,28 @@ namespace ComboSystem
                 }
                 GameObject tmp = GameObject.Instantiate(prefab, postAdjustment, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), null);
                 BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
-                skillTmp.InitializeSkill(skillOwner, SkillType.Projectile, targetType);
-                
+                skillTmp.InitializeSkill(skillOwner, SkillType.Projectile, targetType, spawnType, behaviourType);
+
             }
             else if(skillType == SkillType.TargetProjectile)
             {
                 GameObject tmp = GameObject.Instantiate(prefab, skillOwner.transform.position, Quaternion.Euler(rotationAdjustment.x, rotationAdjustment.y, rotationAdjustment.z), null);
-                AoeSkillBehaviour skillTmp = tmp.GetComponent<AoeSkillBehaviour>();
-                skillTmp.InitializeSkill(skillOwner, SkillType.TargetProjectile, targetType);
+                BaseSkillBehaviour skillTmp = tmp.GetComponent<BaseSkillBehaviour>();
+                skillTmp.InitializeSkill(skillOwner, SkillType.TargetProjectile, targetType, spawnType, behaviourType);
                 skillTmp.startAiming = true;
-                PlayerUnitController.GetInstance.targetableProjectile = skillTmp;
+                // Targetable Projectile should not be here, place it to your unit
+                //PlayerUnitController.GetInstance.targetableProjectile = skillTmp;
+                if (PlayerUnitController.GetInstance.manualControlledUnit != null)
+                {
+                      PlayerUnitController.GetInstance.manualControlledUnit.mySkills.SetSkillsToHand(skillTmp);
+                }
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_SKILLHOLD);
             }
+        }
+
+        public void ResetSkill()
+        {
+            comboIdx = 0;
         }
     }
 }

@@ -7,16 +7,23 @@ using UnitsScripts.Behaviour;
 using InteractableScripts.Behavior;
 using WorldObjectScripts.Behavior;
 using Utilities;
+using PlayerScripts.UnitCommands;
 
 namespace UserInterface
 {
     public class UserInterfaceManager : MonoBehaviour
     {
+        private static UserInterfaceManager instance;
+        public static UserInterfaceManager GetInstance
+        {
+            get {  return instance; }
+        }
         public UIPlayerInGameManager inGameManager;
         public List<UnitBaseBehaviourComponent> fourUnits;
 
         public void Awake()
         {
+            instance = this;
             EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitControlled);
             EventBroadcaster.Instance.AddObserver(EventNames.REMOVE_CONTROLLED_UNITS, AddToUnitControlled);
         }
@@ -33,16 +40,29 @@ namespace UserInterface
 
         public void AddToUnitControlled(Parameters p)
         {
+            Debug.Log("AddToUnitControlled Initialize!");
+            bool isInitialSetup = false;
             UnitBaseBehaviourComponent check = p.GetWithKeyParameterValue<UnitBaseBehaviourComponent>("UnitControlled", null);
             if (check == null)
             {
+                Debug.Log("Check is null!");
                 return;
             }
+
+            if(fourUnits.Count <= 0)
+            {
+                //Debug.Log("Meow Mic Test");
+                isInitialSetup = true;
+                PlayerUnitController.GetInstance.unitSelected.Add(check);
+                PlayerUnitController.GetInstance.CheckAndSetManualUnit(0);
+            }
+
             if (!fourUnits.Contains(check))
             {
                 fourUnits.Add(check);
             }
-            inGameManager.RefreshCharacterHandlers(fourUnits);
+            inGameManager.characterHandler.RefreshCharacterHandlers(fourUnits);
+            inGameManager.SetInventoryOwner(check);
         }
 
         public void RemoveToUnitControlled(Parameters p)
@@ -58,7 +78,7 @@ namespace UserInterface
                 fourUnits.Remove(check);
             }
             // Check if Player Currently is inGame
-            inGameManager.RefreshCharacterHandlers(fourUnits);
+            inGameManager.characterHandler.RefreshCharacterHandlers(fourUnits);
         }
     }
 }

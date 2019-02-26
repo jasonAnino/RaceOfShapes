@@ -43,6 +43,10 @@ namespace PlayerScripts.UnitCommands
         public AoeSkillBehaviour targetableProjectile;
         public bool canMove = false;
 
+        [Header("Player Input Checkers")]
+        public bool hoverInteraction = false;
+        public bool clickInteraction = false;
+        public bool clickRightMouse = false;
         private void Awake()
         {
             instance = this;
@@ -53,20 +57,25 @@ namespace PlayerScripts.UnitCommands
             // Clicking Behaviour
             if(Input.GetMouseButtonDown(0))
             {
-                if(targetableProjectile != null)
+                if (ClickStateManager.GetInstance.currentState != ClickState.Idle)
+                    return;
+                if(manualControlledUnit != null)
                 {
-                    targetableProjectile.StartSkillCasting();
-                    targetableProjectile = null;
+                    if(manualControlledUnit.mySkills.leftHandSkill)
+                    {
+                        manualControlledUnit.mySkills.skillsOnHand[0].StartSkillCasting();
+                        manualControlledUnit.mySkills.skillsOnHand[0] = null;
+                        manualControlledUnit.mySkills.leftHandSkill = false;
+                    }
+
                 }
                 else
                 {
                     ClickObject();
-                    CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL_CLICK);
                 }
             }
             else if(Input.GetMouseButtonUp(0))
             {
-                CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
             }
             if(Input.GetMouseButtonDown(1))
             {
@@ -76,20 +85,48 @@ namespace PlayerScripts.UnitCommands
                     {
                         CheckOrder();
                     }
-                    CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL_CLICK);
+                    clickRightMouse = true;
                 }
             }
             else if(Input.GetMouseButtonUp(1))
             {
-                CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
+                clickRightMouse = false;
             }
-
+            // Update Cursor Icon
+            UpdateCursor();
             // Swap Manually Controlled Unit
             if(unitSelected.Count > 0)
             {
                 SwapMainUnit();
             }
         }
+        #region Cursor Update
+       public void UpdateCursor()
+        {
+            // this are all based on priority
+            if(manualControlledUnit != null && (manualControlledUnit.mySkills.leftHandSkill || manualControlledUnit.mySkills.rightHandSkill))
+            {
+                CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_SKILLHOLD);
+            }
+            else if(hoverInteraction && !clickInteraction)
+            {
+                CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_NORMAL);
+            }
+            else if(clickInteraction && hoverInteraction)
+            {
+                CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_CLICK);
+            }
+            else if(clickRightMouse)
+            {
+                CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL_CLICK);
+            }
+            else
+            {
+
+                CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
+            }
+        }
+        #endregion
         #region System Functions
         public void CheckOrder()
         {
@@ -283,11 +320,17 @@ namespace PlayerScripts.UnitCommands
                 }
                 if(unitSelected[index] != null)
                 {
-                    // Set Color to Green
-                    manualControlledUnit.InitializeSelected();
+                    if(manualControlledUnit != null)
+                    {
+                        // Set Color to Green
+                        manualControlledUnit.InitializeSelected();
+                    }
 
                     manualControlledUnit = unitSelected[index];
                     // Set Color to Blue
+                    Parameters p = new Parameters();
+                    p.AddParameter<UnitBaseBehaviourComponent>("ManualUnit", manualControlledUnit);
+                    UserInterfaceManager.GetInstance.inGameManager.characterHandler.SetNewManualUnitControlled(p);
                     manualControlledUnit.InitializeManualSelected();
                     comboComponent.SetUnitDoingCombo(manualControlledUnit);
                 }

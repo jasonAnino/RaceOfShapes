@@ -80,6 +80,10 @@ namespace InteractableScripts.Behavior
         {
 
         }
+        public virtual void ReceiveHeal(float netHeal, StatsEffected statsHealed)
+        {
+
+        }
         // RECEIVE BUFF
         public virtual void ReceiveBuff(PowerEffectComponent effect)
         {
@@ -192,7 +196,7 @@ namespace InteractableScripts.Behavior
             }
             if (PlayerUnitController.GetInstance.unitSelected.Count > 0 && PlayerUnitController.GetInstance.selectedTeamAffiliation == UnitAffiliation.Controlled)
             {
-                CursorManager.GetInstance.CursorChangeTemporary(CursorType.CLICKABLE_NORMAL);
+                PlayerUnitController.GetInstance.hoverInteraction = true;
             }
         }
 
@@ -212,7 +216,7 @@ namespace InteractableScripts.Behavior
         }
         public void OnMouseExit()
         {
-            CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
+            PlayerUnitController.GetInstance.hoverInteraction = false;
         }
         #endregion
 
