@@ -16,6 +16,7 @@ public class InventoryHandlers : MonoBehaviour
     public InventorySlotBehavior hoveringSlot;
     public InventorySlotBehavior clickedSlot;
 
+    public LayoutSort sorter;
     /// <summary>
     /// Swap Items when both Inventory slot is occupied
     /// </summary>
@@ -30,5 +31,32 @@ public class InventoryHandlers : MonoBehaviour
         clickedSlot.TransferItemData(hoveringSlot.curItemInfo);
         hoveringSlot.TransferItemData(informationHolder);
         
+    }
+    
+    /// <summary>
+    /// Swaps The Inventory to be shown, usually adjusts depending on who's the manual unit controlled
+    /// </summary>
+    public void SwapUnitInventory(UnitBaseBehaviourComponent setThis)
+    {
+        if(inventory == null)
+        {
+            Debug.Log("Inv is null");
+            return;
+        }
+        if(PlayerUnitController.GetInstance.manualControlledUnit == null)
+        {
+            Debug.Log("Manual is null");
+            return;
+        }
+        if(inventory.Contains(inventory.Find(x => x.owner == setThis)))
+        {
+            Debug.Log("Its inside!");
+            Transform inventoryTransform = inventory.Find(x => x.owner == setThis).transform;
+            if(inventoryTransform != null)
+            {
+                Debug.Log("It can be seen");
+                sorter.SetToFirst(inventoryTransform);
+            }
+        }
     }
 }

@@ -6,22 +6,33 @@ using UnitsScripts.Behaviour;
 
 using PlayerScripts.UnitCommands;
 using Utilities;
+using UserInterface.Skills;
 
 public class UIPlayerInGameManager : MonoBehaviour
 {
-    public  CharacterHandlers characterHandler;
-    public InventoryHandlers inventoryHandler;
-
     private static UIPlayerInGameManager instance;
     public static UIPlayerInGameManager GetInstance
     {
         get { return instance; }
     }
+
+    public  CharacterHandlers characterHandler;
+    public InventoryHandlers inventoryHandler;
+    public VisualSkillHandler visualSkillHandler;
+    public List<UnitBaseBehaviourComponent> fourUnits;
     public void Awake()
     {
         instance = this;
+        EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitControlled);
+        EventBroadcaster.Instance.AddObserver(EventNames.REMOVE_CONTROLLED_UNITS, AddToUnitControlled);
     }
-    
+
+    public void OnDestroy()
+    {
+        EventBroadcaster.Instance.RemoveActionAtObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitControlled);
+        EventBroadcaster.Instance.RemoveActionAtObserver(EventNames.REMOVE_CONTROLLED_UNITS, RemoveToUnitControlled);
+    }
+
     public void SetInventoryOwner(UnitBaseBehaviourComponent thisUnit)
     {
         if(inventoryHandler == null)
@@ -44,5 +55,72 @@ public class UIPlayerInGameManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void AddToUnitControlled(Parameters p)
+    {
+        bool isInitialSetup = false;
+        UnitBaseBehaviourComponent check = p.GetWithKeyParameterValue<UnitBaseBehaviourComponent>("UnitControlled", null);
+
+        Debug.Log("AddToUnitControlled Initialize : " + check.name);
+        if (check == null)
+        {
+            return;
+        }
+
+        if(check.unitAffiliation == UnitAffiliation.Player)
+        {
+            AdjustUnitListDueToPlayer(check);
+        }
+        else
+        {
+            if (fourUnits.Count <= 0)
+            {
+                //Debug.Log("Meow Mic Test");
+                isInitialSetup = true;
+                PlayerUnitController.GetInstance.unitSelected.Add(check);
+                PlayerUnitController.GetInstance.CheckAndSetManualUnit(0);
+            }
+
+            if (!fourUnits.Contains(check))
+            {
+                fourUnits.Add(check);
+            }
+        }
+            SetInventoryOwner(check);
+            characterHandler.RefreshCharacterHandlers(fourUnits);
+    }
+    public void AdjustUnitListDueToPlayer(UnitBaseBehaviourComponent thisPlayer)
+    {
+        if(fourUnits != null)
+        {
+            List<UnitBaseBehaviourComponent> tmp = new List<UnitBaseBehaviourComponent>();
+            tmp.Add(thisPlayer);
+            foreach (UnitBaseBehaviourComponent item in fourUnits)
+            {
+                tmp.Add(item);
+            }
+            fourUnits = tmp;
+        }
+        else
+        {
+            fourUnits.Add(thisPlayer);
+        }
+    }
+
+    public void RemoveToUnitControlled(Parameters p)
+    {
+        UnitBaseBehaviourComponent check = p.GetWithKeyParameterValue<UnitBaseBehaviourComponent>("UnitControlled", null);
+        if (check == null)
+        {
+            return;
+        }
+
+        if (fourUnits.Contains(check))
+        {
+            fourUnits.Remove(check);
+        }
+        // Check if Player Currently is inGame
+        characterHandler.RefreshCharacterHandlers(fourUnits);
     }
 }
