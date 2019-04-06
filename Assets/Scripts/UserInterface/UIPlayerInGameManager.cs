@@ -6,6 +6,7 @@ using UnitsScripts.Behaviour;
 
 using PlayerScripts.UnitCommands;
 using Utilities;
+using UserInterface;
 using UserInterface.Skills;
 
 public class UIPlayerInGameManager : MonoBehaviour
@@ -18,6 +19,7 @@ public class UIPlayerInGameManager : MonoBehaviour
 
     public  CharacterHandlers characterHandler;
     public InventoryHandlers inventoryHandler;
+    public StatsHandlers statHandler;
     public VisualSkillHandler visualSkillHandler;
     public List<UnitBaseBehaviourComponent> fourUnits;
     public void Awake()
@@ -50,19 +52,43 @@ public class UIPlayerInGameManager : MonoBehaviour
             
             if(item.owner == null)
             {
-                Debug.Log("Setting this as the new owner!");
+                //Debug.Log("Setting this as the new owner!");
                 item.owner = thisUnit;
                 break;
             }
         }
     }
+    public void SetStatsOwner(UnitBaseBehaviourComponent thisUnit)
+    {
+        if (statHandler == null)
+        {
+            Debug.Log("STOP!");
+            return;
+        }
+        UnitStatsBehavior checker = statHandler.unitStats.Find(x => x.owner == thisUnit);
 
+        if (checker != null)
+        {
+            return;
+        }
+        foreach (UnitStatsBehavior item in statHandler.unitStats)
+        {
+
+            if (item.owner == null)
+            {
+                //Debug.Log("Setting this as the new owner!");
+                item.owner = thisUnit;
+                item.InitializeStats();
+                break;
+            }
+        }
+    }
     public void AddToUnitControlled(Parameters p)
     {
         bool isInitialSetup = false;
         UnitBaseBehaviourComponent check = p.GetWithKeyParameterValue<UnitBaseBehaviourComponent>("UnitControlled", null);
 
-        Debug.Log("AddToUnitControlled Initialize : " + check.name);
+        //Debug.Log("AddToUnitControlled Initialize : " + check.name);
         if (check == null)
         {
             return;
@@ -88,6 +114,7 @@ public class UIPlayerInGameManager : MonoBehaviour
             }
         }
             SetInventoryOwner(check);
+            SetStatsOwner(check);
             characterHandler.RefreshCharacterHandlers(fourUnits);
     }
     public void AdjustUnitListDueToPlayer(UnitBaseBehaviourComponent thisPlayer)

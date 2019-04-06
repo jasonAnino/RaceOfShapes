@@ -17,6 +17,7 @@ namespace Utilities
 
         public List<Transform> items = new List<Transform>();
 
+        public float initialOffset;
         public float spacing;
 
         public void Start()
@@ -46,6 +47,7 @@ namespace Utilities
         public void UpdateTransformPositions()
         {
             float tmpSpace = 0;
+            tmpSpace += initialOffset;
             switch (format)
             {
                 case LayoutFormat.Horizontal:

@@ -9,7 +9,7 @@ using PlayerScripts.UnitCommands;
 using Utilities;
 using ItemScript;
 
-public class InventoryHandlers : MonoBehaviour
+public class InventoryHandlers : TabComponent
 {
     public List<UnitInventoryBehavior> inventory;
     public ItemHolder itemHolder;
