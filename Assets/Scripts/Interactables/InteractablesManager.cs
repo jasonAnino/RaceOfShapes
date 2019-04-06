@@ -45,8 +45,14 @@ public class InteractablesManager : MonoBehaviour {
         {
             return;
         }
-
-        controlledUnits.Add(unit);
+        if (unit.unitAffiliation == UnitAffiliation.Player)
+        {
+            controlledUnits.Insert(0, unit);
+        }
+        else
+        {
+            controlledUnits.Add(unit);
+        }
         Parameters p = new Parameters();
         p.AddParameter<UnitBaseBehaviourComponent>("UnitControlled", unit);
         EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_CONTROLLED_UNITS, p);

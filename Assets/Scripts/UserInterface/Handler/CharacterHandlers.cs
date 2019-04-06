@@ -4,6 +4,7 @@ using UnityEngine;
 
 using PlayerScripts.UnitCommands;
 using Utilities;
+using UnitStats;
 using UnitsScripts.Behaviour;
 
 public class CharacterHandlers : MonoBehaviour
@@ -21,6 +22,7 @@ public class CharacterHandlers : MonoBehaviour
         {
             return;
         }
+
         foreach (CharacterInfoHandler item in characterHandlers)
         {
             if (item.unitStats != null)

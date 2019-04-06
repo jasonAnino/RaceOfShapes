@@ -12,7 +12,16 @@ namespace UnitStats
         Toughness,
         Stamina,
         FireArcane,
+        Vitality,
     }
+    public enum NumericalStats
+    {
+        PhysicalDamage,
+        PhysicalDefense,
+        Stamina,
+        Health,
+    }
+
     [Serializable]
     public class BaseUnitStats
     {

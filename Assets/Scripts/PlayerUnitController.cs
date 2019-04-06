@@ -52,6 +52,14 @@ namespace PlayerScripts.UnitCommands
             instance = this;
 
         }
+        private void Start()
+        {
+            EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitSelected);
+        }
+        private void OnDestroy()
+        {
+            EventBroadcaster.Instance.RemoveActionAtObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitSelected);
+        }
         void Update()
         {
             // Clicking Behaviour
@@ -122,7 +130,6 @@ namespace PlayerScripts.UnitCommands
             }
             else
             {
-
                 CursorManager.GetInstance.CursorChangeTemporary(CursorType.NORMAL);
             }
         }
@@ -330,13 +337,32 @@ namespace PlayerScripts.UnitCommands
                     // Set Color to Blue
                     Parameters p = new Parameters();
                     p.AddParameter<UnitBaseBehaviourComponent>("ManualUnit", manualControlledUnit);
-                    UserInterfaceManager.GetInstance.inGameManager.characterHandler.SetNewManualUnitControlled(p);
                     manualControlledUnit.InitializeManualSelected();
                     comboComponent.SetUnitDoingCombo(manualControlledUnit);
+
+                    UIPlayerInGameManager.GetInstance.characterHandler.SetNewManualUnitControlled(p);
+                    UIPlayerInGameManager.GetInstance.inventoryHandler.SwapUnitInventory(manualControlledUnit);
                 }
                 else
                 {
                     Debug.Log("Unit Selected is not!");
+                }
+            }
+        }
+        public void AddToUnitSelected(Parameters p)
+        {
+            UnitBaseBehaviourComponent check = p.GetWithKeyParameterValue<UnitBaseBehaviourComponent>("UnitControlled", null);
+            if(check != null)
+            {
+                if(check.unitAffiliation == UnitAffiliation.Player)
+                {
+                    List<UnitBaseBehaviourComponent> newSetSelected = new List<UnitBaseBehaviourComponent>();
+                    newSetSelected.Add(check);
+                    foreach (UnitBaseBehaviourComponent item in unitSelected)
+                    {
+                        newSetSelected.Add(item);
+                    }
+                    unitSelected = newSetSelected;
                 }
             }
         }

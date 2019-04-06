@@ -20,6 +20,7 @@ namespace UnitsScripts.Behaviour
         Neutral = 0,
         Controlled = 1,
         Enemy = 2,
+        Player = 3,
     }
     public enum LivingState
     {
@@ -277,7 +278,7 @@ namespace UnitsScripts.Behaviour
         {
             if (InteractablesManager.GetInstance != null)
             {
-                if (unitAffiliation == UnitAffiliation.Controlled)
+                if (unitAffiliation == UnitAffiliation.Controlled || unitAffiliation == UnitAffiliation.Player)
                 {
                     InteractablesManager.GetInstance.AddUnitToControlled(this);
                 }
