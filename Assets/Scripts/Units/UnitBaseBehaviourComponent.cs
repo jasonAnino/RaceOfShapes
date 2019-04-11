@@ -44,10 +44,13 @@ namespace UnitsScripts.Behaviour
 
         public Vector3 nextPos;
         public bool startMoving = false;
-        public float visualRange = 25.0f;
+        public float visualRange = 25.0f; // To be Implemented.
         public CharacterStatsSystem myStats = new CharacterStatsSystem();
         public UnitInventoryComponent myInventory;
         public UnitSkillComponent mySkills;
+        // Mobility
+        public NavMeshAgent myNavMeshAgent;
+
         public override void Awake()
         {
 #if UNITY_EDITOR
@@ -58,7 +61,10 @@ namespace UnitsScripts.Behaviour
 #endif
             // Inject a system here later with regards to loading and saving.
             myStats.InitializeSystem();
-
+            if(myNavMeshAgent != null)
+            {
+                InitializeNavMesh();
+            }
             if(mySkills != null)
             mySkills.owner = this;
         }
@@ -87,6 +93,17 @@ namespace UnitsScripts.Behaviour
                     }
                 }
                 currentBuffs.RemoveAll(x => x.duration <= 0);
+            }
+            if(startMoving)
+            {
+                myStats.MovementUpdate(myInventory.weight);
+            }
+        }
+        private void InitializeNavMesh()
+        {
+            if(myStats != null)
+            {
+                myNavMeshAgent.speed = myStats.speed;
             }
         }
         private void MoveTowards(Vector3 newPos)
@@ -124,6 +141,7 @@ namespace UnitsScripts.Behaviour
             {
                 visualTextHolder.ShowDamage(netDamage);
             }
+            myStats.GainsFromDamage(netDamage);
         }
         public override void ReceiveHeal(float netHeal, StatsEffected statsHealed)
         {

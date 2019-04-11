@@ -11,13 +11,24 @@ using ItemScript;
 using UnitStats;
 using TMPro;
 
+[System.Serializable]
+public class StatsIconHolder
+{
+    public Stats name;
+    public Sprite statIcon;
+    public Color iconColor = new Color();
+}
 public class StatsHolder : MonoBehaviour
 {
     public Image statImage;
+    public List<StatsIconHolder> statsIconList;
     public Stats curStats;
     public TextMeshProUGUI statsName;
     public TextMeshProUGUI exp;
     public UnitBaseBehaviourComponent owner;
+
+    // Exp Bar
+    public Image expFill;
     // Visual Points Added
     public List<UIStatsBonusHolder> statsBonusList;
 
@@ -34,13 +45,25 @@ public class StatsHolder : MonoBehaviour
     {
         owner = newOwner;
         curStats = newName;
+        if (statsIconList.Find(x => x.name == newName) != null)
+        {
+            int idx = statsIconList.FindIndex(x => x.name == newName);
+            statImage.sprite = statsIconList[idx].statIcon;
+        }
         statsName.text = curStats.ToString();
         exp.text = owner.myStats.GetStats(curStats).GetCurrentExperience + "/" + owner.myStats.GetStats(curStats).GetNextLevelExperience;
+        expFill.fillAmount = owner.myStats.GetStats(curStats).GetCurrentExperience / owner.myStats.GetStats(curStats).GetNextLevelExperience;
     }
 
     public void UpdateStats(Parameters p)
     {
         exp.text = owner.myStats.GetStats(curStats).GetCurrentExperience + "/" + owner.myStats.GetStats(curStats).GetNextLevelExperience;
+        expFill.fillAmount = owner.myStats.GetStats(curStats).GetCurrentExperience / owner.myStats.GetStats(curStats).GetNextLevelExperience;
+
+        if(expFill.fillAmount == 1)
+        {
+           // Play Animation Here For Level Up
+        }
     }
    
 }

@@ -29,6 +29,9 @@ namespace PlayerScripts.UnitCommands
         private bool tryingToOpenRectangle = false;
         private bool openRectangle = false;
         private bool hitSomething = false;
+
+        private float holdOffset = 0.15f;
+        private float holdTimerCounter = 0;
         private void Awake()
         {
             instance = this;
@@ -46,14 +49,18 @@ namespace PlayerScripts.UnitCommands
             {
                 if (ClickStateManager.GetInstance.currentState != ClickState.Idle)
                 { return; }
-
-                 ClickStateManager.GetInstance.currentState = ClickState.DragBoxSelect;
+                
                 tryingToOpenRectangle = true;
                 GetInitialClick();
             }
             if(Input.GetMouseButton(0))
             {
-                if(!hitSomething)
+                holdTimerCounter += Time.deltaTime;
+                if(holdTimerCounter > holdOffset)
+                {
+                    ClickStateManager.GetInstance.currentState = ClickState.DragBoxSelect;
+                }
+                if (!hitSomething)
                 {
                     return;
                 }
@@ -84,6 +91,7 @@ namespace PlayerScripts.UnitCommands
                 {
                     SelectObjects();
                 }
+                holdTimerCounter = 0.0f;
             }
 	    }
 

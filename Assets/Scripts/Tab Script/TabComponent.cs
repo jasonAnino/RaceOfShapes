@@ -38,7 +38,6 @@ public class TabComponent : MonoBehaviour
 
         if(HotkeyManager.GetInstance != null)
         {
-            Debug.Log("Hi");
             HotkeyManager.GetInstance.AddHotkey(myHotkey);
         }
     }

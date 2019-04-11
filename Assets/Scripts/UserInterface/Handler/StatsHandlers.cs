@@ -8,7 +8,7 @@ using UnitStats;
 using UnitsScripts.Behaviour;
 using UserInterface;
 
-public class StatsHandlers : MonoBehaviour
+public class StatsHandlers : TabComponent
 {
     public List<UnitStatsBehavior> unitStats;
     public LayoutSort sorter;

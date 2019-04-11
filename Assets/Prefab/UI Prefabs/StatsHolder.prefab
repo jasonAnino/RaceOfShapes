@@ -545,14 +545,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.96, g: 0.77, b: 0.6, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2cec1af568e4e0449860f00757a4e2ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 59e43130c63866c48a4f2884ac30e872, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1188,7 +1188,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.945
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1375,10 +1375,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statImage: {fileID: 1751494039452112199}
+  statsIconList:
+  - name: 0
+    statIcon: {fileID: 21300000, guid: 59e43130c63866c48a4f2884ac30e872, type: 3}
+    iconColor: {r: 0.96, g: 0.77, b: 0.6, a: 1}
+  - name: 1
+    statIcon: {fileID: 21300000, guid: e95a8b8c41b72c241b458ad21494e768, type: 3}
+    iconColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
+  - name: 2
+    statIcon: {fileID: 21300000, guid: 502376bc3c760d5408acd7169f5ebb25, type: 3}
+    iconColor: {r: 0.9716981, g: 0.96654564, b: 0.71960664, a: 1}
+  - name: 3
+    statIcon: {fileID: 21300000, guid: 640e18f676d86b840b2f6a56b234cbd6, type: 3}
+    iconColor: {r: 0.8396226, g: 0.13783805, b: 0.10693307, a: 1}
+  - name: 4
+    statIcon: {fileID: 21300000, guid: e74c9f9584a874e46b35fd6dd024a8b2, type: 3}
+    iconColor: {r: 1, g: 0.039559476, b: 0, a: 1}
   curStats: 0
   statsName: {fileID: 5240232130885965660}
   exp: {fileID: 118714189295176463}
   owner: {fileID: 0}
+  expFill: {fileID: 7681782478438505140}
   statsBonusList:
   - {fileID: 6420522776085487345}
 --- !u!1 &6886892394223162324
