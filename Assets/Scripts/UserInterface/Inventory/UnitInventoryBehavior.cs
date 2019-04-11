@@ -4,7 +4,7 @@ using UnityEngine;
 
 using UnitsScripts.Behaviour;
 
-public class UnitInventoryBehavior : MonoBehaviour
+public class UnitInventoryBehavior : UIBaseBehavior
 {
     public InventoryHandlers inventoryManager;
     [Header("INVENTORY OWNER")]

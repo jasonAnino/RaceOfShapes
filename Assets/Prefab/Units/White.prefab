@@ -280,10 +280,16 @@ MonoBehaviour:
     health_M: 100
     stamina_C: 100
     stamina_M: 100
+    mana_C: 100
+    mana_M: 100
     speed: 5
     title: Commoner
+    level: 0
+    curExperience: 0
+    maxExperience: 0
   myInventory: {fileID: 4878211799221850895}
   mySkills: {fileID: 337596609838602881}
+  myNavMeshAgent: {fileID: 5581932408624179183}
 --- !u!114 &4878211799221850895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,66 +310,71 @@ MonoBehaviour:
     id: 
     isStackable: 0
     isEquipped: 0
+    isConsumable: 0
     weight: 0
-    itemType: 0
-    equippedItem: 1
     count: 0
-    damage_Min: 0
-    damage_Max: 0
-    armor_Min: 0
-    armor_Max: 0
+    itemType: 0
+    inflictBuffTo: 0
+    damageOrHeal: 0
+    targetStats: 0
+    min: 0
+    max: 0
   equippedOffHand:
     itemName: 
     id: 
     isStackable: 0
     isEquipped: 0
+    isConsumable: 0
     weight: 0
-    itemType: 0
-    equippedItem: 1
     count: 0
-    damage_Min: 0
-    damage_Max: 0
-    armor_Min: 0
-    armor_Max: 0
+    itemType: 0
+    inflictBuffTo: 0
+    damageOrHeal: 0
+    targetStats: 0
+    min: 0
+    max: 0
   equippedHelmet:
     itemName: 
     id: 
     isStackable: 0
     isEquipped: 0
+    isConsumable: 0
     weight: 0
-    itemType: 0
-    equippedItem: 0
     count: 0
-    damage_Min: 0
-    damage_Max: 0
-    armor_Min: 0
-    armor_Max: 0
+    itemType: 0
+    inflictBuffTo: 0
+    damageOrHeal: 0
+    targetStats: 0
+    min: 0
+    max: 0
   equippedArmor:
     itemName: 
     id: 
     isStackable: 0
     isEquipped: 0
+    isConsumable: 0
     weight: 0
-    itemType: 0
-    equippedItem: 0
     count: 0
-    damage_Min: 0
-    damage_Max: 0
-    armor_Min: 0
-    armor_Max: 0
+    itemType: 0
+    inflictBuffTo: 0
+    damageOrHeal: 0
+    targetStats: 0
+    min: 0
+    max: 0
   equippedBoots:
     itemName: 
     id: 
     isStackable: 0
     isEquipped: 0
+    isConsumable: 0
     weight: 0
-    itemType: 0
-    equippedItem: 0
     count: 0
-    damage_Min: 0
-    damage_Max: 0
-    armor_Min: 0
-    armor_Max: 0
+    itemType: 0
+    inflictBuffTo: 0
+    damageOrHeal: 0
+    targetStats: 0
+    min: 0
+    max: 0
 --- !u!114 &337596609838602881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +388,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  isDualCaster: 0
+  skillsOnHand:
+  - {fileID: 0}
+  - {fileID: 0}
+  leftHandSkill: 0
+  rightHandSkill: 0
   buff: []
   fireMagic: []
 --- !u!1 &5581932410011052629
@@ -619,21 +636,6 @@ PrefabInstance:
       propertyPath: counterText
       value: 
       objectReference: {fileID: 6497968472387195490}
-    - target: {fileID: 1058308528807720492, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_Text
-      value: 999
-      objectReference: {fileID: 0}
-    - target: {fileID: 1058308528807720493, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 4254231366243108248, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6816796178775623346, guid: 6095701de73824044a8650d907c20cfb,
         type: 3}
       propertyPath: m_textInfo.textComponent
@@ -654,6 +656,21 @@ PrefabInstance:
       propertyPath: m_renderer
       value: 
       objectReference: {fileID: 1202544961108282992}
+    - target: {fileID: 4254231366243108248, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1058308528807720493, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1058308528807720492, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_Text
+      value: 999
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6095701de73824044a8650d907c20cfb, type: 3}
 --- !u!4 &727496384773918438 stripped
@@ -764,21 +781,6 @@ PrefabInstance:
       propertyPath: counterText
       value: 
       objectReference: {fileID: 6588463740077423490}
-    - target: {fileID: 1058308528807720492, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_Text
-      value: 999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4254231366243108248, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1443130595699940000, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
     - target: {fileID: 6816796178775623346, guid: 6095701de73824044a8650d907c20cfb,
         type: 3}
       propertyPath: m_sharedMaterial
@@ -809,6 +811,21 @@ PrefabInstance:
       propertyPath: m_renderer
       value: 
       objectReference: {fileID: 1293601259034716048}
+    - target: {fileID: 4254231366243108248, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443130595699940000, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+    - target: {fileID: 1058308528807720492, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_Text
+      value: 999
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6095701de73824044a8650d907c20cfb, type: 3}
 --- !u!4 &818266599610656518 stripped
@@ -919,21 +936,6 @@ PrefabInstance:
       propertyPath: counterText
       value: 
       objectReference: {fileID: 8783523913303347428}
-    - target: {fileID: 1058308528807720492, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_Text
-      value: 999
-      objectReference: {fileID: 0}
-    - target: {fileID: 1058308528807720493, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 4254231366243108248, guid: 6095701de73824044a8650d907c20cfb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6816796178775623346, guid: 6095701de73824044a8650d907c20cfb,
         type: 3}
       propertyPath: m_textInfo.textComponent
@@ -954,6 +956,21 @@ PrefabInstance:
       propertyPath: m_renderer
       value: 
       objectReference: {fileID: 3708854853586406646}
+    - target: {fileID: 4254231366243108248, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1058308528807720493, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1058308528807720492, guid: 6095701de73824044a8650d907c20cfb,
+        type: 3}
+      propertyPath: m_Text
+      value: 999
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6095701de73824044a8650d907c20cfb, type: 3}
 --- !u!4 &3013090154565815392 stripped

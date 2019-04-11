@@ -36,6 +36,7 @@ namespace PlayerScripts.UnitCommands
         }
         [Header("Player Command")]
         public UnitAffiliation selectedTeamAffiliation = UnitAffiliation.Neutral;
+        public List<UnitBaseBehaviourComponent> controlledUnits = new List<UnitBaseBehaviourComponent>();
         public List<UnitBaseBehaviourComponent> unitSelected = new List<UnitBaseBehaviourComponent>();
         public UnitBaseBehaviourComponent manualControlledUnit;
         public DebugFormationSpawner debugPositionSpawner;
@@ -54,11 +55,13 @@ namespace PlayerScripts.UnitCommands
         }
         private void Start()
         {
-            EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitSelected);
+            EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitControlled);
+            EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_SELECTED_UNITS, AddToUnitSelected);
         }
         private void OnDestroy()
         {
-            EventBroadcaster.Instance.RemoveActionAtObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitSelected);
+            EventBroadcaster.Instance.RemoveActionAtObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitControlled);
+            EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_SELECTED_UNITS, AddToUnitSelected);
         }
         void Update()
         {
@@ -84,6 +87,7 @@ namespace PlayerScripts.UnitCommands
             }
             else if(Input.GetMouseButtonUp(0))
             {
+
             }
             if(Input.GetMouseButtonDown(1))
             {
@@ -103,7 +107,7 @@ namespace PlayerScripts.UnitCommands
             // Update Cursor Icon
             UpdateCursor();
             // Swap Manually Controlled Unit
-            if(unitSelected.Count > 0)
+            if(controlledUnits.Count > 0)
             {
                 SwapMainUnit();
             }
@@ -258,6 +262,7 @@ namespace PlayerScripts.UnitCommands
         {
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
+                Debug.Log("Swap Units!");
                 CheckAndSetManualUnit(0);
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -319,13 +324,13 @@ namespace PlayerScripts.UnitCommands
         
         public void CheckAndSetManualUnit(int index)
         {
-            if(unitSelected.Count > index)
+            if(controlledUnits.Count > index)
             {
-                if(manualControlledUnit == unitSelected[index])
+                if(manualControlledUnit == controlledUnits[index])
                 {
                     CameraController.CameraController.GetInstance.FocusOnManualSelectedUnit();
                 }
-                if(unitSelected[index] != null)
+                if(controlledUnits[index] != null)
                 {
                     if(manualControlledUnit != null)
                     {
@@ -333,19 +338,59 @@ namespace PlayerScripts.UnitCommands
                         manualControlledUnit.InitializeSelected();
                     }
 
-                    manualControlledUnit = unitSelected[index];
+                    manualControlledUnit = controlledUnits[index];
+                    if(!unitSelected.Contains(manualControlledUnit))
+                    {
+                        foreach(UnitBaseBehaviourComponent item in unitSelected)
+                        {
+                            item.RemoveFromSelected();
+                        }
+                        unitSelected.Clear();
+                        unitSelected.Add(manualControlledUnit);
+                    }
+
                     // Set Color to Blue
                     Parameters p = new Parameters();
                     p.AddParameter<UnitBaseBehaviourComponent>("ManualUnit", manualControlledUnit);
                     manualControlledUnit.InitializeManualSelected();
                     comboComponent.SetUnitDoingCombo(manualControlledUnit);
 
-                    UIPlayerInGameManager.GetInstance.characterHandler.SetNewManualUnitControlled(p);
-                    UIPlayerInGameManager.GetInstance.inventoryHandler.SwapUnitInventory(manualControlledUnit);
+                    UIPlayerInGameManager.GetInstance.characterHandler.SetNewManualUnitControlled(p); // Lower Left Visual Representation of 4 Units
+                    UIPlayerInGameManager.GetInstance.inventoryHandler.SwapUnitInventory(manualControlledUnit); // Inventory
+                    UIPlayerInGameManager.GetInstance.statHandler.SwapUnitStats(manualControlledUnit); // Character Stats
                 }
                 else
                 {
                     Debug.Log("Unit Selected is not!");
+                }
+            }
+        }
+        public void AddToUnitControlled(Parameters p)
+        {
+            UnitBaseBehaviourComponent check = p.GetWithKeyParameterValue<UnitBaseBehaviourComponent>("UnitControlled", null);
+            if (check != null)
+            {
+                if (check.unitAffiliation == UnitAffiliation.Player || check.unitAffiliation == UnitAffiliation.Controlled)
+                {
+                    if(!controlledUnits.Contains(check))
+                    {
+                        controlledUnits.Add(check);
+                    }
+
+                    if(check.unitAffiliation == UnitAffiliation.Player)
+                    {
+                        List<UnitBaseBehaviourComponent> newSetSelected = new List<UnitBaseBehaviourComponent>();
+                        newSetSelected.Add(check);
+                        foreach (UnitBaseBehaviourComponent item in controlledUnits)
+                        {
+                            if(item != check)
+                            {
+                                newSetSelected.Add(item);
+                            }
+                        }
+                        controlledUnits.Clear();
+                        controlledUnits = newSetSelected;
+                    }
                 }
             }
         }

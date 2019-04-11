@@ -16,6 +16,8 @@ public class UnitInventoryComponent : MonoBehaviour
 
     public ItemInformation equippedHelmet, equippedArmor, equippedBoots;
 
+    [Header("Unit Weight")]
+    public float weight = 0;
     public void Awake()
     {
         // TODO : Load Items here from Json Data.  ( Create Converter )

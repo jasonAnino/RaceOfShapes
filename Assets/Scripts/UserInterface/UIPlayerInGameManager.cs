@@ -134,7 +134,10 @@ public class UIPlayerInGameManager : MonoBehaviour
             fourUnits.Add(thisPlayer);
         }
     }
+    public void SwapCharacterStats(UnitBaseBehaviourComponent thisUnit)
+    {
 
+    }
     public void RemoveToUnitControlled(Parameters p)
     {
         UnitBaseBehaviourComponent check = p.GetWithKeyParameterValue<UnitBaseBehaviourComponent>("UnitControlled", null);

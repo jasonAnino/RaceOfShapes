@@ -12,6 +12,10 @@ using UnitStats;
 
 public class UnitBehaviourSystem : ComponentSystem
 {
+    private struct Plant
+    {
+        public Trees tree;
+    }
     private struct Character
     {
         public Rigidbody rigidBody;
@@ -19,10 +23,6 @@ public class UnitBehaviourSystem : ComponentSystem
         public UnitBaseBehaviourComponent unitBehaviour;
     }
 
-    private struct Plant
-    {
-        public Trees tree;
-    }
     protected override void OnUpdate()
     {
         #region Characters
@@ -37,6 +37,13 @@ public class UnitBehaviourSystem : ComponentSystem
                     //Debug.Log("Adjusted the odds of : " + entity.unitBehaviour.transform.name);
                     entity.unitBehaviour.nextPos = NavMeshPositionGenerator.GetInstance.GenerateCandidatePosition(nextPosition, 1f, entity.unitBehaviour, false, true);
                     nextPosition = entity.unitBehaviour.nextPos;
+                }
+
+                // Growth
+                if (entity.unitBehaviour.myStats.GetCurrentStats[Stats.Stamina] != null)
+                {
+                    float distTravel = entity.mNavMeshAgent.speed / 100;
+                    entity.unitBehaviour.myStats.GainsFromMovement(distTravel);
                 }
 
                 entity.mNavMeshAgent.SetDestination(nextPosition);
