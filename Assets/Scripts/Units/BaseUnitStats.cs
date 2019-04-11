@@ -20,6 +20,8 @@ namespace UnitStats
         PhysicalDefense,
         Stamina,
         Health,
+        MagicalDefense,
+        Mana,
     }
 
     [Serializable]

@@ -24,6 +24,7 @@ public class StatsHolder : MonoBehaviour
     public List<StatsIconHolder> statsIconList;
     public Stats curStats;
     public TextMeshProUGUI statsName;
+    public TextMeshProUGUI level;
     public TextMeshProUGUI exp;
     public UnitBaseBehaviourComponent owner;
 
@@ -51,6 +52,7 @@ public class StatsHolder : MonoBehaviour
             statImage.sprite = statsIconList[idx].statIcon;
         }
         statsName.text = curStats.ToString();
+        level.text = owner.myStats.GetStats(curStats).GetLevel.ToString();
         exp.text = owner.myStats.GetStats(curStats).GetCurrentExperience + "/" + owner.myStats.GetStats(curStats).GetNextLevelExperience;
         expFill.fillAmount = owner.myStats.GetStats(curStats).GetCurrentExperience / owner.myStats.GetStats(curStats).GetNextLevelExperience;
     }
@@ -59,8 +61,8 @@ public class StatsHolder : MonoBehaviour
     {
         exp.text = owner.myStats.GetStats(curStats).GetCurrentExperience + "/" + owner.myStats.GetStats(curStats).GetNextLevelExperience;
         expFill.fillAmount = owner.myStats.GetStats(curStats).GetCurrentExperience / owner.myStats.GetStats(curStats).GetNextLevelExperience;
-
-        if(expFill.fillAmount == 1)
+        level.text = owner.myStats.GetStats(curStats).GetLevel.ToString();
+        if (expFill.fillAmount == 1)
         {
            // Play Animation Here For Level Up
         }

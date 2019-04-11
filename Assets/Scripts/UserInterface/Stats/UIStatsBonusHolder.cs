@@ -11,10 +11,17 @@ using ItemScript;
 using TMPro;
 using UnitStats;
 
+[System.Serializable]
+public class StatsBonusHolder
+{
+    public NumericalStats numericalStats;
+    public Sprite bonusStatIcon;
+    public Color iconColor = new Color();
+}
 public class UIStatsBonusHolder : MonoBehaviour
 {
     public NumericalStats statsBonusStats;
-    public List<Sprite> buffSprites;
+    public List<StatsBonusHolder> possibleBonusStats;
     public Image buffImage;
     public TextMeshProUGUI countText;
 }
