@@ -8,6 +8,7 @@ using UnitsScripts.Behaviour;
 using PlayerScripts.UnitCommands;
 using Utilities.MousePointer;
 using Utilities;
+using UnitStats;
 
 namespace InteractableScripts.Behavior
 {
@@ -42,6 +43,8 @@ namespace InteractableScripts.Behavior
         public List<PowerEffectComponent> currentBuffs = new List<PowerEffectComponent>();
         public InteractingComponent interactWith;
         public bool canInteract = true;
+        public bool canMove = false;
+        public LivingState currentState = LivingState.Alive;
         public float allowableInteractDistance = 1.5f;
         public UnitPoolHolder visualTextHolder;
         public virtual void Awake()
@@ -72,17 +75,25 @@ namespace InteractableScripts.Behavior
         }
 
         // RECEIVE DAMAGE - Create a DamageClass that holds : DamageType / Amount
-        public virtual void ReceiveDamage(float netDamage, UnitBaseBehaviourComponent unitSender)
+        public virtual void ReceiveDamage(UnitBaseBehaviourComponent sender, float damageReceived)
+        {
+   
+        }
+        public virtual void ReceiveHeal(float netHeal, NumericalStats statsHealed)
         {
 
         }
-        public virtual void ReceiveDamage(float netDamage, StatsEffected statsDamaged)
+        // DEATH / DOWN STATES 
+        public virtual void SetUnitToDeadState()
         {
-
+            canMove = false;
+            currentState = LivingState.Dead;
         }
-        public virtual void ReceiveHeal(float netHeal, StatsEffected statsHealed)
+        public virtual void SetUnitToDownState()
         {
-
+            canMove = false;
+            // Play Death Animation here
+            currentState = LivingState.Down;
         }
         // RECEIVE BUFF
         public virtual void ReceiveBuff(PowerEffectComponent effect)
@@ -186,6 +197,10 @@ namespace InteractableScripts.Behavior
             }
 
             return checkInteraction;
+        }
+        public virtual void OnDeath()
+        {
+
         }
         #region Callbacks
         public void OnMouseEnter()

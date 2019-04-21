@@ -25,6 +25,7 @@ public class UIPlayerInGameManager : MonoBehaviour
     public void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(this.transform.parent);
         EventBroadcaster.Instance.AddObserver(EventNames.UPDATE_CONTROLLED_UNITS, AddToUnitControlled);
         EventBroadcaster.Instance.AddObserver(EventNames.REMOVE_CONTROLLED_UNITS, AddToUnitControlled);
     }
@@ -65,20 +66,18 @@ public class UIPlayerInGameManager : MonoBehaviour
             Debug.Log("STOP!");
             return;
         }
-        UnitStatsBehavior checker = statHandler.unitStats.Find(x => x.owner == thisUnit);
 
-        if (checker != null)
+        if (statHandler.unitStats.Find(x => x.statsBehavior.owner == thisUnit) != null)
         {
             return;
         }
-        foreach (UnitStatsBehavior item in statHandler.unitStats)
-        {
 
-            if (item.owner == null)
+        for(int i = 0; i < statHandler.unitStats.Count; i++)
+        { 
+            if (statHandler.unitStats[i].statsBehavior.owner == null)
             {
-                //Debug.Log("Setting this as the new owner!");
-                item.owner = thisUnit;
-                item.InitializeStats();
+                //Debug.Log("Setting this as the new owner :" + thisUnit.name);
+                statHandler.unitStats[i].Initialize(thisUnit);
                 break;
             }
         }
@@ -97,6 +96,7 @@ public class UIPlayerInGameManager : MonoBehaviour
         if(check.unitAffiliation == UnitAffiliation.Player)
         {
             AdjustUnitListDueToPlayer(check);
+            PlayerUnitController.GetInstance.CheckAndSetManualUnit(0);
         }
         else
         {

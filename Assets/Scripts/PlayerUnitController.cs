@@ -51,7 +51,7 @@ namespace PlayerScripts.UnitCommands
         private void Awake()
         {
             instance = this;
-
+            DontDestroyOnLoad(this);
         }
         private void Start()
         {
@@ -262,7 +262,6 @@ namespace PlayerScripts.UnitCommands
         {
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Debug.Log("Swap Units!");
                 CheckAndSetManualUnit(0);
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -408,6 +407,7 @@ namespace PlayerScripts.UnitCommands
                         newSetSelected.Add(item);
                     }
                     unitSelected = newSetSelected;
+                    CheckAndSetManualUnit(0);
                 }
             }
         }

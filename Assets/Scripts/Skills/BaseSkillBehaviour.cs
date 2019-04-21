@@ -7,6 +7,7 @@ using UnitsScripts.Behaviour;
 using ComboSystem;
 
 using Utilities.MousePointer;
+using InteractableScripts.Behavior;
 
 namespace SkillBehaviour
 {
@@ -189,6 +190,11 @@ namespace SkillBehaviour
                         affectedUnits.Add(tmp);
                     }
                 }
+            }
+            if(other.gameObject.layer == 9) // Hit a Land
+            {
+                Debug.Log("Meow!");
+                GameObject.Destroy(this.gameObject);
             }
 
             // DOES IT END WITH SINGLE TARGET

@@ -15,18 +15,11 @@ namespace UnitStats
 
         public float curTime = 0.0f;
         public UnitBaseBehaviourComponent unitSaved;
-        Attack atkType;
-        public Attack GetAtkType
-        {
-            get { return this.atkType; }
-            set { this.atkType = value; }
-        }
 
         public void ClearData()
         {
             unitDamage_C = 0.0f;
             dmgInterval_C = 0.0f;
-            atkType = null;
         }
 
         public void SetInterval(UnitBaseBehaviourComponent unit, float baseInterval = 10.0f)

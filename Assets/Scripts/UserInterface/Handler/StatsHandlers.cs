@@ -10,7 +10,7 @@ using UserInterface;
 
 public class StatsHandlers : TabComponent
 {
-    public List<UnitStatsBehavior> unitStats;
+    public List<UnitStatsHandler> unitStats;
     public LayoutSort sorter;
 
     public void SwapUnitStats(UnitBaseBehaviourComponent setThis)
@@ -25,14 +25,15 @@ public class StatsHandlers : TabComponent
             Debug.Log("Manual Unit is null");
             return;
         }
-        if(unitStats.Contains(unitStats.Find(x => x.owner == setThis)))
+        if(unitStats.Contains(unitStats.Find(x => x.statsBehavior.owner == setThis)))
         {
             Debug.Log("Its inside!");
-            Transform statsTransform = unitStats.Find(x => x.owner == setThis).transform;
+            Transform statsTransform = unitStats.Find(x => x.statsBehavior.owner == setThis).transform;
             if(statsTransform != null)
             {
                 sorter.SetToFirst(statsTransform);
             }
         }
     }
+    
 }

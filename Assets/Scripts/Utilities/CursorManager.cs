@@ -33,6 +33,7 @@ namespace Utilities.MousePointer
         public void Awake()
         {
             instance = this;
+            DontDestroyOnLoad(this);
         }
 
         public void Start()

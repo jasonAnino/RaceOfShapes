@@ -13,24 +13,22 @@ namespace UnitStats
     [Serializable]
     public class CharacterStatsSystem : UnitStatsSystem
     {
-        public float stamina_C = 100;
-        public float stamina_M = 100;
-        public float mana_C = 100;
-        public float mana_M = 100;
-        public float speed = 3.0f;
+        public float weightCapacity;
         public string title = "Commoner"; // To be Implemented
 
         public int level;
         public float curExperience;
         public float maxExperience;
 
-        public void InitializeStatsSystem()
+        #region CHARACTER_STATS
+        public override void InitializeSystem()
         {
-
+            base.InitializeSystem();
         }
+        
         public void MovementUpdate(float weight)
         {
-            float distTravel = speed / 100;
+            float distTravel = GetUnitNumericalStats[NumericalStats.Speed].currentCount / 100;
             if(GetCurrentStats[Stats.Stamina] != null)
             {
                 GainsFromMovement(distTravel);
@@ -43,6 +41,7 @@ namespace UnitStats
                 }
             }
         }
+
         /// Vitality - Gains Experience From [Physical Damage, Damage Overtime]
         float accumulatedVitalityStress = 0;
         float acceptedDamageThreshold = 1;
@@ -53,7 +52,7 @@ namespace UnitStats
         float toughnessLevelThreshold = 2;
         public void GainsFromDamage(float damageTaken)
         {
-            accumulatedVitalityStress += damageTaken / health_M;
+            accumulatedVitalityStress += damageTaken / GetUnitNumericalStats[NumericalStats.Health].maxCount;
             //Debug.Log("Vitality Stress : " + accumulatedVitalityStress);
             if(accumulatedVitalityStress > acceptedDamageThreshold)
             {
@@ -61,13 +60,13 @@ namespace UnitStats
                 GetCurrentStats[Stats.Vitality].IncreaseExperience(1);
                 EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_PLAYER_STATS);
             }
-            float toughnessCalculatedThreshold = (health_M * 0.15f);
+            float toughnessCalculatedThreshold = (GetUnitNumericalStats[NumericalStats.Health].maxCount * 0.15f);
 
             if(damageTaken > toughnessCalculatedThreshold)
             {
                 accumulatedToughStress += toughnessCalculatedThreshold;
             }
-            Debug.Log("Tough Stress : " + accumulatedToughStress);
+            Debug.Log("Tough Stress : " + accumulatedToughStress + " Unit : " + this.name);
             if (accumulatedToughStress > acceptedToughThreshold)
             {
                 GetCurrentStats[Stats.Toughness].IncreaseExperience(1);
@@ -81,7 +80,7 @@ namespace UnitStats
         float strengthLevelThreshold = 2;
         public void GainsFromWeight(float weight)
         {
-            accumulatedStrengthStress += weight * (speed / 100);
+            accumulatedStrengthStress += weight * (GetUnitNumericalStats[NumericalStats.Speed].currentCount / 100);
             Debug.Log("Accumulating Strength Stress : " + accumulatedStrengthStress);
             if(accumulatedStrengthStress > acceptedStressThreshold)
             {
@@ -109,6 +108,9 @@ namespace UnitStats
                 EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_PLAYER_STATS);
             }
         }
-        // Agility - Gains Experience From [Quickly Changing Direction]
+        #endregion
+        #region CHARACTER_CRAFTING_STATS
+
+        #endregion
     }
 }

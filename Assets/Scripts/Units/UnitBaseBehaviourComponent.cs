@@ -26,6 +26,7 @@ namespace UnitsScripts.Behaviour
     {
         Dead = 0,
         Alive = 1,
+        Down = 2,
     }
     [RequireComponent(typeof(Rigidbody))]
     public class UnitBaseBehaviourComponent : InteractingComponent
@@ -33,14 +34,12 @@ namespace UnitsScripts.Behaviour
         public string factionName = "Player";
         public UnitAffiliation unitAffiliation = UnitAffiliation.Neutral;
         public Commands currentCommand = Commands.WAIT_FOR_COMMAND;
-        public LivingState currentState = LivingState.Alive;
         public InteractingComponent targetUnit;
         public Queue<UnitOrder> unitOrders = new Queue<UnitOrder>();
         public UnitOrder currentOrder;
         public Material[] colorCodes;
         public MeshRenderer notifRenderer;
         public GameObject notif;
-        public bool canMove = false;
 
         public Vector3 nextPos;
         public bool startMoving = false;
@@ -103,7 +102,7 @@ namespace UnitsScripts.Behaviour
         {
             if(myStats != null)
             {
-                myNavMeshAgent.speed = myStats.speed;
+                myNavMeshAgent.speed = myStats.GetUnitNumericalStats[NumericalStats.Speed].currentCount;
             }
         }
         private void MoveTowards(Vector3 newPos)
@@ -123,34 +122,33 @@ namespace UnitsScripts.Behaviour
             newPower.id = effect.id;
             newPower.baseAmount = effect.baseAmount;
             newPower.netAmount = effect.netAmount;
-            newPower.statsPowerBuff = effect.statsPowerBuff;
+            newPower.attackType = effect.attackType;
 
             newPower.SetPowerOwner(this);
             base.ReceiveBuff(newPower);
         }
-        public override void ReceiveDamage(float netDamage, StatsEffected statsDamaged)
+        public override void ReceiveDamage(UnitBaseBehaviourComponent sender, float damageReceived)
         {
             // Here we compute the resistance of the certain elements
-            myStats.health_C -= netDamage;
-            if(myStats.health_C < 0)
+            myStats.GetUnitNumericalStats[NumericalStats.Health].currentCount -= damageReceived;
+            if(myStats.GetUnitNumericalStats[NumericalStats.Health].currentCount < 0)
             {
-                myStats.health_C = 0;
+                myStats.GetUnitNumericalStats[NumericalStats.Health].currentCount = 0;
             }
             EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_UNIT_HEALTH);
             if(visualTextHolder != null)
             {
-                visualTextHolder.ShowDamage(netDamage);
+                visualTextHolder.ShowDamage(damageReceived);
             }
-            myStats.GainsFromDamage(netDamage);
-        }
-        public override void ReceiveHeal(float netHeal, StatsEffected statsHealed)
-        {
-            myStats.health_C += netHeal;
-            if(myStats.health_C > myStats.health_M)
+            if(myStats.GetUnitNumericalStats[NumericalStats.Health].currentCount >= 0 && myStats.GetCurrentStats != null)
             {
-                myStats.health_C = myStats.health_M;
+                myStats.GainsFromDamage(damageReceived);
+                OnDeath();
             }
-            EventBroadcaster.Instance.PostEvent(EventNames.UPDATE_UNIT_HEALTH);
+        }
+        public override void ReceiveHeal(float netHeal, NumericalStats statsHealed)
+        {
+         
         }
         public override void StartInteraction(InteractingComponent unit,ActionType actionIndex)
         {
@@ -271,7 +269,20 @@ namespace UnitsScripts.Behaviour
         {
 
         }
-
+        public override void OnDeath()
+        {
+            base.OnDeath();
+            if(unitAffiliation == UnitAffiliation.Player)
+            {
+                // Show Menu here
+                SetUnitToDownState();
+                // Sent Player to Nearest town Inn
+            }
+            else if(unitAffiliation == UnitAffiliation.Enemy || unitAffiliation == UnitAffiliation.Neutral)
+            {
+                SetUnitToDeadState();
+            }
+        }
         public void MakeUnitLookAt(Vector3 position)
         {
             Vector3 newLookAt = position;
@@ -326,7 +337,7 @@ namespace UnitsScripts.Behaviour
         {
             if(this.GetComponent<NavMeshAgent>())
             {
-                this.GetComponent<NavMeshAgent>().speed = myStats.speed;
+                this.GetComponent<NavMeshAgent>().speed = myStats.GetUnitNumericalStats[NumericalStats.Speed].currentCount;
             }
         }
         private void OnDestroy()

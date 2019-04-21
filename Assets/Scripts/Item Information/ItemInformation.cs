@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using ComboSystem;
 using UnitsScripts.Behaviour;
-
+using UnitStats;
 namespace ItemScript
 {
     [Serializable]
@@ -28,6 +28,9 @@ namespace ItemScript
         public InflictionType damageOrHeal; // if used as ingredient, Offensive : Negative buff, Defensive : Positive Buff.
         public TargetStats targetStats; // if used as ingredient, + to stats (offensive) / - to stats (defensive).
         public float min, max;  // if used as ingredient, lets use min/max as data to how the stats would adjust.
+
+        [Header("POTION INFORMATION")]
+        public float duration = 120.0f;
 
         public static ItemInformation DeepCopy(ItemInformation copyThis)
         {
@@ -96,19 +99,19 @@ namespace ItemScript
             switch(targetStats)
             {
                 case TargetStats.curHealth:
-                    thisPlayer.ReceiveHeal(min, StatsEffected.health);
+                    thisPlayer.ReceiveHeal(min, NumericalStats.Health);
                     break;
                 case TargetStats.maxHealth:
-                    thisPlayer.myStats.health_C += max;
+                    thisPlayer.myStats.GetUnitNumericalStats[NumericalStats.Health].AddedToTemporaryCounts(TemporaryCount.CreateTmpCount(max, duration));
                     break;
                 case TargetStats.curMana:
-                    thisPlayer.myStats.mana_C += min;
+                    thisPlayer.myStats.GetUnitNumericalStats[NumericalStats.Mana].currentCount += min;
                     break;
                 case TargetStats.maxMana:
-                    thisPlayer.myStats.mana_M += min;
+                    thisPlayer.myStats.GetUnitNumericalStats[NumericalStats.Health].AddedToTemporaryCounts(TemporaryCount.CreateTmpCount(max, duration));
                     break;
                 case TargetStats.statsAgi:
-                    thisPlayer.myStats.speed += min;
+                    thisPlayer.myStats.GetUnitNumericalStats[NumericalStats.Speed].currentCount += min;
                     break;
             }
         }

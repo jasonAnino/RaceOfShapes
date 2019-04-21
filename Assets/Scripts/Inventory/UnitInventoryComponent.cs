@@ -41,4 +41,5 @@ public class UnitInventoryComponent : MonoBehaviour
         equippedMainHand.itemType = ItemType.Weapon;
         equippedOffHand.itemType = ItemType.Weapon;
     }
+   
 }

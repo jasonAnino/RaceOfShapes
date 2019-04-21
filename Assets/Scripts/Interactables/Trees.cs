@@ -31,7 +31,8 @@ namespace WorldObjectScripts.Behavior
             }
             UnitGatheringResourceStats tmp = new UnitGatheringResourceStats();
             InitializeGathererStats(unit, tmp);
-            ReceiveDamage(tmp.unitDamage_C, unit);
+            // Get the Physical Damage
+            ReceiveDamage(unit, unit.myStats.GetCurrentStats[Stats.Strength].GetLevel);
             
         }
         public override void EndIndividualInteraction(UnitBaseBehaviourComponent unit)
@@ -47,31 +48,14 @@ namespace WorldObjectScripts.Behavior
             }
         }
 
-        public override void ReceiveDamage(float netDamage, UnitBaseBehaviourComponent unitSender)
+        public override void ReceiveDamage(UnitBaseBehaviourComponent sender, float damageReceived)
         {
-            if(currentState != LivingState.Dead)
-            {
-                myStats.health_C -= netDamage;
-                mAnimation.Play();
-                mParticleSystem.Play();
+            base.ReceiveDamage(sender, damageReceived);
 
-                if(myStats.health_C <= 0)
-                {
-                    myStats.health_C = 0;
-                    if(canInteract)
-                    {
-                        EndAllInteraction();
-                        currentState = LivingState.Dead;
-                        canInteract = false;
-                        StartCoroutine(StartDeathCounter(5));
-                    }
-                }
-            }
-            if(unitSender != null)
+            if (sender != null)
             {
-                IncrementInteractingUnitsStats(unitSender, netDamage);
+                IncrementInteractingUnitsStats(sender, damageReceived);
             }
-
         }
         public override void EndAllInteraction()
         {
@@ -103,9 +87,7 @@ namespace WorldObjectScripts.Behavior
             if (!tmp.dataInitialized)
             {
                 tmp.SetInterval(unit, dmgInterval_B);
-                tmp.GetAtkType = new Attack();
-                tmp.GetAtkType.CreateData(AttackType.Normal,Stats.Strength, unit.myStats.GetStats(Stats.Strength).GetLevel, unit.GetUnitBaseDamage());
-                tmp.unitDamage_C = myStats.NetDamage(tmp.GetAtkType);
+                tmp.unitDamage_C = unit.myStats.GetStats(Stats.Strength).GetLevel;
                 tmp.dataInitialized = true;
             }
             gathererStats.Add(tmp);

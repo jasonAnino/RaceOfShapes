@@ -19,6 +19,7 @@ namespace Utilities
         public const string UPDATE_UNIT_HEALTH = "UPDATE_UNIT_HEALTH";
         public const string UPDATE_PLAYER_STAMINA = "UPDATE_PLAYER_STAMINA";
         public const string UPDATE_PLAYER_STATS = "UPDATE_PLAYER_STATS";
+        public const string UPDATE_PLAYER_CRAFTING_STATS = "UPDATE_PLAYER_CRAFTING_STATS";
         public const string UPDATE_CONTROLLED_UNITS = "UPDATE_CONTROLLED_UNITS";
         public const string UPDATE_SELECTED_UNITS = "UPDATE_SELECTED_UNITS";
         public const string REMOVE_CONTROLLED_UNITS = "REMOVE_CONTROLLED_UNITS";

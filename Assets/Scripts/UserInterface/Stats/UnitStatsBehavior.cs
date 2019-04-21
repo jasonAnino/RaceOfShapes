@@ -16,11 +16,15 @@ namespace UserInterface
     {
         public GameObject statsHolderPrefab;
         public UnitBaseBehaviourComponent owner;
-        public LayoutSort statsSorter;
         public GameObject statsHolder;
-        public List<StatsHolder> currentStatsList;
+        public OverallStatsHolder overallStatHolder;
         public float movementLength;
+        private CharacterStatsSystem ownerStats;
+        // Scroll Related Functionalities
         public Scrollbar scrollBar;
+        public RectTransform contentParent;
+        public GridLayoutGroup layoutGroup;
+        public int columnCount = 0;
 
         public void InitializeStats()
         {
@@ -28,33 +32,51 @@ namespace UserInterface
             {
                 return;
             }
-            foreach(Stats item in Enum.GetValues(typeof(Stats)))
-            {
-                GameObject tmp = Instantiate(statsHolderPrefab, statsSorter.transform);
-                statsSorter.items.Add(tmp.transform);
-                StatsHolder holder = tmp.GetComponent<StatsHolder>();
-                holder.Initialize(item, owner);
-                currentStatsList.Add(tmp.GetComponent<StatsHolder>());
-            }
-            statsSorter.UpdateTransformPositions();
+            ownerStats = owner.myStats;
 
-            if(currentStatsList.Count > 4)
+            foreach (Stats item in Enum.GetValues(typeof(Stats)))
             {
-                float sizeDifference = (157.0f * currentStatsList.Count) - 700;
-                AdjustScrollSize(sizeDifference);
-                movementLength = sizeDifference;
+                GameObject tmp = Instantiate(statsHolderPrefab, statsHolder.transform);
+                StatsHolder holder = tmp.GetComponent<StatsHolder>();
+                holder.overAll = overallStatHolder;
+                holder.Initialize(item, owner);
+            }
+            GetColumnCount();
+            for (int i = 0; i < Enum.GetValues(typeof(NumericalStats)).Length; i++)
+            {
+                NumericalStats tmp = (NumericalStats)i;
+                Debug.Log("Initializing :" + tmp + " With Amount : " + ownerStats.GetUnitNumericalStats[tmp].currentCount);
+                overallStatHolder.AddHolderCount((int)tmp, ownerStats.GetUnitNumericalStats[tmp].currentCount);
             }
         }
+
+        #region SCROLLBAR_RELATED_FUNCTIONS
         public void AdjustPosition()
         {
             float newPos = movementLength * scrollBar.value;
             statsHolder.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, newPos);
         }
-        public void AdjustScrollSize(float sizeDifference)
+        public void AdjustScrollBarSize()
         {
-            scrollBar.size -= sizeDifference / 765;
-            scrollBar.value = 0;
-
+            if(columnCount >= 3)
+            {
+                scrollBar.size = 1.0f - (((130 * columnCount) / 292.5f)  - 1.0f); 
+            }
         }
+        #endregion
+
+        #region LAYOUTGROUP_RELATED_FUNCTIONS
+        public void GetColumnCount()
+        {
+            float columnXmark = layoutGroup.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x;
+            for(int x = 0; x < layoutGroup.transform.childCount; x++)
+            {
+                if(columnXmark == layoutGroup.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x)
+                {
+                    columnCount++;
+                }
+            }
+        }
+        #endregion
     }
 }

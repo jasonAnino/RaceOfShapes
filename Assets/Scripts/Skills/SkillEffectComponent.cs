@@ -14,27 +14,20 @@ public enum SkillEffectType
     attack = 3,
     aura = 4,
 }
-public enum StatsEffected
-{
-    health = 0,
-    speed = 1,
-    stamina = 2,
-    armor = 3,
-}
 
 [Serializable]
 public class PowerEffectComponent
 {
     public string effectName;
     public string id;
-    public UnitBaseBehaviourComponent recepient;
+    public UnitBaseBehaviourComponent recepient, owner;
     public SkillEffectType effectType;
-    public StatsEffected effectedStats;
+    public NumericalStats effectedStats;
+    public NumericalStats attackType;
     public float baseAmount;
     public float netAmount;
     public float duration;
     public bool onTouchEffect = false;
-    public Stats statsPowerBuff;
     /// <summary>
     /// Sets the recepient of the power, it will receive the effects, whatever it may be.
     /// </summary>
@@ -54,17 +47,17 @@ public class PowerEffectComponent
         {
             switch (effectedStats)
             {
-                case StatsEffected.armor:
+                case NumericalStats.PhysicalDefense:
                     // Reduce Armor
                     break;
-                case StatsEffected.health:
+                case NumericalStats.Health:
                   
                     break;
-                case StatsEffected.speed:
-                    recepient.myStats.speed += netAmount;
+                case NumericalStats.Speed:
+                    recepient.myStats.GetUnitNumericalStats[NumericalStats.Speed].currentCount += netAmount;
                     recepient.SetSpeed();
                     break;
-                case StatsEffected.stamina:
+                case NumericalStats.Stamina:
 
                     break;
             }
@@ -75,17 +68,17 @@ public class PowerEffectComponent
         {
             switch (effectedStats)
             {
-                case StatsEffected.armor:
+                case NumericalStats.PhysicalDefense:
                     // Add Armor
                     break;
-                case StatsEffected.health:
+                case NumericalStats.Health:
 
                     break;
-                case StatsEffected.speed:
-                    recepient.myStats.speed -= netAmount;
+                case NumericalStats.Speed:
+                    recepient.myStats.GetUnitNumericalStats[NumericalStats.Speed].currentCount -= netAmount;
                     recepient.SetSpeed();
                     break;
-                case StatsEffected.stamina:
+                case NumericalStats.Stamina:
 
                     break;
             }
@@ -94,21 +87,19 @@ public class PowerEffectComponent
         // [WARNING] permanent affliction until unit is fully healed using heals for unique stuff.
        else if(effectType == SkillEffectType.attack)
         {
-            Attack tmpAttack = new Attack();
-            tmpAttack.baseDamage = netAmount;
-
             switch (effectedStats)
             {
-                case StatsEffected.armor:
+                case NumericalStats.PhysicalDefense:
                     // Reduce Armor
                     break;
-                case StatsEffected.health:
-                    recepient.ReceiveDamage(tmpAttack.baseDamage, StatsEffected.health);
+                case NumericalStats.Health:
+                    float netDamage = DamageCalculator.StatsCompareAndCalcutateDamage(netAmount, attackType, NumericalStats.Health, owner, recepient);
+                    recepient.ReceiveDamage(owner, netDamage);
                     break;
-                case StatsEffected.speed:
+                case NumericalStats.Speed:
 
                     break;
-                case StatsEffected.stamina:
+                case NumericalStats.Stamina:
 
                     break;
             }
@@ -127,7 +118,8 @@ public class PowerEffectComponent
 
     public void SetNetAmount(UnitBaseBehaviourComponent caster)
     {
-        float addThis = baseAmount * (caster.myStats.GetStats(statsPowerBuff).GetLevel / 100.0f);
+        owner = caster;
+        float addThis = baseAmount * (caster.myStats.GetUnitNumericalStats[effectedStats].currentCount / 100.0f);
         netAmount = baseAmount + addThis;
     }
 }

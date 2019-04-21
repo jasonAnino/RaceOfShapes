@@ -20,8 +20,8 @@ public class StatsBonusHolder
 }
 public class UIStatsBonusHolder : MonoBehaviour
 {
-    public NumericalStats statsBonusStats;
-    public List<StatsBonusHolder> possibleBonusStats;
+    public NumericalStats numericalStats;
     public Image buffImage;
     public TextMeshProUGUI countText;
+    public bool activated = false; // Filter Numerical Stats
 }

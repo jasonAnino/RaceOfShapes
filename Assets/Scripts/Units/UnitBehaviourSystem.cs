@@ -96,7 +96,7 @@ public class UnitBehaviourSystem : ComponentSystem
                     unit.curTime += Time.deltaTime;
                     if(unit.curTime > unit.dmgInterval_C)
                     {
-                        item.tree.ReceiveDamage(unit.unitDamage_C, unit.unitSaved);
+                        item.tree.ReceiveDamage(unit.unitSaved, unit.unitDamage_C);
                         Debug.Log("Increasing Stats of Unit : " + unit.unitSaved.transform.name);
                         unit.curTime = 0;
                     }

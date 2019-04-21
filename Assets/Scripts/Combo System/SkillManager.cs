@@ -23,6 +23,15 @@ public class SkillManager : MonoBehaviour
     public List<BaseCombo> buffCombos = new List<BaseCombo>();
     public List<BaseCombo> ObtainBuffCombos(UnitBaseBehaviourComponent unit)
     {
+        if(unit.mySkills == null)
+        {
+            Debug.Log("Unit Name : " + unit.name);
+            return null;
+        }
+        if(unit.mySkills.buff == null)
+        {
+            return null;
+        }
         List<BaseCombo> availableCombo = new List<BaseCombo>();
         availableCombo = unit.mySkills.buff;
         UnitStatsSystem stat = unit.myStats;

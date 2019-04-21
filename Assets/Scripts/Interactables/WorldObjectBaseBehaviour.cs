@@ -64,7 +64,7 @@ namespace WorldObjectScripts.Behavior
             yield return new WaitForSeconds(seconds);
             currentState = LivingState.Alive;
             canInteract = true;
-            myStats.health_C = myStats.health_M;
+            myStats.GetUnitNumericalStats[NumericalStats.Health].currentCount = myStats.GetUnitNumericalStats[NumericalStats.Health].maxCount;
         }
     }
 }

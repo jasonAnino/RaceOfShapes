@@ -20,8 +20,11 @@ public class UnitSkillComponent : MonoBehaviour
 
     public void Start()
     {
-        buff = SkillManager.GetInstance.ObtainBuffCombos(owner);
-        fireMagic = SkillManager.GetInstance.ObtainFireMagicCombos(owner);
+        if(owner != null)
+        {
+            buff = SkillManager.GetInstance.ObtainBuffCombos(owner);
+            fireMagic = SkillManager.GetInstance.ObtainFireMagicCombos(owner);
+        }
     }
 
     public void SetSkillsToHand(BaseSkillBehaviour thisSkill)

@@ -32,8 +32,8 @@ public class CharacterInfoHandler : MonoBehaviour
     {
         unitStats = stats;
         nickname.text = stats.name;
-        curHealth.text = stats.health_C.ToString();
-        maxHealth.text = stats.health_M.ToString();
+        curHealth.text = stats.GetUnitNumericalStats[NumericalStats.Health].currentCount.ToString();
+        maxHealth.text = stats.GetUnitNumericalStats[NumericalStats.Health].maxCount.ToString();
         UpdateHealthBar();
     }
 
@@ -42,8 +42,8 @@ public class CharacterInfoHandler : MonoBehaviour
         hpBar.fillAmount = GetHpFill();
         if(unitStats != null)
         {
-            if(curHealth != null)   curHealth.text = unitStats.health_C.ToString();
-            if(maxHealth != null) maxHealth.text = unitStats.health_M.ToString();
+            if(curHealth != null)   curHealth.text = unitStats.GetUnitNumericalStats[NumericalStats.Health].currentCount.ToString();
+            if(maxHealth != null) maxHealth.text = unitStats.GetUnitNumericalStats[NumericalStats.Health].maxCount.ToString();
         }
     }
 
@@ -55,7 +55,7 @@ public class CharacterInfoHandler : MonoBehaviour
         {
             return 0;
         }
-        float  tmp = unitStats.health_C / unitStats.health_M;
+        float tmp = unitStats.GetUnitNumericalStats[NumericalStats.Health].currentCount / unitStats.GetUnitNumericalStats[NumericalStats.Health].maxCount;
         fill = tmp;
         
         return fill;

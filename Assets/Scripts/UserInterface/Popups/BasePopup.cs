@@ -13,12 +13,13 @@ using PlayerScripts.UnitCommands;
 namespace UserInterface
 {
 
-    public class BasePopup : MonoBehaviour, IPointerExitHandler
+    public class BasePopup : MonoBehaviour,IPointerExitHandler
     {
         public TextMeshProUGUI header;
         public List<BasePopupOptions> potentialOptions;
         public Image bg;
         public List<float> adjustSize = new List<float>();
+
         public void SetPotentialOptions(List<ActionType> actions)
         {
             int actionCount = actions.Count;

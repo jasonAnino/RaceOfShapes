@@ -50,7 +50,7 @@ public class InventoryHandlers : TabComponent
         }
         if(inventory.Contains(inventory.Find(x => x.owner == setThis)))
         {
-            Debug.Log("Its inside!");
+            //Debug.Log("Its inside!");
             Transform inventoryTransform = inventory.Find(x => x.owner == setThis).transform;
             if(inventoryTransform != null)
             {
